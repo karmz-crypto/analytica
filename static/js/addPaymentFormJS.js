@@ -125,6 +125,7 @@ function formCalculation(){
     //product credit 
     document.getElementById('fineSilverCredit').value =
      document.getElementById('productTunchCredit').value*document.getElementById('productWeightCredit').value/100;
+     
 
     
 }
