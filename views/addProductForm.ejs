@@ -1,0 +1,21 @@
+
+<div class="container my-2">
+    <li class="list-group-item list-group-item-primary">Add Product Form</li>
+  </div>
+
+<div class="container">
+    <form method="post" action="/products/addProducts">
+        <div class="mb-3">
+            <label for="productName" class="form-label">Product Name</label>
+            <input type="text" class="form-control" name="productDesc" id="productName" placeholder="Product Name" required>
+            
+        </div>
+        <div class="mb-3">
+            <label for="productTunch" class="form-label">Product Tunch</label>
+            <input type="number" min="0" step="any" class="form-control" name="productTunch" id="product Tunch" required placeholder="Product Tunch In %">
+        </div>
+        <div class="container">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+</div>

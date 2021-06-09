@@ -1,0 +1,156 @@
+<div class="container"><li class="list-group-item list-group-item-primary">Purchase</li></div>
+<div class="container">
+    <ul class="nav">
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="/purchase/addPurchase">Add</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Delete</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Update</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">View</a>
+        </li>
+      </ul><hr>
+</div>   
+
+<!--<div class="col-xl-4 col-lg-4 col-md-4 my-3">
+    <a class="btn btn-outline-primary" href="/purchase/addPurchase">Add Purchase</a>
+</div>-->
+<div class="container my-2 p-2">
+<div class="row">
+    
+    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 my-3 ">
+        <ul class="list-group">
+            <li class="list-group-item list-group-item-primary">Recent Purchase List</li>
+            <%if(purchaseList.length!==0){ var i =0; %>
+            <% purchaseList.forEach(element=>{ i+=1;%>
+           
+                        
+                    
+                <li class="list-group-item list-group-item-light my-1">
+                    <div class=" container float-start">Date: <%=element.date.toDateString()%><hr></div>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-5 col-sm-12">
+                                <span class="text-capitalize">Client Name: <%=element.client.clientName%></span><br>
+                            </div>
+                            <div class="col-lg-5 col-sm-12"">
+                                <span>Purchase Item: <%=element.product.productDesc%></span>
+                            </div>
+                            <div class="col-lg-2 col-sm-12 my-1">
+                                <span class="float-start">
+                                <a role="button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample<%=i%>" aria-expanded="false" aria-controls="collapseExample<%=i%>">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="blue" class="bi bi-info-circle" viewBox="0 0 16 16">
+                                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                        <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                                    </svg>
+                                    
+                                </a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                   
+                    
+                </li>
+                <!--collapse item for every <li>-->
+                    <div class="collapse " id="collapseExample<%=i%>">
+                        <div class="card card-body list-group-item-primary">
+                            <!--<li class="list-group-item list-group-item-light">
+                                <%=element.client.clientName%>
+                            </li>-->
+                            <ul class="nav">
+                                <li class="nav-item">
+                                  <a class="nav-link" aria-current="page" href="/purchase/addPurchase">Add</a>
+                                </li>
+                                <li class="nav-item">
+                                  <a class="nav-link" href="#">Delete</a>
+                                </li>
+                                <li class="nav-item">
+                                  <a class="nav-link" href="#">Update</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">View</a>
+                                </li>
+                              </ul>
+                              <div class="container">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <span class="text-capitalize">Item Desc:
+                                                <%=element.product.productDesc%>
+                                            </span>
+                                            <span class="float-end" style="font-size: small;">
+                                                <a type="button" role="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop<%=i%>">
+                                                    Item Detail
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                                                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                                        <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                                                    </svg>
+                                                    
+                                                </a>
+                                            </span>
+                                            <br>
+                                            <span class="text-capitalize">Weight:
+                                                <%=element.purchaseWeight%> grms
+                                            </span>
+                                            <span class="text-capitalize float-end text-muted">Wastage:
+                                                <%=element.purchaseTunch-element.product.productTunch%> %
+                                            </span><br>
+                                            <span class="text-capitalize">tunch:
+                                                <%=element.purchaseTunch%> %
+                                            </span>  
+                                            <br>
+                                            <span class="text-capitalize">labour:
+                                                <%=element.purchaseLabourPerKg%> 
+                                                <i class='fas fa-rupee-sign' style="font-size:0.8rem;"></i>/Kg 
+                                            </span><br>
+                                            <span class="text-capitalize fw-bold">Fine Silver:
+                                                <%=element.purchaseSilver%> grms
+                                            </span><br>
+                                            <span class="text-capitalize fw-bold">Labour cash:
+                                                <%=element.purchaseCash%>
+                                                <i class='fas fa-rupee-sign' style="font-size:0.8rem;"></i> 
+                                            </span>
+                                        </div>
+                                    </div>
+                              </div>
+                         
+                        </div><!--end of card and card-body div the content of the collapse goes inside-->
+                      </div><!--end of collapse container -->
+
+                      <!--collapse container ends here after every <li> item -->
+
+                      <!--modal for list item details are here -->
+
+                      <div class="modal fade" id="staticBackdrop<%=i%>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="staticBackdropLabel">Item Detail</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                             <span>Item Name : <%=element.product.productDesc%></span> <br>
+                             <span>Item Tunch : <%=element.product.productTunch%></span>%<br>
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!--modal for list item detail ends here -->
+           
+                <%})} else{%> 
+                <li class="list-group-item list-group-item-dark">No Purchase List</li> <%}%><!--closing of else-->
+        </ul>
+
+    </div>
+   
+</div>
+</div>
+
+
+
