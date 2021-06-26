@@ -3,6 +3,7 @@ const clientModel = require('../model/ClientsModel');
 const purchaseModel = require('../model/PurchaseModel');
 const salesModel = require('../model/SalesModel');
 const paymentModel = require('../model/PaymentModel');
+const bullionClientModel = require('../model/bullionClientModel');
 const mongoose = require('mongoose');
 
  function getDataFromDbFunction(){
@@ -21,9 +22,14 @@ const mongoose = require('mongoose');
     var query3 = purchaseModel.find({}).populate('product client').sort('-date').exec();
     if(query3){resolve(query3)}else{reject(error);}
   });
+  var p4 = new Promise(function(resolve,reject){
+    var query4 = bullionClientModel.find({}).exec();
+    if(query4){resolve(query4)}else{reject(error);}
+  });
   promiseObject.p1=p1;
   promiseObject.p2=p2;
   promiseObject.p3=p3;
+  promiseObject.p4 =p4;
   return promiseObject;
   
 

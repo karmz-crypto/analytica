@@ -1,5 +1,6 @@
 window.onload = function(){
     console.log('je connect in client view');
+    paymentStatusDecorationFunction();//this function decorates the status red or green as per status
 }
 
 
@@ -18,7 +19,7 @@ function getFetchApiPurchase(event){
                 //creating elements and appending to display in the browser
                 //adding data purchase of client 
                 data.purchaseProduct.map((element)=>{
-                    var divElement = createElement('div');console.log(divElement);
+                    var divElement = createElement('div');//console.log(divElement);
                     var hrElement = createElement('hr');
                     appendElement(divElement,hrElement);
                    var key= Object.keys(element).filter(filterProperties).map((prop)=>{
@@ -44,8 +45,8 @@ function getFetchApiPurchase(event){
                  });
 
                  var appendToElementid = document.getElementById(data._id);
-                 console.log(data._id);
-                 console.log(appendToElementid);
+                 //console.log(data._id);
+                 //console.log(appendToElementid);
                  appendElement(appendToElementid,divElement);
 
                 });//closing top map
@@ -85,5 +86,9 @@ function getKeyValuePairs(array){
     //console.log(typeof(array));
     //console.log(`in func ${array}`);
     if(array[0]!=='_id'&& array[0]!=='client'&&array[0]!=='__v'){ return true} return;
+}
+
+function paymentStatusDecorationFunction(){
+    
 }
 

@@ -140,7 +140,7 @@
                                             </button>
                                           </h2>
                                           <div id="collapsePurchase<%=element._id%>" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionClientPurchase<%=element._id%>">
-                                            <div class="accordion-body" id=<%=element._id%>>
+                                            <div class="accordion-body bg-secondary text-light" id=<%=element._id%>>
                                               <!--fetch body data-->
                                               </div>
                                         </div>
@@ -156,32 +156,43 @@
                                 <div class="col-lg-12 col-md-12 col-sm-12 my-1 mx-auto p-1 text-secondary text-center">
                                     <p class="my-2"><a role="button" >View Recent Payments</a></p>
                                 </div>
-                            </div>
-                            
-                                    
-                                
-                                    
-                                    
-                                
-                               
-                        </div>  
-                                    
+                            </div>       
+                        </div>    
                     </div>
                 </div>
-                            
             </div>
-            <% i=i+1;}})%> <!--closing of if and forEach-->  
-                
-    
-                    
-                
-            
+            <% i=i+1;}})%> <!--closing of if and forEach-->        
         </ul>
     </div>
 </div>
-<div class="container my-2 p-4">
-    <a class="btn btn-outline-primary" href="/clients/addClientsForm">Add Client</a>
+<div class="container my-2">
+    <li class="list-group-item list-group-item-primary">
+        Payment Status Of The Client - Pending/Excess
+    </li>
 </div>
+<div class="container my-1">
+    <div class="row">
+        <div class="col-12 border-end border-3">
+            <ul class="list-group list-group-flush">
+                <% clients.forEach((client)=>{ %>
+                <li class="list-group-item">
+                    <span class="text-capitalize">
+                        <%=client.clientName%>
+                    </span><br>
+                    <span class="text-capitalize">
+                        <%=client.paymentStatusCash%>
+                    </span><br>
+                    <span class="text-capitalize">
+                        <%=client.paymentStatusBullion%>
+                    </span>
+                </li>
+                <%})%>
+            </ul>
+        </div>
+    </div><hr>
+
+</div>
+
 
 <script type="text/javascript" src="/clientViewJS.js"></script>
 

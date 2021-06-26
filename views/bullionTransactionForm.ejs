@@ -1,0 +1,153 @@
+
+<div class="container">
+<li class="list-group-item-primary list-group-item text-capitalize">
+    transaction form with bullion traders
+</li>
+</div>
+<!---------------------------------------------------------------------->
+
+<form method="POST" action="/bullion/addBullionTransaction">
+    <div class="container my-2">
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <div class="form-check mb-2">
+                    <input required class="form-check-input" type="radio" name="transactionType" value="sell_bullion" id="transactionTypeSell" oninput="bullionFunc()">
+                    <label class="form-check-label" for="transactionTypeSell">
+                      <span class="text-capitalize text-secondary">
+                          Sell Bullion
+                      </span>
+                    </label>
+                  </div>
+                  <div class="form-check mb-2">
+                    <input class="form-check-input" type="radio" name="transactionType" value="buy_bullion" id="transactionTypeBuy" oninput="bullionFunc()">
+                    <label class="form-check-label" for="transactionTypeBuy">
+                      <span class="text-secondary text-capitalize">
+                          Buy Bullion
+                      </span>
+                    </label>
+                  </div>   
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <div class="input-group mb-1">
+                    <span class="input-group-text" id="date">Date</span>
+                    <input required type="date" name="date" class="form-control" placeholder="date" aria-label="date" aria-describedby="date">
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <div class="input-group mb-1">
+                    <label class="input-group-text" for="bullionTrader">Bullion Trader</label>
+                    <select required class="form-select" name="clientId" id="bullionTrader">
+                      <option value="">select Trader Name</option>
+                      <% bullionClient.forEach((element)=>{%>
+                      <option value="<%=element._id%>"><%=element.bullionClientName%></option><!--this will be fetched from the database-->
+                      <%})%>
+                    </select>
+                </div>
+                <div class="my-2"><hr>
+                    <a href="/bullion/addBullionClientForm" style="text-decoration: none;font-size: small;">
+                        <span class="text-capitalize">
+                            Click to Add Trader To your list if not present in select
+                        </span>
+                    </a><hr>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12 buyBullionForm d-none">
+                <div class="input-group mb-2">
+                    <span class="input-group-text" id="buyBullionWeightSpan">Bullion Wt.</span>
+                    <input required disabled type="Number" step="any" id="buyBullionWeight" class="form-control buyBullionFormCheck" name="bullionWeight" placeholder="Wt. In Grms" aria-label="bullion Weight" aria-describedby="buyBullionWeightSpan" oninput="cashTransactionInfoFunc('true')">
+                    <span class="input-group-text" id="buyBullionWeightSpan">Grms</span>
+                </div>
+                <div class="mb-2">
+                    <span class="text-info text-capitalize" style="font-size: small;">
+                        Enter the weight you have booked to buy from your bullion trader
+                    </span>
+                </div><hr>
+            </div>
+            <div class="col-md-6 col-sm-12 buyBullionForm d-none">
+                <div class="form-check">
+                    <input disabled required class="form-check-input buyBullionFormCheck" type="radio" name="bullionRateStatus" id="bullionRateTrue" oninput="silverRateStatusFunc()">
+                    <label class="form-check-label" for="bullionRateTrue">
+                      Bullion Rate Decided
+                    </label>
+                    <div class="mb-1">
+                        <span class="text-info text-capitalize" style="font-size: small;">
+                            select this if you have agreed on a bullion rate to buy bullion with the bullion trader 
+                        </span>
+                    </div>
+                  </div>
+                  <div class="form-check">
+                    <input disabled class="form-check-input buyBullionFormCheck" type="radio" name="bullionRateStatus" id="bullionRateFalse" oninput="silverRateStatusFunc()">
+                    <label class="form-check-label" for="bullionRateFalse">
+                      Bullion Rate Not Decided
+                    </label>
+                    <div class="mb-1">
+                        <span class="text-info text-capitalize" style="font-size: small;">
+                            select this if you have not agreed on a bullion rate to buy bullion with the bullion trader, instad have 
+                            only made an approx payment value
+                        </span>
+                    </div>
+                  </div>
+            </div>
+            <div class="col-md-6 col-sm-12 bullionRateStatusTrue d-none">
+                <div class="input-group mb-2">
+                    <span class="input-group-text" id="bullionRate">Bullion Rate</span>
+                    <input required disabled type="number" step="any" class="form-control bullionRateCheckTrue" name="bullionRate" placeholder="Bullion Rate" aria-label="bullion rate" aria-describedby="bullionRate" oninput="cashTransactionInfoFunc('true')">
+                    <span class="input-group-text" id="bullionRate">Rs</span>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12 bullionRateStatusFalse d-none">
+                <div class="input-group mb-2">
+                    <span class="input-group-text" id="cashAmount">Cash Amount</span>
+                    <input required disabled type="number" step="any" class="form-control bullionRateCheckFalse" name="cashAmount" placeholder="Cash amt" aria-label="cash amount" aria-describedby="cashAmount" oninput="cashTransactionInfoFunc('false')">
+                    <span class="input-group-text" id="cashAmount">Rs</span>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12 cashTransactionInfo d-none">
+                <li class="list-group-item list-group-item-primary mb-1">
+                    Cash Debited From Cash Pool
+                </li>
+                <li class="list-group-item list-group-item-light mb-2">
+                    <span class="text-danger cashDebitInfo">
+
+                    </span>
+                </li>
+            </div><hr>
+            <div class="col-md-6 col-sm-12 transactionStatus d-none">
+                <div class="form-check">
+                    <input required disabled class="form-check-input" type="radio" value="transactionPending" name="transactionStatus" id="transactionPending">
+                    <label class="form-check-label" for="transactionPending">
+                      Transaction Pending
+                    </label>
+                    <div class="mb-1">
+                        <span class="text-info text-capitalize" style="font-size: small;">
+                            select this if your are yet to receive the bullion from the bullion trader.
+                            pending transactions can be completed once the bullion is received with specific info. like 
+                            weight of the item received
+                        </span> 
+                    </div>
+                  </div>
+                  <div class="form-check">
+                    <input disabled class="form-check-input" type="radio" value="transactionComplete" name="transactionStatus" id="transactionComplete">
+                    <label class="form-check-label" for="transactionComplete">
+                      Transaction Complete
+                    </label>
+                    <div class="mb-1">
+                        <span class="text-capitalize text-info" style="font-size: small;">
+                            select this if you have received the bullion while filling the form. selecting this will
+                            not enable you to change the data in future with other values.
+                        </span>
+                    </div>
+                </div>
+            </div>
+            
+           
+            
+        </div><!--end of row-->
+    </div>
+    <div class="container my-2">
+        <button class="btn btn-primary" type="submit">Add Transaction</button>
+    </div>
+</form>
+
+<!--js script-->
+<script type="text/javascript" src="/bullionTransactionFormJS.js"></script>

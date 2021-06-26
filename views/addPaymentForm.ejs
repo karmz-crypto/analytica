@@ -396,7 +396,7 @@ credit product is inteneded to store in stock purchase or should be melted away 
                 <div class="input-group mb-3">
                     <label class="input-group-text" for="selectClient">Select Client</label>
                     <select required class="form-select" name="clientId" id="selectClient">
-                        <option selected >Select Client..</option>
+                        <option value="" >Select Client..</option>
                         <%clientElement.forEach(element=>{ %>
                         <option value="<%=element._id%>"><%=element.clientName%></option>
                         <%})%>
@@ -408,7 +408,7 @@ credit product is inteneded to store in stock purchase or should be melted away 
             <div class="col-md-6 col-sm-12">
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="debitCashAmountSpan">Debit cash amt</span>
-                    <input type="Number" name="cashAmount" value=" " step="any" class="form-control" aria-label="debit cash" aria-describedby="debitCashAmountSpan">
+                    <input required type="Number" name="cashAmount" value=" " step="any" class="form-control" aria-label="debit cash" aria-describedby="debitCashAmountSpan">
                     <span class="input-group-text" id="debitCashAmountSpan1">Rupee</span>
                 </div>
             </div>  
@@ -446,17 +446,13 @@ credit product is inteneded to store in stock purchase or should be melted away 
         <div class="row">
             <div class="col-md-6 col-sm-12">
                 <div class="form-check my-2">
-                    <input class="form-check-input" type="checkbox" value="cash" name="paymentMode" id="paymentModeCash">
+                    <input class="form-check-input" type="radio" value="cash" name="paymentMode" id="paymentModeCash"  oninput="selectFormType()">
                     <label class="form-check-label" for="paymentModeCash">
                       <span class="text-info lh-lg text-capitalize" style="font-size: smaller;letter-spacing: 0.08rem;">Select when cash is paid in person.</span>
-                    </label><br>
-                    <span class="text-success lh-lg text-capitalize" style="font-size: smaller;letter-spacing: 0.06rem;">
-                        If the payment is part cash in hand and part cash in bank please select the checkbox and one
-                        of the radio circles, for better analysis.
-                    </span>
+                    </label>
                 </div>
                 <div class="form-check my-2">
-                    <input class="form-check-input" type="radio" value="rtgs" name="paymentMode" id="paymentModeRTGS" oninput="selectFormType()">
+                    <input required class="form-check-input" type="radio" value="rtgs" name="paymentMode" id="paymentModeRTGS" oninput="selectFormType()">
                     <label class="form-check-label" for="paymentModeRTGS">
                       <span class="text-capitalize text-info lh-lg" style="font-size: smaller;letter-spacing: 0.06rem;">Select when payment is paid through RTGS/NEFT/UPI</span>
                     </label>
@@ -465,6 +461,12 @@ credit product is inteneded to store in stock purchase or should be melted away 
                     <input class="form-check-input" type="radio" value="cash" name="paymentMode" id="paymentModeCheque" oninput="selectFormType()">
                     <label class="form-check-label" for="paymentModeCheque">
                       <span class="text-capitalize text-info lh-lg" style="font-size: smaller;letter-spacing: 0.06rem;">Select when payment is paid through cheque</span>
+                    </label>
+                </div>
+                <div class="form-check my-2">
+                    <input class="form-check-input" type="radio" value="Dual(Cash/Bank)" name="paymentMode" id="paymentModeDualCashBankDebit" oninput="selectFormType()">
+                    <label class="form-check-label" for="paymentModeDualCashBankDebit">
+                      <span class="text-capitalize text-info lh-lg" style="font-size: smaller;letter-spacing: 0.06rem;">Select when payment is paid through cash & bank-RTGS/cheque</span>
                     </label>
                 </div>
             </div>
@@ -520,7 +522,7 @@ credit product is inteneded to store in stock purchase or should be melted away 
                 <div class="input-group mb-3">
                     <label class="input-group-text" for="selectClient">Select Client</label>
                     <select required class="form-select" name="clientId" id="selectClient">
-                        <option selected >Select Client..</option>
+                        <option value="">Select Client..</option>
                         <%clientElement.forEach(element=>{ %>
                         <option value="<%=element._id%>"><%=element.clientName%></option>
                         <%})%>
@@ -542,7 +544,8 @@ credit product is inteneded to store in stock purchase or should be melted away 
                     <label class="form-check-label" for="checkBhawCashAmountSpanCredit">
                         <span style="font-size: smaller;letter-spacing: 0.06rem;" class="text-info lh-lg text-capitalize">
                             select if you have agreed for a bhaw purchase(silver rate) for the credited amount with 
-                            the client.and you intend to purchase silver with it
+                            the client.and you intend to purchase silver with it with your bullion dealer.this will
+                            be set as a reminder for your purchase.
                         </span>
                     </label>
                 </div>
@@ -570,25 +573,27 @@ credit product is inteneded to store in stock purchase or should be melted away 
         <div class="row">
             <div class="col-md-6 col-sm-12">
                 <div class="form-check my-2">
-                    <input class="form-check-input" type="checkbox" value="cash" name="paymentMode" id="paymentModeCash">
-                    <label class="form-check-label" for="paymentModeCash">
+                    <input required class="form-check-input" type="radio" value="cash" name="paymentMode" id="paymentModeCashCredit"  oninput="selectFormType()">
+                    <label class="form-check-label" for="paymentModeCashCredit">
                       <span class="text-info lh-lg text-capitalize" style="font-size: smaller;letter-spacing: 0.08rem;">Select when cash is paid in person.</span>
-                    </label><br>
-                    <span class="text-success lh-lg text-capitalize" style="font-size: smaller;letter-spacing: 0.06rem;">
-                        If the payment is part cash in hand and part cash in bank please select the checkbox and one
-                        of the radio circles, for better analysis.
-                    </span>
+                    </label>
                 </div>
                 <div class="form-check my-2">
-                    <input class="form-check-input" type="radio" value="rtgs" name="paymentMode" id="paymentModeRTGSCredit" oninput="selectFormType()">
+                    <input required class="form-check-input" type="radio" value="rtgs" name="paymentMode" id="paymentModeRTGSCredit" oninput="selectFormType()">
                     <label class="form-check-label" for="paymentModeRTGSCredit">
                       <span class="text-capitalize text-info lh-lg" style="font-size: smaller;letter-spacing: 0.06rem;">Select when payment is paid through RTGS/NEFT/UPI</span>
                     </label>
                 </div>
                 <div class="form-check my-2">
-                    <input class="form-check-input" type="radio" value="cash" name="paymentMode" id="paymentModeChequeCredit" oninput="selectFormType()">
+                    <input  class="form-check-input" type="radio" value="cheque" name="paymentMode" id="paymentModeChequeCredit" oninput="selectFormType()">
                     <label class="form-check-label" for="paymentModeChequeCredit">
                       <span class="text-capitalize text-info lh-lg" style="font-size: smaller;letter-spacing: 0.06rem;">Select when payment is paid through cheque</span>
+                    </label>
+                </div>
+                <div class="form-check my-2">
+                    <input class="form-check-input" type="radio" value="Dual(Cash/Bank)" name="paymentMode" id="paymentModeDualCashBankCredit" oninput="selectFormType()">
+                    <label class="form-check-label" for="paymentModeDualCashBankCredit">
+                      <span class="text-capitalize text-info lh-lg" style="font-size: smaller;letter-spacing: 0.06rem;">Select when payment is paid through cash & bank-RTGS/cheque</span>
                     </label>
                 </div>
             </div>
@@ -598,12 +603,12 @@ credit product is inteneded to store in stock purchase or should be melted away 
                     your business more efficiently
                 </span>
                 <div class="input-group flex-nowrap my-2">
-                    <span class="input-group-text" id="bankInfo">Name Of Bank</span>
-                    <input type="text" value="" name="bankInfo" class="form-control" placeholder="name of bank" aria-label="bank info" aria-describedby="bankInfo">
+                    <span class="input-group-text" id="bankInfoCredit">Name Of Bank</span>
+                    <input type="text" name="bankInfo" class="form-control" placeholder="name of bank" aria-label="bank info" aria-describedby="bankInfoCredit">
                 </div>
                 <div class="input-group flex-nowrap my-2">  
-                    <span class="input-group-text" id="bankTransactionId">Transaction Id</span>
-                    <input type="text" value="" name="fineSilver" class="form-control text-success" placeholder="trsactn id/chq No." aria-label="bank Transaction Id" aria-describedby="bankTransactionId">
+                    <span class="input-group-text" id="bankTransactionIdCredit">Transaction Id</span>
+                    <input type="text" name="bankTransactionId" class="form-control text-success" placeholder="trsactn id/chq No." aria-label="bank Transaction Id" aria-describedby="bankTransactionIdCredit">
                 </div>
             </div>
         </div>

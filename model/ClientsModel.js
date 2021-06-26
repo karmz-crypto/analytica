@@ -49,12 +49,13 @@ const clientSchema = Schema({
         type:Number,
         default:0
     },
-    paymentStatus:{
+    paymentStatusCash:{ //=totalsalecash-totalpurchasecash 
         type:Number,
         default:0
     },
-    silverRateEntry:[{ type:Number, default:0}],
-    silverRateEntryDate:[{ type:Date }]
+    paymentStatusBullion:{type:Number,default:0},
+    //silverRateEntry:[{ type:Number, default:0}],
+    //silverRateEntryDate:[{ type:Date }]
 });
 
 module.exports = mongoose.model('Client',clientSchema);

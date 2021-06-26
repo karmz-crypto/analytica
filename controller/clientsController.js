@@ -1,6 +1,7 @@
 const ClientsModel = require('../model/ClientsModel');
 const getDataFromDb = require('../utility/getDataFromDb');
 const mongoose = require('mongoose');
+const { checkNetworkStatus } = require('check-network-status');
 
 exports.getClients = (req,res)=>{ //this function is to get the clients page with full clients list frm database
    /* ClientsModel.init().then(
@@ -8,10 +9,19 @@ exports.getClients = (req,res)=>{ //this function is to get the clients page wit
             res.render('clientView',{pageTitle:'Clients',clients:clients})
         }).catch(error=>res.render('error',{pageTitle:'Error',error:error}))
     ).catch(error=>console.log(error));  */
+     //netwrk connectivity
+     checkNetworkStatus({
+        timeout: 3000,
+        backUpURL: 'https://localhost:3000/',
+        pingDomain: 'google.com',
+        method: 'GET'
+    }).then(value =>{if(!value){Window.alert('u r offline')}});
+
+     //ends connectivity test
     var dataObject = getDataFromDb();
     Promise.all([dataObject.p1,dataObject.p2,dataObject.p3]).then(function(result){
             productArray = result[0]; 
-            clientArray = result[1]; console.log(clientArray);
+            clientArray = result[1]; // console.log(clientArray);
             purchaseArray = result[2];
             res.render('clientView',{pageTitle:'Clients',clients:clientArray});
 

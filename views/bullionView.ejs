@@ -1,0 +1,113 @@
+<div class="container">
+  <li class="list-group-item list-group-item-primary">Bullion</li>
+</div>
+<div class="container my-2">
+    <ul class="nav">
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="/bullion/addBullionClientForm">Add Client</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/bullion/bullionTransactionForm">Transaction</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/bullion/bullionStock">Stock</a>
+        </li>
+      </ul><hr>
+</div>
+<div class="container my-2">
+  <div class="card" style="width: 22rem;">
+    <div class="card-body">
+      <h5 class="card-title text-center">Bullion Rate Of The Day</h5><hr>
+      <div class="container">
+        <div class="row">
+          <div class="col-6 text-secondary my-2" style="font-size: small;">
+            <h6 class="card-subtitle mb-3 text-muted">Silver Rate-Delhi</h6>
+            <p class="card-text">RTGS -</p>
+            <p class="card-text">Cash -</p>
+            <h6 class="card-subtitle mb-3 text-muted">Silver Rate-Kolkata</h6>
+            <p class="card-text">RTGS -</p>
+            <p class="card-text">Cash -</p>  
+          </div>
+          <div class="col-6 text-secondary my-2" style="font-size: small;">
+            <h6 class="card-subtitle mb-3 text-muted">Silver Rate-Bhopal</h6>
+            <p class="card-text">RTGS -</p>
+            <p class="card-text">Cash -</p>
+            <h6 class="card-subtitle mb-3 text-muted">Silver Rate-Bangalore</h6>
+            <p class="card-text">RTGS -</p>
+            <p class="card-text">Cash -</p>
+          </div> 
+        </div>
+      </div>
+      <div class="my-2 text-center">   
+        <a href="#" class="card-link">Add Transaction</a>
+        <a href="#" class="card-link">See Transaction</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="container">
+  <li class="list-group-item list-group-item-primary">Bullion Pending Transction List</li>
+  <div class="accordion" id="bullionPendingTransaction">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="bullionPendingHeading">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#bullionPendingCollapse" aria-expanded="true" aria-controls="bullionPendingCollapse">
+          <span class="text-capitalize" style="font-size: small;">
+             verify the completion of the bullion transaction process
+          </span>
+        </button>
+      </h2>
+      <div id="bullionPendingCollapse" class="accordion-collapse collapse show" aria-labelledby="bullionPendingHeading" data-bs-parent="#bullionPendingTransaction">
+        <div class="accordion-body bg-secondary">
+         <% if(pendingTransactionBullionData.length!==0){pendingTransactionBullionData.forEach((data)=>{%>
+          <li class="list-group-item-light list-group-item mb-3">
+            <span class="mx-2"><%=data.date.toDateString()%></span><span class="mx-1"><%=data.transactionType%></span><br>
+            <span class="mx-2"><%=data.client.bullionClientName %></span><br>
+            <span class="mx-2">Bullion Weight:<%=data.bullionWeight %></span><br>
+            <a href="/bullion/<%=data._id%>/updateTransction" style="text-decoration: none;">Complete Transaction</a>
+          </li>
+          <%})}else{%>
+            No Pending Transaction Present .........
+            <%}%>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 col-sm-12 my-2">
+      <div class="accordion" id="bullionStock">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="bullionStockHeading">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#bullionStockCollapse" aria-expanded="true" aria-controls="bullionStockCollapse">
+              Bullion Stock Summary
+            </button>
+          </h2>
+          <div id="bullionStockCollapse" class="accordion-collapse collapse show" aria-labelledby="bullionStockHeading" data-bs-parent="#bullionStock">
+            <div class="accordion-body">
+              <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container my-2">
+  <div class="accordion" id="bullionTransactionList">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="bullionTransactionListHeading">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#bullionTransactionListCollapse" aria-expanded="true" aria-controls="bullionTransactionListCollapse">
+          Recent Bullion Transaction List : Completed
+        </button>
+      </h2>
+      <div id="bullionTransactionListCollapse" class="accordion-collapse collapse show" aria-labelledby="bullionTransactionListHeading" data-bs-parent="#bullionTransactionList">
+        <div class="accordion-body">
+          <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

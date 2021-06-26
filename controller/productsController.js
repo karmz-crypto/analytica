@@ -8,8 +8,8 @@ exports.addProductsForm = (req,res)=>{
 };
 
 exports.addProducts = (req,res)=>{ //addProduct function controller it checks for duplicate entries through 
-    console.log(req.body.productDesc);// validateUniqueness() an instance method of the model.js
-    console.log(req.body.productTunch);// if the validation fails it renders error page 
+    //console.log(req.body.productDesc);// validateUniqueness() an instance method of the model.js
+    //console.log(req.body.productTunch);// if the validation fails it renders error page 
     const product = new productModel( // if uniqueness of the product is established then successful page is renders
         {_id:new mongoose.Types.ObjectId(),
              productDesc:req.body.productDesc,

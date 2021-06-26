@@ -1,0 +1,77 @@
+<div class="container">
+    <li class="list-group-item list-group-item-primary">
+        Bullion Client Form
+    </li>
+</div>
+<form method="POST" action="/bullion/addBullionClient">
+    <div class="container my-2">
+        <div class="row">
+            <div class="col-12">
+                <div class="input-group mb-1">
+                    <span class="input-group-text" id="bullionTraderName">Bullion Trader Name</span>
+                    <input type="text" required name="bullionClientName" class="form-control" placeholder="name" aria-label="bullionTraderName" aria-describedby="bullionTraderName">
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <div class="input-group mb-1">
+                    <span class="input-group-text" id="city">City</span>
+                    <input type="text" required name="city" class="form-control" placeholder="city" aria-label="city" aria-describedby="city">
+                </div>
+            </div> 
+            <div class="col-md-6 col-sm-12">
+                <div class="input-group mb-1">
+                    <label class="input-group-text" for="openingTransactionType">Opening Transac Type</label>
+                    <select required class="form-select" name="openingTransactionType" id="openingTransactionType" onchange="formControl()">
+                    <option value="">Transac. Type</option>
+                    <option value="debit">Debit</option>
+                    <option value="credit">Credit</option>
+                    <option value="none">None</option>
+                    </select>
+                    <div class="text-info1">
+                        <span class="text-capitalize text-info" style="font-size: small;">
+                            *Debit - if you have an opening balance to pay to the client.<br>
+                            credit - if you have an opening balance to receive from the client.<br>
+                            none - if you have no opening balance with the client at the time of adding the client.
+                        </span>
+                    </div>
+                </div>
+            </div> 
+            <div class="col-md-6 col-sm-12 d-none transactionTypeNotNone">
+                <div class="input-group mb-1">
+                    <label class="input-group-text" for="openingTransactionElement">Opening Transac Element</label>
+                    <select disabled required class="form-select transactionTypeNoneFormControl" name="openingTransactionElement" id="openingTransactionElement" onchange="formControl()">
+                    <option value="">Transac.Element</option>
+                    <option value="cash">Cash</option>
+                    <option value="bullion">Bullion</option>
+                    <option value="both">Bullion & Cash</option>
+                    </select>
+                    <div>
+                        <span class="text-capitalize text-info" style="font-size: small;">
+                            *cash - if the transaction element is cash.<br>
+                            bullion - if the transaction element is bullion.<br>
+                            both - if transaction element is both cash & bullion.
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12 d-none transactionTypeCash">
+                <div class="input-group mb-1">
+                    <span class="input-group-text" for="openingTransactionBalanceCashSpan">Opning Cash Amt</span>
+                    <input disabled type="number" step="any" required name="openingTransactionBalanceCash" id="openingTransactionBalanceCash" class="form-control" placeholder="opning cash amt" aria-label="openingTransactionBalanceCashSpan" aria-describedby="openingTransactionBalanceCashSpan">
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12 d-none transactionTypeBullion">
+                <div class="input-group mb-1">
+                    <span class="input-group-text" for="openingTransactionBalanceBullionSpan">Opening Bullion(Grms)</span>
+                    <input disabled type="number" step="any" required name="openingTransactionBalanceBullion" id="openingTransactionBalanceBullion" class="form-control" placeholder="opning bullion wt" aria-label="openingTransactionBalanceBullionSpan" aria-describedby="openingTransactionBalanceBullionSpan">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container my-2">
+        <button class="btn btn-primary" type="submit">Add Client</button>
+    </div>
+</form>
+
+<!--js script-->
+<script type="text/javascript" src="/addBullionClientFormJS.js"></script>
