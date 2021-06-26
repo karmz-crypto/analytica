@@ -11,7 +11,7 @@ exports.getBullion=(req,res)=>{
     var dataArray = getDataFromDb();
     var pendingTransacData = pendingTransactionData();
     Promise.all([dataArray.p4,pendingTransacData]).then((result)=>{
-        console.log(result[1]);
+        //console.log(result[1]);
         res.render('bullionView',{pageTitle:'Bullion',pendingTransactionBullionData:result[1]});
     }).catch();
     
