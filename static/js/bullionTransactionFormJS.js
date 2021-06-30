@@ -51,5 +51,22 @@ function cashTransactionInfoFunc(status){
 function transactionStatusFunc(){
     document.querySelector('.transactionStatus').classList.remove('d-none');
     document.querySelector('#transactionPending').removeAttribute('disabled');
-    document.querySelector('#transactionComplete').removeAttribute('disabled');
+   // document.querySelector('#transactionComplete').removeAttribute('disabled');
+}
+
+function transactionCompleteFunc(){
+    if(document.querySelector('#transactionComplete').checked){
+        document.querySelector('.transactionCompleteForm').classList.remove('d-none');
+        document.querySelector('#bullionType').removeAttribute('disabled');
+        document.querySelector('.transactionCompletePureBullionForm').classList.remove('d-none');
+        document.querySelector('#bullionFineWeight').removeAttribute('disabled');
+        document.querySelector('#bullionFineWeight').value= document.querySelector('#buyBullionWeight').value;
+
+    }else{
+        document.querySelector('.transactionCompleteForm').classList.add('d-none')
+        document.querySelector('#bullionType').setAttribute('disabled',true);
+        document.querySelector('.transactionCompletePureBullionForm').classList.add('d-none');
+        document.querySelector('#bullionfineWeight').setAttribute('disabled',true);
+    }
+
 }

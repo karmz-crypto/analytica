@@ -3,7 +3,12 @@ const Schema = mongoose.Schema;
 //this stock model will only have one id and will keep changing wrt every transaction 
 const bullionStockSchema = Schema({ 
     _id : Schema.Types.ObjectId,
-   bullionTransactionId:{type:mongoose.Schema.Types.ObjectId,ref:'BullionTransactionModel',required:true},
+    bullionType:{
+        type:String,
+        default:'9999_bullion',
+        required:true
+    },
+   bullionTransactionId:[{type:mongoose.Schema.Types.ObjectId,ref:'BullionTransactionModel',required:true}],
     totalBullionStock:{ //= totalBullionPurchase-totalBullionSale
         type:Number,
         default:0
@@ -23,7 +28,14 @@ const bullionStockSchema = Schema({
     totalNumberOfBullionSale:{
         type:Number,
         default:0
-    }
+    },
+    bullionSerialNumber:{
+        type:String,
+        default:'0000',
+        required:true
+    },
+    //bullionTransactionClientId:{type:mongoose.Schema.Types.ObjectId,ref:'BullionClient',required:true},
+
     
     
 });

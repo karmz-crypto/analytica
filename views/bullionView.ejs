@@ -53,8 +53,8 @@
     <div class="accordion-item">
       <h2 class="accordion-header" id="bullionPendingHeading">
         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#bullionPendingCollapse" aria-expanded="true" aria-controls="bullionPendingCollapse">
-          <span class="text-capitalize" style="font-size: small;">
-             verify the completion of the bullion transaction process
+          <span class="text-capitalize">
+             verify the completion of the pending bullion transaction process
           </span>
         </button>
       </h2>
@@ -62,13 +62,20 @@
         <div class="accordion-body bg-secondary">
          <% if(pendingTransactionBullionData.length!==0){pendingTransactionBullionData.forEach((data)=>{%>
           <li class="list-group-item-light list-group-item mb-3">
-            <span class="mx-2"><%=data.date.toDateString()%></span><span class="mx-1"><%=data.transactionType%></span><br>
-            <span class="mx-2"><%=data.client.bullionClientName %></span><br>
-            <span class="mx-2">Bullion Weight:<%=data.bullionWeight %></span><br>
-            <a href="/bullion/<%=data._id%>/updateTransction" style="text-decoration: none;">Complete Transaction</a>
+            Date:<span class="mx-2 fw-bold"><%=data.date.toDateString()%></span><br>
+            Transaction Type:<span class="mx-2 fw-bold"><%=data.transactionType%></span><br>
+            Trader Name:<span class="mx-2 fw-bold"><%=data.client.bullionClientName %></span><br>
+            Bullion Wt. :<span class="mx-2 fw-bold"><%=data.bullionWeight %></span><br>
+            Bullion Rate: <span class="mx-2 fw-bold"><%=data.bullionRateOfCurrentTransaction%></span><br>
+            Cash Payment:<span class="mx-2 fw-bold"> <%=data.cashPaymentOfCurrentTransaction%> </span><br>
+            <hr>
+            <a href="/bullion/<%=data._id%>/updateTransction" style="text-decoration: none;">Complete Transaction</a> 
           </li>
           <%})}else{%>
-            No Pending Transaction Present .........
+            <li class="list-group-item-light list-group-item">
+              No Pending Transaction Present .........
+            </li>
+            
             <%}%>
         </div>
       </div>
@@ -82,12 +89,24 @@
         <div class="accordion-item">
           <h2 class="accordion-header" id="bullionStockHeading">
             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#bullionStockCollapse" aria-expanded="true" aria-controls="bullionStockCollapse">
-              Bullion Stock Summary
+              Bullion Stock Summary : Only Complete Bullion Transactions
             </button>
           </h2>
           <div id="bullionStockCollapse" class="accordion-collapse collapse show" aria-labelledby="bullionStockHeading" data-bs-parent="#bullionStock">
-            <div class="accordion-body">
-              <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+            <div class="accordion-body bg-secondary">
+              <li class="list-group-item list-group-item-light mb-2 shadow rounded p-3 bg-light">
+                <% bullionStock.forEach((element)=>{if(element.bullionType==='9999_bullion'){%>
+                9999 Bullion Stock :<span class="mx-2 fw-bold"><%=element.totalBullionStock%></span>Grms
+                <%}})%>
+                <hr>
+                <a href="/bullion/bullionTransactionView/9999_bullion" style="text-decoration: none";>View 9999 Bullion Transaction</a>
+              </li>
+              <li class="list-group-item list-group-item-light mb-2 shadow rounded p-3 bg-light">
+                Choursa Bullion Stock :
+              </li>
+              <li class="list-group-item list-group-item-light mb-2 shadow rounded p-3 bg-light">
+                Kachi Bullion Stock :
+              </li>
             </div>
           </div>
         </div>

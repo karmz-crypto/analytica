@@ -31,6 +31,10 @@ const bullionTransactionSchema =Schema({
     bullionCenterName:{
         type:String
     },
+    bullionType:{
+        type:String,
+        default:'9999_bullion'
+    },
     bullionSerialNumber:{
         type:String,
         default:'0000'
@@ -44,7 +48,7 @@ const bullionTransactionSchema =Schema({
     },
     bullionFineWeight:{ //if the bullion transaction is pure bullion then bullion wt & fine bullion wt will be same
         type:Number,
-        //required:true
+        required:true
     },
     bullionRateOfCurrentTransaction:{
         type:Number

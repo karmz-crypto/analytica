@@ -5,6 +5,7 @@ const salesModel = require('../model/SalesModel');
 const paymentModel = require('../model/PaymentModel');
 const bullionClientModel = require('../model/bullionClientModel');
 const mongoose = require('mongoose');
+const bullionStockModel = require('../model/bullionStockModel');
 
  function getDataFromDbFunction(){
     var promiseObject={};
@@ -22,14 +23,21 @@ const mongoose = require('mongoose');
     var query3 = purchaseModel.find({}).populate('product client').sort('-date').exec();
     if(query3){resolve(query3)}else{reject(error);}
   });
+
   var p4 = new Promise(function(resolve,reject){
     var query4 = bullionClientModel.find({}).exec();
     if(query4){resolve(query4)}else{reject(error);}
   });
-  promiseObject.p1=p1;
-  promiseObject.p2=p2;
-  promiseObject.p3=p3;
-  promiseObject.p4 =p4;
+
+  var p5 = new Promise(function(resolve,reject){
+    var query5 = bullionStockModel.find({}).exec();
+    if(query5){resolve(query5)}else{reject(error)}
+  });
+  promiseObject.p1=p1; //productModel
+  promiseObject.p2=p2; //clientModel
+  promiseObject.p3=p3; //purchaseModel
+  promiseObject.p4=p4; //bullionClientModel
+  promiseObject.p5=p5; //bullionStockModel
   return promiseObject;
   
 

@@ -127,7 +127,7 @@
                     </div>
                   </div>
                   <div class="form-check">
-                    <input disabled class="form-check-input" type="radio" value="transactionComplete" name="transactionStatus" id="transactionComplete">
+                    <input disabled class="form-check-input" type="radio" value="transactionComplete" name="transactionStatus" id="transactionComplete" oninput="transactionCompleteFunc()">
                     <label class="form-check-label" for="transactionComplete">
                       Transaction Complete
                     </label>
@@ -138,6 +138,23 @@
                         </span>
                     </div>
                 </div>
+            </div>
+            <div class="col-md-6 col-sm-12 my-2 transactionCompleteForm d-none">
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="inputGroupSelect01">Bullion Type</label>
+                    <select required disabled name="bullionType"  class="form-select" id="bullionType" >
+                      <option value="">Select type of bullion</option>
+                      <option value="9999_bullion">9999_bullion</option>
+                      <option value="choursa">Choursa</option>
+                      <option value="kachi">Kachi</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12 my-2 d-none transactionCompletePureBullionForm">
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="bullionfineWeightSpan">Fine Weight</span>
+                    <input readonly disabled required type="text" class="form-control" name="bullionFineWeight" id="bullionFineWeight" placeholder="fine weight" aria-label="fine weight" aria-describedby="bullionfineWeightSpan">
+                  </div>
             </div>
             
            
