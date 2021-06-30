@@ -50,8 +50,15 @@ function cashTransactionInfoFunc(status){
 
 function transactionStatusFunc(){
     document.querySelector('.transactionStatus').classList.remove('d-none');
+    if(document.querySelector('#bullionRateFalse').checked){
+        document.querySelector('#transactionPending').removeAttribute('disabled');
+        document.querySelector('#transactionPending').setAttribute('checked',true);
+        document.querySelector('#transactionComplete').setAttribute('disabled',true);
+    }else{
     document.querySelector('#transactionPending').removeAttribute('disabled');
-   // document.querySelector('#transactionComplete').removeAttribute('disabled');
+    document.querySelector('#transactionComplete').removeAttribute('disabled');
+    document.querySelector('#transactionPending').removeAttribute('checked');
+    }
 }
 
 function transactionCompleteFunc(){
