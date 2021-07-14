@@ -60,8 +60,8 @@ exports.addBullionTransaction = (req,res)=>{
             if(query2){resolve(query2)}else{(reject(error))}
         });
 
-        Promise.allSettled([beforePromise,afterPromise]).then((result)=>{
-            if(result[0]!==result[1]){
+        Promise.all([beforePromise,afterPromise]).then((result)=>{ 
+            if(result[0]!==result[1]){ //console.log(result[0],result[1]);
                 res.render('success',{pageTitle:'Success'})
             }else{res.render('error',{pageTitle:'Error',error:'Data Not Added'})}
         });
