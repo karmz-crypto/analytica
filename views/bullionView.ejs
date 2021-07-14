@@ -97,12 +97,14 @@
               <li class="list-group-item list-group-item-light mb-2 shadow rounded p-3 bg-light">
                 <% bullionStock.forEach((element)=>{if(element.bullionType==='9999_bullion'){%>
                 9999 Bullion Stock :<span class="mx-2 fw-bold"><%=element.totalBullionStock%></span>Grms
-                <%}})%>
+                  <%}})%>
                 <hr>
                 <a href="/bullion/bullionTransactionView/9999_bullion" style="text-decoration: none";>View 9999 Bullion Transaction</a>
               </li>
               <li class="list-group-item list-group-item-light mb-2 shadow rounded p-3 bg-light">
-                Choursa Bullion Stock :
+                <% bullionStock.forEach((element)=>{if(element.bullionType==='choursa'){%>
+                Choursa Bullion Stock :<span class="mx-2 fw-bold"><%=element.totalBullionStock%></span>Grms
+                  <%}})%>
               </li>
               <li class="list-group-item list-group-item-light mb-2 shadow rounded p-3 bg-light">
                 Kachi Bullion Stock :

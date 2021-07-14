@@ -114,7 +114,7 @@
             </div><hr>
             <div class="col-md-6 col-sm-12 transactionStatus d-none">
                 <div class="form-check">
-                    <input required disabled class="form-check-input" type="radio" value="transactionPending" name="transactionStatus" id="transactionPending">
+                    <input required disabled class="form-check-input" type="radio" value="transactionPending" name="transactionStatus" id="transactionPending" oninput="transactionCompleteFunc()">
                     <label class="form-check-label" for="transactionPending">
                       Transaction Pending
                     </label>
@@ -142,7 +142,7 @@
             <div class="col-md-6 col-sm-12 my-2 transactionCompleteForm d-none">
                 <div class="input-group mb-3">
                     <label class="input-group-text" for="inputGroupSelect01">Bullion Type</label>
-                    <select required disabled name="bullionType"  class="form-select" id="bullionType" >
+                    <select required disabled name="bullionType"  class="form-select" id="bullionType" onchange="bullionTypeFunc()" >
                       <option value="">Select type of bullion</option>
                       <option value="9999_bullion">9999_bullion</option>
                       <option value="choursa">Choursa</option>
@@ -150,13 +150,63 @@
                     </select>
                 </div>
             </div>
+            <div class="col-md-6 col-sm-12 my-2 choursaForm d-none">
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="bullionTunchChoursaSpan d-none">Bullion Tunch</span>
+                    <input required disabled type="number" step="any" name="bullionChoursaTunch" id="bullionChoursaTunch" class="form-control" placeholder="bullion Tunch" aria-label="bullionTunch" aria-describedby="bullionTunchChoursaSpan"  oninput="bullionTypeFunc()">
+                </div>
+            </div>
+            <!--<div class="col-md-6 col-sm-12 my-2 kachiForm">
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="numberOfKachiSpan">Num Of Kachi</span>
+                    <input type="number" class="form-control" id="totalNumberOfKachi" placeholder="number of kachi" aria-label="totalKachiPiece" aria-describedby="numberOfKachiSpan">
+                </div>
+                <div class="my-2">
+                    <button class="btn btn-primary" type="button" onclick="addKachiFormFields()">
+                        Add Kachi Form Fields
+                    </button>
+                 </div>
+            </div>-->
+            <div class="col-md-6 col-sm-12 m-2 p-2 kachiFormFields d-none border rounded">
+                <!--<div class="input-group mb-3">
+                    <span class="input-group-text countFormFields" id="bullionTunchKachiSpan">Kachi Tunch</span>
+                    <input type="number" step="any" class="form-control bullionKachiTunch" name="bullionKachiTunch" placeholder="kachi Tunch (%)" aria-label="kachiTunch" aria-describedby="bullionKachiTunchSpan">
+                </div>-->
+                <span class="my-2">Kachi Metal Details</span> 
+
+                <table style="width: 100%; font-size: small;" class="p-2 my-2">
+                   <tr> 
+                       <th>Tunch No:</th>
+                       <td><input type="text" name="tunchNumber[]" class="tunchNumClass" oninput="uniquenessOfKachi()"></td>
+                   </tr>
+                   <tr>
+                       <th>Weight(Grms) :</th>
+                       <td><input type="number" step="any" name="kachiWeight[]" class="kachiWeightClass"></td> 
+                   </tr>
+                   <tr>
+                       <th>Tunch(%) :</th>
+                       <td><input type="number" step="any" name="kachiTunch[]" class="kachiTunchClass" oninput="computeKachiFiness('.kachiWeightClass','.kachiTunchClass')"></td>
+                   </tr>
+                </table>
+
+                
+            </div>
+            <div class="my-2 kachiFormFields d-none">
+                <button class="btn btn-primary btn-sm kachiFormFieldsAddBtn" type="button" onclick="addKachiFormFields('add')">
+                    Add Kachi Form Fields
+                </button>
+                <button class="btn btn-primary btn-sm d-none removeFormFields my-2" type="button" onclick="addKachiFormFields('remove')">
+                    Delete Kachi Form Fields
+                </button>
+            </div>
             <div class="col-md-6 col-sm-12 my-2 d-none transactionCompletePureBullionForm">
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="bullionfineWeightSpan">Fine Weight</span>
-                    <input readonly disabled required type="text" class="form-control" name="bullionFineWeight" id="bullionFineWeight" placeholder="fine weight" aria-label="fine weight" aria-describedby="bullionfineWeightSpan">
+                    <input readonly disabled required type="text" class="form-control" name="bullionFineWeight" id="bullionFineWeight" placeholder="fine weight" aria-label="fine weight" aria-describedby="bullionfineWeightSpan" oninput="bullionTypeFunc()">
                   </div>
             </div>
             
+
            
             
         </div><!--end of row-->
