@@ -132,30 +132,30 @@ function bullionTransactionDbEvents(req,res){
                });
                bullionTransaction.save()
                 .then((transactionData)=>{
-                    bullionStockModel.find({bulliontype:'choursa'}).exec()
-                        .then((data)=>{
-                            if(data.length!==0)
-                            {
+                    bullionStockModel.find({bullionType:'choursa'}).exec()
+                        .then((data)=>{ console.log(data.length);
+                            if(data.length===0)
+                            { 
+                                console.log('right track'); //added .... del
+                                const bullionStock = new bullionStockModel({
+                                _id:new mongoose.Types.ObjectId(),
+                                bullionTransactionId:[ObjectID(transactionData._id)],
+                                bullionType:'choursa',
+                                totalBullionStock:transactionData.bullionFineWeight,
+                                totalBullionPurchase:transactionData.bullionFineWeight,
+                                totalNumberOfBullionPurchase: 1
+                                }).save().then().catch();
+                        }else{ 
+                                console.log('u r here') ; //this is added ...del ..
                             data.forEach((element)=>{
                                 element.bullionTransactionId.push(transactionData._id);
                                         element.totalBullionStock += parseInt(transactionData.bullionFineWeight);
                                         element.totalBullionPurchase += parseInt(transactionData.bullionFineWeight);
                                         element.totalNumberOfBullionPurchase += parseInt(1);
                                         element.save().then().catch();
-                            })
-                        }else{
-                            const bullionStock = new bullionStockModel({
-                                _id:new mongoose.Types.ObjectId(),
-                                bullionTransactionId:[ObjectID(transactionData._id)],
-                                bullionType:'choursa',
-                                totalBullionStock:transactionData.bullionFineWeight,
-                                totalBullionPurchase:transactionData.bullionFineWeight,
-                                totalNumberOfBullionPurchase: 1,
                                 
                                
-                            }).save().then((element)=>{ //console.log(element);
-                              
-                                }).catch(); 
+                            });
 
                         }
                     })

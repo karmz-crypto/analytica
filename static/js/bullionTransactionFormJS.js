@@ -281,30 +281,40 @@ function removeKachiFormFields(identifier){
 function uniquenessOfKachi(){
 
     var tunchNumElement = document.querySelectorAll('.tunchNumClass');
-    for(var i=0;i<tunchNumElement.length;i++){ 
-        for(var j=i+1;j<tunchNumElement.length;j++){ console.log(`i:${i} and j:${j}`);
-        console.log(`tunchNum${i} is ${tunchNumElement[i].value} and tunchNum${j} is ${tunchNumElement[j].value}`);
-            if(tunchNumElement[i].value===tunchNumElement[j].value){ console.log('in if');
-                tunchNumElement[i].classList.add('text-danger','fw-bold');
-                tunchNumElement[j].classList.add('text-danger','fw-bold');
-                var liElement = createElement('li');
-                liElement.classList.add('list-group-item', 'list-group-item-danger','tunchNumMsg','p-2');
-                liElement.appendChild(document.createTextNode('Similar Tunch Number Not Permissible'));
-                appendChild(document.querySelector('.kachiFormFields'),liElement);
-                document.querySelector('.kachiFormFieldsAddBtn').setAttribute('disabled','true'); console.log('if comp');
-                return;
-            }else{
-                document.querySelectorAll('.tunchNumClass').forEach((element)=>{element.classList.remove('text-danger','fw-bold');});
-                document.querySelector('.kachiFormFieldsAddBtn').removeAttribute('disabled');
-                if(document.querySelector('.tunchNumMsg')!==null){
-                document.querySelector('.kachiFormFields').removeChild(document.querySelector('.tunchNumMsg'));
-                
-            }
-
-
+    if(tunchNumElement.length!==1){
+        for(var i=0;i<tunchNumElement.length;i++){ 
+            for(var j=i+1;j<tunchNumElement.length;j++){ //console.log(`i:${i} and j:${j}`);
+            console.log(`tunchNum${i} is ${tunchNumElement[i].value} and tunchNum${j} is ${tunchNumElement[j].value}`);
+                if(tunchNumElement[i].value===tunchNumElement[j].value){// console.log('in if');
+                    tunchNumElement[i].classList.add('text-danger','fw-bold');
+                    tunchNumElement[j].classList.add('text-danger','fw-bold');
+                    var liElement = createElement('li');
+                    liElement.classList.add('list-group-item', 'list-group-item-danger','tunchNumMsg','p-2');
+                    liElement.appendChild(document.createTextNode('Similar Tunch Number Not Permissible'));
+                    appendChild(document.querySelector('.kachiFormFields'),liElement);
+                    document.querySelector('.kachiFormFieldsAddBtn').setAttribute('disabled','true'); //console.log('if comp');
+                    return;
+                }else{
+                    document.querySelectorAll('.tunchNumClass').forEach((element)=>{element.classList.remove('text-danger','fw-bold');});
+                    document.querySelector('.kachiFormFieldsAddBtn').removeAttribute('disabled');
+                    if(document.querySelector('.tunchNumMsg')!==null){
+                    document.querySelector('.kachiFormFields').removeChild(document.querySelector('.tunchNumMsg'));
+                    
+                }
+    
+    
+                }
             }
         }
+    }else{
+        document.querySelectorAll('.tunchNumClass').forEach((element)=>{element.classList.remove('text-danger','fw-bold');});
+        document.querySelector('.kachiFormFieldsAddBtn').removeAttribute('disabled');
+        if(document.querySelector('.tunchNumMsg')!==null){
+        document.querySelector('.kachiFormFields').removeChild(document.querySelector('.tunchNumMsg'));
+        
     }
+    
+}
 }
 
 function validateInputData(identifier,identity){

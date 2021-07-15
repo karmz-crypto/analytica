@@ -9,7 +9,7 @@
 <form method="POST" action="/bullion/addBullionTransaction">
     <div class="container my-2">
         <div class="row">
-            <div class="col-md-6 col-sm-12">
+            <div class="col-md-6 col-sm-12 bg-light">
                 <div class="form-check mb-2">
                     <input required class="form-check-input" type="radio" name="transactionType" value="sell_bullion" id="transactionTypeSell" oninput="bullionFunc()">
                     <label class="form-check-label" for="transactionTypeSell">
@@ -27,13 +27,13 @@
                     </label>
                   </div>   
             </div>
-            <div class="col-md-6 col-sm-12">
+            <div class="col-md-6 col-sm-12 bg-white">
                 <div class="input-group mb-1">
                     <span class="input-group-text" id="date">Date</span>
                     <input required type="date" name="date" class="form-control" placeholder="date" aria-label="date" aria-describedby="date">
                 </div>
             </div>
-            <div class="col-md-6 col-sm-12">
+            <div class="col-md-6 col-sm-12 bg-light">
                 <div class="input-group mb-1">
                     <label class="input-group-text" for="bullionTrader">Bullion Trader</label>
                     <select required class="form-select" name="clientId" id="bullionTrader">
@@ -51,7 +51,7 @@
                     </a><hr>
                 </div>
             </div>
-            <div class="col-md-6 col-sm-12 buyBullionForm d-none">
+            <div class="col-md-6 col-sm-12 buyBullionForm d-none bg-white">
                 <div class="input-group mb-2">
                     <span class="input-group-text" id="buyBullionWeightSpan">Bullion Wt.</span>
                     <input required disabled type="Number" step="any" id="buyBullionWeight" class="form-control buyBullionFormCheck" name="bullionWeight" placeholder="Wt. In Grms" aria-label="bullion Weight" aria-describedby="buyBullionWeightSpan" oninput="cashTransactionInfoFunc('true')">
