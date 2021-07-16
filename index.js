@@ -14,7 +14,7 @@ checkNetworkStatus({
     pingDomain: 'google.com',
     method: 'GET'
 }).then(value => console.log(value));
-mongoose.connect( "mongodb+srv://msjDb:ladoo1827@cluster0.wv9sp.mongodb.net/analyticaDemo?retryWrites=true&w=majority",{useNewUrlParser:true,useUnifiedTopology:true});
+mongoose.connect( "mongodb+srv://msjDb:ladoo1827@cluster0.wv9sp.mongodb.net/analyticaDemo?retryWrites=true&w=majority",{useNewUrlParser:true,useCreateIndex: true,useUnifiedTopology:true});
 const db = mongoose.connection;
 db.once('open',()=>{
     console.log('db connected');

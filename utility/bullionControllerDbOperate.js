@@ -85,7 +85,7 @@ function bullionTransactionDbEvents(req,res){
                                 totalNumberOfBullionPurchase: 1,
                                 
                                
-                            }).save().then((element)=>{ console.log(element);
+                            }).save().then((element)=>{//   console.log(element);
                                // bullionStockModel.find({id:element._id}).exec().then((element)=>{
                                    // element.totalBullionStock +=transactionData.bullionWeight,
                                    // element.totalBullionPurchase +=transactionData.bullionWeight,
@@ -101,7 +101,7 @@ function bullionTransactionDbEvents(req,res){
                                         element.totalBullionStock += parseInt(transactionData.bullionFineWeight);
                                         element.totalBullionPurchase += parseInt(transactionData.bullionFineWeight);
                                         element.totalNumberOfBullionPurchase += parseInt(1);
-                                        element.save().then().catch();
+                                        element.save().then(()=>{}).catch();
                                         
                                     });
                                     
@@ -133,10 +133,10 @@ function bullionTransactionDbEvents(req,res){
                bullionTransaction.save()
                 .then((transactionData)=>{
                     bullionStockModel.find({bullionType:'choursa'}).exec()
-                        .then((data)=>{ console.log(data.length);
+                        .then((data)=>{ //console.log(data.length);
                             if(data.length===0)
                             { 
-                                console.log('right track'); //added .... del
+                                //console.log('right track'); //added .... del
                                 const bullionStock = new bullionStockModel({
                                 _id:new mongoose.Types.ObjectId(),
                                 bullionTransactionId:[ObjectID(transactionData._id)],
@@ -144,15 +144,15 @@ function bullionTransactionDbEvents(req,res){
                                 totalBullionStock:transactionData.bullionFineWeight,
                                 totalBullionPurchase:transactionData.bullionFineWeight,
                                 totalNumberOfBullionPurchase: 1
-                                }).save().then().catch();
+                                }).save().then(()=>{}).catch();
                         }else{ 
-                                console.log('u r here') ; //this is added ...del ..
+                                //console.log('u r here') ; //this is added ...del ..
                             data.forEach((element)=>{
                                 element.bullionTransactionId.push(transactionData._id);
                                         element.totalBullionStock += parseInt(transactionData.bullionFineWeight);
                                         element.totalBullionPurchase += parseInt(transactionData.bullionFineWeight);
                                         element.totalNumberOfBullionPurchase += parseInt(1);
-                                        element.save().then().catch();
+                                        element.save().then(()=>{}).catch();
                                 
                                
                             });
@@ -165,10 +165,11 @@ function bullionTransactionDbEvents(req,res){
         
 
     }
+    
 }
 
 
-function pendingTransactionData(){
+function pendingTransactionData(){ //for bullionView page .....
     var pending = new Promise((resolve,reject)=>{
         var query = bullionTransactionModel.find({transactionStatus:"transactionPending"})
             .populate('client');

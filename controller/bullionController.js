@@ -45,27 +45,41 @@ exports.addBullionTransaction = (req,res)=>{
                     }
                 })
                 .catch();
-                })
-                .catch();
+                })                  ######## the problem with code was its asynchronous nature the data of doc count
+                .catch();                       was not being calculated as easily due to speed of calculation....
         })
         .catch(); */
-
+        /*
         var beforePromise = new Promise((resolve,reject)=>{
             var query1 = bullionTransactionModel.countDocuments();
             if(query1){resolve(query1)}else{reject(error)}
-        });
-        bullionTransactionDbEvents(req,res);
+        }); 
+         bullionTransactionDbEvents(req,res);
+        
         var afterPromise = new Promise((resolve,reject)=>{
             var query2 = bullionTransactionModel.countDocuments();
             if(query2){resolve(query2)}else{(reject(error))}
         });
-
-        Promise.allSettled([beforePromise,afterPromise]).then((result)=>{ console.log(result[0],result[1]);
-            if(result[0]!==result[1]){ 
-                res.render('success',{pageTitle:'Success'})
-            }else{res.render('error',{pageTitle:'Error',error:'Data Not Added'})}
-        });
         
+       Promise.all([beforePromise,afterPromise]).then((result)=>{ console.log(result[0],result[1]);
+        if(result[0]!==result[1]){ 
+            res.render('success',{pageTitle:'Success'})
+        }else{res.render('error',{pageTitle:'Error',error:'Data Not Added'})}
+    }); */
+
+    bullionTransactionModel.estimatedDocumentCount().exec().then((count1)=>{ console.log(count1);
+        bullionTransactionDbEvents(req,res);
+        setTimeout(()=>{ bullionTransactionModel.estimatedDocumentCount().exec().then((count2)=>{ console.log(count2);
+            if(count1!==count2){
+                res.render('success',{pageTitle:'Success'})
+            }else{
+                res.render('error',{pageTitle:'Error',error:'Data Not Added'})
+            }
+        }).catch()},3000);
+       
+    }).catch();
+        
+       
 
 };
 
