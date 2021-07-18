@@ -33,12 +33,18 @@ function decoBullionStockSummary(){
         document.querySelector('.choursaTransactionLink').classList.add('d-none');
     }
 
-    if(document.querySelectorAll('.bullion9999Tag').length!==0){ console.log('if');
+    if(document.querySelectorAll('.bullion9999Tag').length!==0){ //console.log('if');
         document.querySelector('.no9999BullionStock').classList.add('d-none');
         document.querySelector('.bullion9999TransactionLink').classList.remove('d-none');
     }else{ console.log('else');
         document.querySelector('.no9999BullionStock').classList.remove('d-none');
         document.querySelector('.bullion9999TransactionLink').classList.add('d-none');
+    }
+
+    if(document.querySelector('.bullionStockAccordian').getAttribute('aria-expanded')!=='true'){ //console.log('closed');
+        document.querySelector('.carouselActive').classList.remove('d-none');
+    }else{ //console.log('open');
+        document.querySelector('.carouselActive').classList.add('d-none');
     }
 
 }

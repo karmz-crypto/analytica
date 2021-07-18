@@ -180,7 +180,7 @@ function bullionTransactionDbEvents(req,res){
                    bullionTransactionModel.findById(transactionData._id).exec().then((element)=>{ 
                     var calculatedBullionweight = 0;
                     for(var i=0;i<(req.body.tunchNumber).length;i++){
-                        console.log(req.body.tunchNumber);
+                        //console.log(req.body.tunchNumber);
                         element.kachiDetails.push({kachiTunchNum:req.body.tunchNumber[i],
                                              kachiTunch:req.body.kachiTunch[i],
                                          kachiWeight:req.body.kachiWeight[i],
