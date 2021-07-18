@@ -33,7 +33,7 @@ function decoBullionStockSummary(){
         document.querySelector('.choursaTransactionLink').classList.add('d-none');
     }
 
-    if(document.querySelector('.bullion9999Tag').length!==0){ console.log('if');
+    if(document.querySelectorAll('.bullion9999Tag').length!==0){ console.log('if');
         document.querySelector('.no9999BullionStock').classList.add('d-none');
         document.querySelector('.bullion9999TransactionLink').classList.remove('d-none');
     }else{ console.log('else');

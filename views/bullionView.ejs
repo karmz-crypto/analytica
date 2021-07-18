@@ -133,7 +133,35 @@
             </div>
           </div>
         </div>
-      </div>
+      </div><!--carousel begings here-->
+      <div class="carousalAvtive">
+        <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner p-3">
+            <div class="carousel-item active">
+              <% bullionStock.forEach((element)=>{%>
+                <%if(element.bullionType==='kachi'&& element.totalBullionStock===0){%>
+                  Kachi Bullion Stock : <span class="mx-2 fw-bold kachiTag absentClass">NO Stock Present</span> <%}else if(element.bullionType==='kachi'&& element.totalBullionStock!==0){%>
+                  Kachi Bullion Stock : <span class="mx-2 fw-bold kachiTag presentClass"><%=element.totalBullionStock%></span>Grms
+              <%}})%>
+            </div>
+            <div class="carousel-item">
+              <% bullionStock.forEach((element)=>{%>
+                <%if(element.bullionType==='choursa' && element.totalBullionStock===0){%>
+                  Choursa Bullion Stock : <span class="mx-2 fw-bold choursaTag absentClass">No Stock Present</span><%}else if(element.bullionType==='choursa' && element.totalBullionStock!==0){%>
+                  Choursa Bullion Stock :<span class="mx-2 fw-bold choursaTag presentClass"><%=element.totalBullionStock%></span>Grms
+
+                <%}})%>
+            </div>
+            <div class="carousel-item">
+              <% bullionStock.forEach((element)=>{%>
+                <%if(element.bullionType==='9999_bullion' && element.totalBullionStock===0){%>
+                  9999 Bullion Stock : <span class="mx-2 fw-bold bullion9999Tag absentClass">No Stock Present</span><%}else if(element.bullionType==='9999_bullion' && element.totalBullionStock!==0){%>
+                  9999 Bullion Stock :<span class="mx-2 fw-bold bullion9999Tag presentClass"><%=element.totalBullionStock%></span>Grms
+                <%}})%>
+            </div>
+          </div>
+        </div>
+      </div><!--carousel ends here-->
     </div>
   </div>
 </div>

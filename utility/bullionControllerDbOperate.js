@@ -179,17 +179,18 @@ function bullionTransactionDbEvents(req,res){
                }).save().then((transactionData)=>{
                    bullionTransactionModel.findById(transactionData._id).exec().then((element)=>{ 
                     var calculatedBullionweight = 0;
-                    for(var i=0;i<req.body.tunchNumber.length;i++){
+                    for(var i=0;i<(req.body.tunchNumber).length;i++){
+                        console.log(req.body.tunchNumber);
                         element.kachiDetails.push({kachiTunchNum:req.body.tunchNumber[i],
                                              kachiTunch:req.body.kachiTunch[i],
                                          kachiWeight:req.body.kachiWeight[i],
-                                     kachiFineWeight:req.body.kachiTunch[i]*req.body.kachiWeight[i]/100});
+                                     kachiFineWeight:(req.body.kachiTunch[i])*(req.body.kachiWeight[i])/100});
                                      
                                      calculatedBullionweight += parseInt(req.body.kachiWeight[i]);
                                      element.bullionWeight = calculatedBullionweight;
                                      
                     }element.save().then((data)=>{console.log(data);
-                        bullionStockModel.find({bullionType:'choursa'}).exec()
+                        bullionStockModel.find({bullionType:'kachi'}).exec()
                         .then((transactData)=>{ //console.log(data.length);
                             if(transactData.length===0)
                             { 
