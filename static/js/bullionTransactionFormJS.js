@@ -175,6 +175,7 @@ function removeFormFields(numberOfFields){
 */
 
 function addKachiFormFields(action){
+    var len = document.querySelectorAll('.tableIndex').length;
     if(action!=='remove'){
     document.querySelector('.removeFormFields').classList.remove('d-none');
     var table = createElement('table');
@@ -201,19 +202,19 @@ function addKachiFormFields(action){
     appendChild(document.querySelector('.kachiFormFields'),table);
     var inputTunchNum = createElement('input');
     inputTunchNum.setAttribute('type','text');
-    inputTunchNum.setAttribute('name','tunchNumber[]');
+    inputTunchNum.setAttribute('name',`tunchNumber`);
     inputTunchNum.classList.add('tunchNumClass');
     inputTunchNum.setAttribute('oninput','uniquenessOfKachi()'); // add
     var inputTunch = createElement('input');
     var inputWeight = createElement('input');
     inputTunch.setAttribute('type','number');
     inputTunch.setAttribute('step','any');
-    inputTunch.setAttribute('name','kachiTunch[]');
+    inputTunch.setAttribute('name',`kachiTunch`);
     inputTunch.classList.add('kachiTunchClass');
     inputTunch.setAttribute('oninput','computeKachiFiness(".kachiWeightClass",".kachiTunchClass")');
     inputWeight.setAttribute('type','number');
     inputWeight.setAttribute('step','any');
-    inputWeight.setAttribute('name','kachiWeight[]');
+    inputWeight.setAttribute('name',`kachiWeight`);
     inputWeight.classList.add('kachiWeightClass');
     appendChild(tunchNum,inputTunchNum);
     appendChild(tunch,inputTunch);
@@ -225,6 +226,7 @@ function addKachiFormFields(action){
     table.style.fontSize ='small';
     table.classList.add('my-2','p-2','tableIndex');
     //computeKachiFiness('.kachiWeightClass','.kachiTunchClass');
+    console.log(table);
     }else{ //console.log('in else');
         
         
@@ -248,7 +250,12 @@ function computeKachiFiness(weightClass,tunchClass){
     //check for unqueness of kachi entries..........
 
     //uniquenessOfKachi(); 
-    document.querySelector('.transactionCompletePureBullionForm').classList.remove('d-none');
+    document.querySelectorAll('.transactionCompletePureBullionForm').forEach((element)=>{
+        element.classList.remove('d-none');
+
+    });
+    document.querySelector('#bullionFineWeight').removeAttribute('disabled');
+
      var fineWeight = 0;
     
 

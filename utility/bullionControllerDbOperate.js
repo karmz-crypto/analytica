@@ -30,13 +30,13 @@ function addBullionClientFunction(req,res){
 } */
 
 function bullionTransactionDbEvents(req,res){
-    if(req.body.transactionStatus!=='transactionComplete'){
-        let cashAmount;
-        if(req.body.bullionRateOfCurrentTransaction!==undefined){
-            //console.log(req.body.bu)
-            cashAmount = (req.body.bullionWeight*req.body.bullionRate)/1000
-        }else{
-            cashAmount = req.body.cashAmount;
+    if(req.body.transactionStatus!=='transactionComplete'){ 
+        let cashAmount = 0; 
+        if(req.body.bullionRate!==undefined){
+            console.log('now in if') ;
+            cashAmount = parseInt(req.body.bullionWeight)*parseInt(req.body.bullionRate)/1000;
+        }else{ console.log('in else');
+            cashAmount = parseInt(req.body.cashAmount);
         }
    const bullionTransaction = new bullionTransactionModel({
     _id:new mongoose.Types.ObjectId(),
@@ -124,7 +124,7 @@ function bullionTransactionDbEvents(req,res){
                 client:ObjectID(req.body.clientId),
                 bullionWeight:req.body.bullionWeight,
                 bullionRateOfCurrentTransaction:req.body.bullionRate,
-                cashPaymentOfCurrentTransaction:(req.body.bullionWeight*req.body.bullionRate)/1000,
+                cashPaymentOfCurrentTransaction:(req.body.bullionFineWeight*req.body.bullionRate)/1000,
                 transactionStatus:req.body.transactionStatus,
                 bullionType:req.body.bullionType,
                 bullionTunch:req.body.bullionTunch,
@@ -161,6 +161,67 @@ function bullionTransactionDbEvents(req,res){
                     })
                         .catch();
                 }).catch();
+        }else if(req.body.transactionType!=='sell_bullion'&& req.body.bullionType!=='choursa' && req.body.bullionType!=='9999_bullion')
+        {   
+            const bullionTransaction = new bullionTransactionModel({
+                _id:new mongoose.Types.ObjectId(),
+                transactionType:req.body.transactionType,
+                date:new Date(req.body.date),
+                client:ObjectID(req.body.clientId),
+                bullionWeight:req.body.bullionWeight, // chng
+                bullionRateOfCurrentTransaction:req.body.bullionRate,
+                cashPaymentOfCurrentTransaction:(req.body.bullionFineWeight*req.body.bullionRate)/1000,
+                transactionStatus:req.body.transactionStatus,
+                bullionType:req.body.bullionType,
+                bullionTunch:req.body.bullionTunch,
+                //bullionFineWeight:req.body.bullionWeight*req.body.bullionChoursaTunch/100, //chng
+                bullionFineWeight:req.body.bullionFineWeight
+               }).save().then((transactionData)=>{
+                   bullionTransactionModel.findById(transactionData._id).exec().then((element)=>{ 
+                    var calculatedBullionweight = 0;
+                    for(var i=0;i<req.body.tunchNumber.length;i++){
+                        element.kachiDetails.push({kachiTunchNum:req.body.tunchNumber[i],
+                                             kachiTunch:req.body.kachiTunch[i],
+                                         kachiWeight:req.body.kachiWeight[i],
+                                     kachiFineWeight:req.body.kachiTunch[i]*req.body.kachiWeight[i]/100});
+                                     
+                                     calculatedBullionweight += parseInt(req.body.kachiWeight[i]);
+                                     element.bullionWeight = calculatedBullionweight;
+                                     
+                    }element.save().then((data)=>{console.log(data);
+                        bullionStockModel.find({bullionType:'choursa'}).exec()
+                        .then((transactData)=>{ //console.log(data.length);
+                            if(transactData.length===0)
+                            { 
+                                //console.log('right track'); //added .... del
+                                const bullionStock = new bullionStockModel({
+                                _id:new mongoose.Types.ObjectId(),
+                                bullionTransactionId:[ObjectID(transactionData._id)],
+                                bullionType:'kachi',
+                                totalBullionStock:transactionData.bullionFineWeight,
+                                totalBullionPurchase:transactionData.bullionFineWeight,
+                                totalNumberOfBullionPurchase: 1
+                                }).save().then(()=>{}).catch();
+                        }else{ 
+                                //console.log('u r here') ; //this is added ...del ..
+                            transactData.forEach((element)=>{
+                                element.bullionTransactionId.push(transactionData._id);
+                                        element.totalBullionStock += parseInt(transactionData.bullionFineWeight);
+                                        element.totalBullionPurchase += parseInt(transactionData.bullionFineWeight);
+                                        element.totalNumberOfBullionPurchase += parseInt(1);
+                                        element.save().then(()=>{}).catch();
+                                
+                               
+                            });
+
+                        }
+                    })
+                        .catch();
+
+                    }).catch();
+                   }).catch();
+                  
+               }).catch(); 
         }
         
 

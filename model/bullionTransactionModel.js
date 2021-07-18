@@ -62,7 +62,13 @@ const bullionTransactionSchema =Schema({
     transactionStatus:{
         type:String,
         required:true
-    }
+    },
+    kachiDetails:[{ 
+        kachiTunchNum:{type:String,required:true},
+        kachiTunch:{type:Number,required:true},
+        kachiWeight:{type:Number,required:true},
+        kachiFineWeight:{type:Number,required:true}
+    }]
 });
 
 module.exports = mongoose.model('BullionTransactionModel', bullionTransactionSchema);

@@ -52,22 +52,25 @@
   <div class="accordion" id="bullionPendingTransaction">
     <div class="accordion-item">
       <h2 class="accordion-header" id="bullionPendingHeading">
-        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#bullionPendingCollapse" aria-expanded="true" aria-controls="bullionPendingCollapse">
-          <span class="text-capitalize">
+        <button class="accordion-button pendingTransacAccordian" type="button" data-bs-toggle="collapse" data-bs-target="#bullionPendingCollapse" aria-expanded="true" aria-controls="bullionPendingCollapse" onclick="decoPendingTransactionSummary()">
+          <span class="text-capitalize pendingTransactionCollapseFalse d-none">
              verify the completion of the pending bullion transaction process
+          </span><br>
+          <span class="pendingTransactionCollapseTrue text-capitalize d-none">
+            Incomplete Transactions : <span class="badge bg-danger mx-3"><%=pendingTransactionBullionData.length%></span>
           </span>
         </button>
       </h2>
       <div id="bullionPendingCollapse" class="accordion-collapse collapse show" aria-labelledby="bullionPendingHeading" data-bs-parent="#bullionPendingTransaction">
         <div class="accordion-body bg-secondary">
          <% if(pendingTransactionBullionData.length!==0){pendingTransactionBullionData.forEach((data)=>{%>
-          <li class="list-group-item-light list-group-item mb-3">
+          <li class="list-group-item-light list-group-item mb-3 shadow rounded p-3">
             Date:<span class="mx-2 fw-bold"><%=data.date.toDateString()%></span><br>
             Transaction Type:<span class="mx-2 fw-bold"><%=data.transactionType%></span><br>
             Trader Name:<span class="mx-2 fw-bold"><%=data.client.bullionClientName %></span><br>
-            Bullion Wt. :<span class="mx-2 fw-bold"><%=data.bullionWeight %></span><br>
-            Bullion Rate: <span class="mx-2 fw-bold"><%=data.bullionRateOfCurrentTransaction%></span><br>
-            Cash Payment:<span class="mx-2 fw-bold"> <%=data.cashPaymentOfCurrentTransaction%> </span><br>
+            Bullion Wt. :<span class="mx-2 fw-bold"><%=data.bullionWeight %></span>Grms<br>
+            Bullion Rate: <span class="mx-2 fw-bold"><%=data.bullionRateOfCurrentTransaction%></span>Rupees<br>
+            Cash Payment:<span class="mx-2 fw-bold"> <%=data.cashPaymentOfCurrentTransaction%> </span>Rupees<br>
             <hr>
             <a href="/bullion/<%=data._id%>/updateTransction" style="text-decoration: none;">Complete Transaction</a> 
           </li>
@@ -94,22 +97,38 @@
           </h2>
           <div id="bullionStockCollapse" class="accordion-collapse collapse show" aria-labelledby="bullionStockHeading" data-bs-parent="#bullionStock">
             <div class="accordion-body bg-secondary">
-              <li class="list-group-item list-group-item-light mb-2 shadow rounded p-3 bg-light">
-                <% bullionStock.forEach((element)=>{if(element.bullionType==='9999_bullion'){%>
-                9999 Bullion Stock :<span class="mx-2 fw-bold"><%=element.totalBullionStock%></span>Grms
+              <li class="list-group-item list-group-item-light mb-2 shadow rounded p-3 bg-light 9999BullionStockList">
+                <span class="fw-bold text-danger no9999BullionStock">No 9999 Bullion Stock</span>
+                <% bullionStock.forEach((element)=>{%>
+                  <%if(element.bullionType==='9999_bullion' && element.totalBullionStock===0){%>
+                    9999 Bullion Stock : <span class="mx-2 fw-bold bullion9999Tag absentClass">No Stock Present</span><%}else if(element.bullionType==='9999_bullion' && element.totalBullionStock!==0){%>
+                    9999 Bullion Stock :<span class="mx-2 fw-bold bullion9999Tag presentClass"><%=element.totalBullionStock%></span>Grms
                   <%}})%>
                 <hr>
-                <a href="/bullion/bullionTransactionView/9999_bullion" style="text-decoration: none";>View 9999 Bullion Transaction</a>
+                <a class="bullion9999TransactionLink" href="/bullion/bullionTransactionView/9999_bullion" style="text-decoration: none";>View 9999 Bullion Transaction</a>
               </li>
-              <li class="list-group-item list-group-item-light mb-2 shadow rounded p-3 bg-light">
-                <% bullionStock.forEach((element)=>{if(element.bullionType==='choursa'){%>
-                Choursa Bullion Stock :<span class="mx-2 fw-bold"><%=element.totalBullionStock%></span>Grms
+
+              <li class="list-group-item list-group-item-light mb-2 shadow rounded p-3 bg-white choursaStockList">
+                <span class="fw-bold text-danger noChoursaStock">No Choursa Stock Present</span>
+                <% bullionStock.forEach((element)=>{%>
+                  <%if(element.bullionType==='choursa' && element.totalBullionStock===0){%>
+                    Choursa Bullion Stock : <span class="mx-2 fw-bold choursaTag absentClass">No Stock Present</span><%}else if(element.bullionType==='choursa' && element.totalBullionStock!==0){%>
+                    Choursa Bullion Stock :<span class="mx-2 fw-bold choursaTag presentClass"><%=element.totalBullionStock%></span>Grms
+
                   <%}})%>
                   <hr>
-                  <a href="/bullion/bullionTransactionView/choursa" style="text-decoration: none";>View Choursa Bullion Transaction</a>
+                  <a class="choursaTransactionLink" href="/bullion/bullionTransactionView/choursa" style="text-decoration: none";>View Choursa Bullion Transaction</a>
               </li>
-              <li class="list-group-item list-group-item-light mb-2 shadow rounded p-3 bg-light">
-                Kachi Bullion Stock :
+
+              <li class="list-group-item list-group-item-light mb-2 shadow rounded p-3 bg-light kachiStockList">
+                <span class="fw-bold text-danger noKachiStock">No Kachi Stock Present</span>
+                <% bullionStock.forEach((element)=>{%>
+                  <%if(element.bullionType==='kachi'&& element.totalBullionStock===0){%>
+                    Kachi Bullion Stock : <span class="mx-2 fw-bold kachiTag absentClass">NO Stock Present</span> <%}else if(element.bullionType==='kachi'&& element.totalBullionStock!==0){%>
+                    Kachi Bullion Stock : <span class="mx-2 fw-bold kachiTag presentClass"><%=element.totalBullionStock%></span>Grms
+                <%}})%>
+                <hr>
+                  <a class="kachiTransactionLink" href="/bullion/bullionTransactionView/kachi" style="text-decoration: none";>View Kachi Bullion Transaction</a>
               </li>
             </div>
           </div>
@@ -134,3 +153,5 @@
     </div>
   </div>
 </div>
+
+<script type="text/javascript" src="/bullionViewDecoJS.js"></script>

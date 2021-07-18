@@ -177,15 +177,15 @@
                 <table style="width: 100%; font-size: small;" class="p-2 my-2">
                    <tr> 
                        <th>Tunch No:</th>
-                       <td><input type="text" name="tunchNumber[]" class="tunchNumClass" oninput="uniquenessOfKachi()"></td>
+                       <td><input type="text" name="tunchNumber" class="tunchNumClass" oninput="uniquenessOfKachi()"></td>
                    </tr>
                    <tr>
                        <th>Weight(Grms) :</th>
-                       <td><input type="number" step="any" name="kachiWeight[]" class="kachiWeightClass"></td> 
+                       <td><input type="number" step="any" name="kachiWeight" class="kachiWeightClass"></td> 
                    </tr>
                    <tr>
                        <th>Tunch(%) :</th>
-                       <td><input type="number" step="any" name="kachiTunch[]" class="kachiTunchClass" oninput="computeKachiFiness('.kachiWeightClass','.kachiTunchClass')"></td>
+                       <td><input type="number" step="any" name="kachiTunch" class="kachiTunchClass" oninput="computeKachiFiness('.kachiWeightClass','.kachiTunchClass')"></td>
                    </tr>
                 </table>
 
