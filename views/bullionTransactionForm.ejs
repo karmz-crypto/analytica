@@ -4,6 +4,18 @@
     transaction form with bullion traders
 </li>
 </div>
+<div class="container my-3">
+    <ul class="nav">
+        
+        <li class="nav-item">
+          <a class="nav-link" href="/bullion/bullionClients">View Bullion Clients</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/bullion/bullonTransactions">View Transactions</a>
+        </li>
+        
+      </ul>
+</div>
 <!---------------------------------------------------------------------->
 
 <form method="POST" action="/bullion/addBullionTransaction">
@@ -108,6 +120,9 @@
                 </li>
                 <li class="list-group-item list-group-item-light mb-2">
                     <span class="text-danger cashDebitInfo">
+
+                    </span><br>
+                    <span class="text-secondary text-capitalize cashDebitWord">
 
                     </span>
                 </li>
@@ -218,3 +233,4 @@
 
 <!--js script-->
 <script type="text/javascript" src="/bullionTransactionFormJS.js"></script>
+<script type="text/javascript" src="/numberToWordJS.js"></script>
