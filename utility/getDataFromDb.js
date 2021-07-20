@@ -30,7 +30,7 @@ const bullionStockModel = require('../model/bullionStockModel');
   });
 
   var p5 = new Promise(function(resolve,reject){
-    var query5 = bullionStockModel.find({}).exec();
+    var query5 = bullionStockModel.find({}).populate('bullionTransactionId').exec();
     if(query5){resolve(query5)}else{reject(error)}
   });
   promiseObject.p1=p1; //productModel

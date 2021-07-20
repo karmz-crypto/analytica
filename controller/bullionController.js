@@ -22,7 +22,7 @@ exports.addBullionTransactionForm = (req,res)=>{
     var dataArray = getDataFromDb();
     Promise.all([dataArray.p1,dataArray.p2,dataArray.p3,dataArray.p4,dataArray.p5]).then((result)=>{
         res.render('bullionTransactionForm',
-            {pageTitle:'Bullion Transc.',bullionClient:result[3]}
+            {pageTitle:'Bullion Transc.',bullionClient:result[3],bullionStock:result[4]}
             );
     }).catch(error=>console.log(error));
     

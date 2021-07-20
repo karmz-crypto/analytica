@@ -63,6 +63,44 @@
                     </a><hr>
                 </div>
             </div>
+            <div class="col-md-6 col-sm-12 d-none sellBullionForm bg-white"><!--sell bullion-->
+                <div class="input-group mb-3"><!--select the type of bullion to sell-->
+                    <label class="input-group-text" for="sellBullionType">Select Bullion Type</label>
+                    <select disabled required class="form-select" id="sellBullionType" onchange="sellBullionTypeFunc()">
+                      <option value="" >select type of bullion</option>
+                      <option value="kachi">Kachi</option>
+                      <option value="choursa">Choursa</option>
+                      <option value="9999_bullion">9999 Bullion</option>
+                    </select>
+                </div>
+                <li class="list-group-item list-group-item-danger errorMsgBullionType d-none" style="font-size: small;">
+                    *Please Select Correct Option.
+                </li>
+            </div>
+            <div class="col-md-6 col-sm-12 d-none sellKachiInputDiv my-2">
+                <!--<div class="input-group mb-3">
+                    <label class="input-group-text" for="sellKachiInput">Options</label>
+                    <select class="form-select" id="sellKachiInput">
+                      <option value="">select Kachi</option>
+                      <%bullionStock.forEach((element)=>{if(element.bullionType==='kachi'){%>
+                        <%element.bullionTransactionId.forEach((dataElement)=>{%>
+                            <%dataElement.kachiDetails.forEach((kachiElement)=>{%>
+                                <option value="1">Tunch Num:<span class="text-priary"><%=kachiElement.kachiTunchNum%> </span>Kachi Weight:<%=kachiElement.kachiWeight%></option>
+                                <%})%>
+                            <%}) %>
+                        
+                        <%}})%>
+                      
+                    </select>
+                  </div>-->
+                  <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Select Kachi 
+                </button>
+            </div>
+            <div class="col-md-6 col-sm-12 my-2 bg-light d-none sellChoursaBullionForm">
+
+            </div>
             <div class="col-md-6 col-sm-12 buyBullionForm d-none bg-white">
                 <div class="input-group mb-2">
                     <span class="input-group-text" id="buyBullionWeightSpan">Bullion Wt.</span>
@@ -73,8 +111,8 @@
                     <span class="text-info text-capitalize" style="font-size: small;">
                         Enter the weight you have booked to buy from your bullion trader
                     </span>
-                </div><hr>
-            </div>
+                </div>
+            </div><hr>
             <div class="col-md-6 col-sm-12 buyBullionForm d-none">
                 <div class="form-check">
                     <input disabled required class="form-check-input buyBullionFormCheck" type="radio" name="bullionRateStatus" id="bullionRateTrue" oninput="silverRateStatusFunc()">
@@ -207,10 +245,10 @@
                 
             </div>
             <div class="my-2 kachiFormFields d-none">
-                <button class="btn btn-primary btn-sm kachiFormFieldsAddBtn" type="button" onclick="addKachiFormFields('add')">
+                <button class="btn btn-primary btn-sm kachiFormFieldsAddBtn" type="button" onclick="addKachiFormFields('add','.kachiFormFields')">
                     Add Kachi Form Fields
                 </button>
-                <button class="btn btn-primary btn-sm d-none removeFormFields my-2" type="button" onclick="addKachiFormFields('remove')">
+                <button class="btn btn-primary btn-sm d-none removeFormFields my-2" type="button" onclick="addKachiFormFields('remove','.kachiFormFields')">
                     Delete Kachi Form Fields
                 </button>
             </div>
@@ -230,7 +268,46 @@
         <button class="btn btn-primary" type="submit">Add Transaction</button>
     </div>
 </form>
+<!--kachi list modal-->
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Kachi Stock List</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <%bullionStock.forEach((element)=>{if(element.bullionType==='kachi'){%>
+                <%element.bullionTransactionId.forEach((dataElement)=>{%>
+                    <%dataElement.kachiDetails.forEach((kachiElement)=>{%>
+                        
+                            <li class="list-group-item list-group-item-light my-1 kachiStockList" id="id<%=kachiElement._id%>" onclick="selectedKachiItem(event)">
+                                Transaction Id: <span class="transactionIdSpan"><%=kachiElement._id%></span>
+                                Tunch Num: <span class="text-primary fw-bold tunchNumSpan"><%=kachiElement.kachiTunchNum%> </span><br>
+                                Kachi Weight: <span class="text-primary fw-bold kachiWeightSpan"><%=kachiElement.kachiWeight%></span><br>
+                                Kachi Tunch: <span class="text-primary fw-bold kachiTunchSpan"><%=kachiElement.kachiTunch%></span><br>
+                            </li>
+                        
+                        <!--<div class="form-check">
+                            <input class="form-check-input sellKachiSelectCheck" type="checkbox" value="<%=kachiElement._id%>" id="<%=kachiElement._id%>">
+                            <label class="form-check-label" for="<%=kachiElement._id%>">
+                              <span class="text-danger fw-bold">Select Kachi</span>
+                            </label>
+                        </div>-->
+                        <%})%>
+                    <%}) %>
+                
+                <%}})%>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Add To Sell</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 <!--js script-->
 <script type="text/javascript" src="/bullionTransactionFormJS.js"></script>
-<script type="text/javascript" src="/numberToWordJS.js"></script>
+<script type="text/javascript" src="/sellBullionTransactionFormJS.js"></script>

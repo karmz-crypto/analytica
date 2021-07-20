@@ -19,6 +19,18 @@ function bullionFunc(){
         });
         document.querySelectorAll('buyBullionFormCheck').forEach((element)=>{element.setAttribute('disabled',true)});
     }
+
+    if(document.querySelector('#transactionTypeSell').checked){
+        document.querySelectorAll('.sellBullionForm').forEach(element=>{
+            element.classList.remove('d-none');
+        });
+        document.querySelector('#sellBullionType').removeAttribute('disabled');
+    }else{
+        document.querySelectorAll('.sellBullionForm').forEach(element=>{
+            element.classList.add('d-none');
+        });
+        document.querySelector('#sellBullionType').setAttribute('disabled',true);
+    }
 }
 
 function silverRateStatusFunc(){
@@ -184,7 +196,7 @@ function removeFormFields(numberOfFields){
 function addKachiFormFields(action){
     var len = document.querySelectorAll('.tableIndex').length;
     if(action!=='remove'){
-    document.querySelector('.removeFormFields').classList.remove('d-none');
+    var delElement = document.querySelector('.removeFormFields').classList.remove('d-none');
     var table = createElement('table');
     var tr1 = createElement('tr');
     var tunchNum = createElement('td');
@@ -421,6 +433,15 @@ function convertNumberToWords(amount) {
     }
     return words_string;
 }
+
+
+function sellBullionTypeFunc(){
+    if(document.querySelector('#sellBullionType').value===""){
+        document.querySelector('.errorMsgBullionType').classList.remove('d-none');
+    }
+}
+
+
 
 
 
