@@ -63,9 +63,9 @@
         </button>
       </h2>
       <div id="bullionPendingCollapse" class="accordion-collapse collapse show" aria-labelledby="bullionPendingHeading" data-bs-parent="#bullionPendingTransaction">
-        <div class="accordion-body bg-secondary">
+        <div class="accordion-body">
          <% if(pendingTransactionBullionData.length!==0){pendingTransactionBullionData.forEach((data)=>{%>
-          <li class="list-group-item-light list-group-item mb-3 shadow rounded p-3 listDesign">
+          <li class="list-group-item-light list-group-item mb-3 shadow rounded p-3 listDesign" style="font-size: small;">
             Date:<span class="mx-2 fw-bold"><%=data.date.toDateString()%></span><br>
             Transaction Type:<span class="mx-2 fw-bold"><%=data.transactionType%></span><br>
             Trader Name:<span class="mx-2 fw-bold"><%=data.client.bullionClientName %></span><br>
@@ -97,7 +97,7 @@
             </button>
           </h2>
           <div id="bullionStockCollapse" class="accordion-collapse collapse show" aria-labelledby="bullionStockHeading" data-bs-parent="#bullionStock">
-            <div class="accordion-body bg-secondary">
+            <div class="accordion-body">
               <li class="list-group-item list-group-item-light mb-2 shadow rounded p-3 bg-light 9999BullionStockList">
                 <span class="fw-bold text-danger no9999BullionStock">No 9999 Bullion Stock</span>
                 <% bullionStock.forEach((element)=>{%>
@@ -175,9 +175,17 @@
         </button>
       </h2>
       <div id="bullionTransactionListCollapse" class="accordion-collapse collapse show" aria-labelledby="bullionTransactionListHeading" data-bs-parent="#bullionTransactionList">
+        <div class="my-1 p-2" style="font-size: small;">
+          <nav class="nav nav-pills flex-column flex-sm-row">
+            <button type="button" class="btn btn-link flex-sm-fill text-sm-center nav-link allBtn " onclick="showBullionTransaction('all')">All</button>
+            <button type='button' class="btn btn-link flex-sm-fill text-sm-center nav-link fineBtn " onclick="showBullionTransaction('9999_bullion')">9999 Bullion</button>
+            <button type="button" class="btn btn-link flex-sm-fill text-sm-center nav-link kachiBtn " onclick="showBullionTransaction('kachi')">Kachi</button>
+            <button type="button" class="btn btn-link flex-sm-fill text-sm-center nav-link choursaBtn " onclick="showBullionTransaction('choursa')">Choursa</button>
+          </nav>
+        </div>
         <div class="accordion-body">
           <% completeTransactionBullionData.forEach(data=>{%>
-          <li class="list-group-item list-group-item-light my-1 p-2 listDesign" style="font-size: small;">
+          <li class="list-group-item list-group-item-light my-1 p-2 d-none allList listDesign" style="font-size: small;">
             Transaction Type: <span class="fw-bold mx-1"><%=data.transactionType%></span><br>
             Date : <span class="fw-bold mx-1"><%=data.date.toDateString()%></span><br>
             Bullion Client : <span class="fw-bold mx-1"><%=data.client.bullionClientName%></span><br>
@@ -192,6 +200,60 @@
             <%}%>
           </li>
           <%})%>
+          <!--9999 bullion select -->
+          <% completeTransactionBullionData.forEach(data=>{if(data.bullionType==='9999_bullion'){%>
+            <li class="list-group-item list-group-item-light my-1 p-2 d-none fineBullionList listDesign" style="font-size: small;">
+              Transaction Type: <span class="fw-bold mx-1"><%=data.transactionType%></span><br>
+              Date : <span class="fw-bold mx-1"><%=data.date.toDateString()%></span><br>
+              Bullion Client : <span class="fw-bold mx-1"><%=data.client.bullionClientName%></span><br>
+              Bullion Type : <span class="fw-bold mx-1"><%=data.bullionType%></span><br>
+              Bullion Weight : <span class="fw-bold mx-1"><%=data.bullionWeight%></span>Grms<br>
+              Bullion Rate : <span class="fw-bold mx-1"><%=data.bullionRateOfCurrentTransaction%></span>Rs.<br>
+              <% if(data.transactionType==="buy_bullion"){%>
+                Debit Cash Amt : <span class="fw-bold mx-1"><%=data.cashPaymentOfCurrentTransaction%></span>
+              <%}%>
+              <% if(data.transactionType==="sell_bullion"){%>
+                Credit Cash Amt : <span class="fw-bold mx-1"><%=data.cashPaymentOfCurrentTransaction%></span>
+              <%}%>
+            </li>
+          <%}})%>
+          <!--9999 bullion select ends -->
+          <!--kachi bullion select -->
+          <% completeTransactionBullionData.forEach(data=>{if(data.bullionType==='kachi'){%>
+            <li class="list-group-item list-group-item-light my-1 p-2 d-none kachiBullionList listDesign" style="font-size: small;">
+              Transaction Type: <span class="fw-bold mx-1"><%=data.transactionType%></span><br>
+              Date : <span class="fw-bold mx-1"><%=data.date.toDateString()%></span><br>
+              Bullion Client : <span class="fw-bold mx-1"><%=data.client.bullionClientName%></span><br>
+              Bullion Type : <span class="fw-bold mx-1"><%=data.bullionType%></span><br>
+              Bullion Weight : <span class="fw-bold mx-1"><%=data.bullionWeight%></span>Grms<br>
+              Bullion Rate : <span class="fw-bold mx-1"><%=data.bullionRateOfCurrentTransaction%></span>Rs.<br>
+              <% if(data.transactionType==="buy_bullion"){%>
+                Debit Cash Amt : <span class="fw-bold mx-1"><%=data.cashPaymentOfCurrentTransaction%></span>
+              <%}%>
+              <% if(data.transactionType==="sell_bullion"){%>
+                Credit Cash Amt : <span class="fw-bold mx-1"><%=data.cashPaymentOfCurrentTransaction%></span>
+              <%}%>
+            </li>
+          <%}})%>
+          <!--kachi bullion select ends here -->
+          <!--choursa Bullion List-->
+          <% completeTransactionBullionData.forEach(data=>{if(data.bullionType==='choursa'){%>
+            <li class="list-group-item list-group-item-light my-1 p-2 d-none choursaBullionList listDesign" style="font-size: small;">
+              Transaction Type: <span class="fw-bold mx-1"><%=data.transactionType%></span><br>
+              Date : <span class="fw-bold mx-1"><%=data.date.toDateString()%></span><br>
+              Bullion Client : <span class="fw-bold mx-1"><%=data.client.bullionClientName%></span><br>
+              Bullion Type : <span class="fw-bold mx-1"><%=data.bullionType%></span><br>
+              Bullion Weight : <span class="fw-bold mx-1"><%=data.bullionWeight%></span>Grms<br>
+              Bullion Rate : <span class="fw-bold mx-1"><%=data.bullionRateOfCurrentTransaction%></span>Rs.<br>
+              <% if(data.transactionType==="buy_bullion"){%>
+                Debit Cash Amt : <span class="fw-bold mx-1"><%=data.cashPaymentOfCurrentTransaction%></span>
+              <%}%>
+              <% if(data.transactionType==="sell_bullion"){%>
+                Credit Cash Amt : <span class="fw-bold mx-1"><%=data.cashPaymentOfCurrentTransaction%></span>
+              <%}%>
+            </li>
+          <%}})%>
+          <!--choursa bullion list ends here-->
         </div>
       </div>
       <div class="mx-auto text-center p-2 my-1">
