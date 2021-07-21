@@ -86,13 +86,17 @@ function transactionCompleteFunc(){
         //console.log('true');
         document.querySelector('.transactionCompleteForm').classList.remove('d-none');
         document.querySelector('#bullionType').removeAttribute('disabled');
+        document.querySelector('.cashTransactionInfo').classList.add('d-none');
+        document.querySelector('#buyBullionWeight').setAttribute('disabled',true);
         
 
     }else{ //console.log('flase');
         document.querySelector('.transactionCompleteForm').classList.add('d-none')
         document.querySelector('#bullionType').setAttribute('disabled',true);
         document.querySelector('.transactionCompletePureBullionForm').classList.add('d-none');
+        document.querySelector('.cashTransactionInfo').remove('d-none');
         //document.querySelector('#bullionfineWeight').setAttribute('disabled',true);
+        document.querySelector('#buyBullionWeight').removeAttribute('disabled',true);
     }
 
 }
@@ -100,23 +104,36 @@ function transactionCompleteFunc(){
 function bullionTypeFunc(){
     if(document.querySelector('#bullionType').value==='9999_bullion'&&document.querySelector('#bullionType').value!==""){
         document.querySelector('.transactionCompletePureBullionForm').classList.remove('d-none');
+        document.querySelector('.fineBullionForm').classList.remove('d-none');
+        document.querySelector('#fineBullionWeight').removeAttribute('disabled');
         document.querySelector('#bullionFineWeight').removeAttribute('disabled');
-        document.querySelector('#bullionFineWeight').value= document.querySelector('#buyBullionWeight').value;
+        //document.querySelector('#buyBullionWeight').setAttribute('disabled',true);
+        document.querySelector('#bullionFineWeight').value= document.querySelector('#fineBullionWeight').value;
+        completeCashTransactionInfo();
     }else{
         document.querySelector('.transactionCompletePureBullionForm').classList.add('d-none');
+        document.querySelector('.fineBullionForm').classList.add('d-none');
+        document.querySelector('#fineBullionWeight').setAttribute('disabled',true);
+        //document.querySelector('#buyBullionWeight').removeAttribute('disabled',true);
        // document.querySelector('#bullionfineWeight').setAttribute('disabled',true);
     }
 
-    if(document.querySelector('#bullionType').value==='choursa' && document.querySelector('#bullionType').value!==""){ console.log("choursa");
-        document.querySelector('.choursaForm').classList.remove('d-none');
+    if(document.querySelector('#bullionType').value==='choursa' && document.querySelector('#bullionType').value!==""){ //console.log("choursa");
+        document.querySelectorAll('.choursaForm').forEach(element=>{element.classList.remove('d-none')});
+        document.querySelector('#bullionChoursaWeight').removeAttribute('disabled');
         document.querySelector("#bullionChoursaTunch").removeAttribute('disabled')
         document.querySelector('#bullionFineWeight').removeAttribute('disabled');
-        document.querySelector('#bullionFineWeight').value= document.querySelector('#buyBullionWeight').value*document.querySelector('#bullionChoursaTunch').value/100;
+        //document.querySelector('#buyBullionWeight').setAttribute('disabled',true);
+        document.querySelector('#bullionFineWeight').value= document.querySelector('#bullionChoursaWeight').value*document.querySelector('#bullionChoursaTunch').value/100;
         document.querySelector('.transactionCompletePureBullionForm').classList.remove('d-none');
+        completeCashTransactionInfo();
  
     }else{
-        document.querySelector('.choursaForm').classList.add('d-none');
+        document.querySelectorAll('.choursaForm').forEach(element=>{element.classList.add('d-none')});
         document.querySelector("#bullionChoursaTunch").setAttribute('disabled',true);
+        document.querySelector('#bullionChoursaWeight').setAttribute('disabled',true);
+        //document.querySelector('#buyBullionWeight').removeAttribute('disabled',true);
+        document.querySelector('.choursaForm').classList.add('d-none');
     }
 
     if(document.querySelector('#bullionType').value==='kachi'&&document.querySelector('#bullionType').value!==""){
@@ -125,6 +142,13 @@ function bullionTypeFunc(){
         document.querySelectorAll('.kachiFormFields').forEach((element)=>{element.classList.add('d-none')});
     }
 
+}
+
+function completeCashTransactionInfo(){
+    document.querySelector('.completeCashTransactionInfo').classList.remove('d-none');
+    document.querySelector('.completeCashDebitInfo').innerHTML = document.querySelector('#bullionFineWeight').value*document.querySelector('.bullionRateCheckTrue').value/1000;
+    var wordAmt = convertNumberToWords(document.querySelector('#bullionFineWeight').value*document.querySelector('.bullionRateCheckTrue').value/1000);
+    document.querySelector('.completeCashDebitWord').innerHTML=wordAmt;
 }
 /*
 function addKachiFormFields(){

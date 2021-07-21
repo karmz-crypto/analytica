@@ -3,6 +3,7 @@ window.onload = function(){
     runFunctions();
     listDecoration();
     showBullionTransaction('all');
+    currentDateListDeco();
 }
 
 function runFunctions(){
@@ -68,6 +69,17 @@ function listDecoration(){
             element.classList.add('bg-light');
         }else{element.classList.add('bg-white')}
         count +=1;
+    });
+}
+
+function currentDateListDeco(){//to color the list of current date transaction
+    document.querySelectorAll('.dateClass').forEach((element)=>{
+        if(element.innerHTML===new Date().toDateString()){
+            //console.log(element);
+           // var x = document.getElementById("myLI").parentElement;
+           element.parentElement.classList.add('border-2','rounded','border-success');
+        }
+
     });
 }
 

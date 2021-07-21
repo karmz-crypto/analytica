@@ -66,7 +66,7 @@
         <div class="accordion-body">
          <% if(pendingTransactionBullionData.length!==0){pendingTransactionBullionData.forEach((data)=>{%>
           <li class="list-group-item-light list-group-item mb-3 shadow rounded p-3 listDesign" style="font-size: small;">
-            Date:<span class="mx-2 fw-bold"><%=data.date.toDateString()%></span><br>
+            Date:<span class="mx-2 fw-bold dateClass"><%=data.date.toDateString()%></span><br>
             Transaction Type:<span class="mx-2 fw-bold"><%=data.transactionType%></span><br>
             Trader Name:<span class="mx-2 fw-bold"><%=data.client.bullionClientName %></span><br>
             Bullion Wt. :<span class="mx-2 fw-bold"><%=data.bullionWeight %></span>Grms<br>
@@ -187,7 +187,7 @@
           <% completeTransactionBullionData.forEach(data=>{%>
           <li class="list-group-item list-group-item-light my-1 p-2 d-none allList listDesign" style="font-size: small;">
             Transaction Type: <span class="fw-bold mx-1"><%=data.transactionType%></span><br>
-            Date : <span class="fw-bold mx-1"><%=data.date.toDateString()%></span><br>
+            Date : <span class="fw-bold mx-1 dateClass"><%=data.date.toDateString()%></span><br>
             Bullion Client : <span class="fw-bold mx-1"><%=data.client.bullionClientName%></span><br>
             Bullion Type : <span class="fw-bold mx-1"><%=data.bullionType%></span><br>
             Bullion Weight : <span class="fw-bold mx-1"><%=data.bullionWeight%></span>Grms<br>
@@ -204,7 +204,7 @@
           <% completeTransactionBullionData.forEach(data=>{if(data.bullionType==='9999_bullion'){%>
             <li class="list-group-item list-group-item-light my-1 p-2 d-none fineBullionList listDesign" style="font-size: small;">
               Transaction Type: <span class="fw-bold mx-1"><%=data.transactionType%></span><br>
-              Date : <span class="fw-bold mx-1"><%=data.date.toDateString()%></span><br>
+              Date : <span class="fw-bold mx-1 dateClass"><%=data.date.toDateString()%></span><br>
               Bullion Client : <span class="fw-bold mx-1"><%=data.client.bullionClientName%></span><br>
               Bullion Type : <span class="fw-bold mx-1"><%=data.bullionType%></span><br>
               Bullion Weight : <span class="fw-bold mx-1"><%=data.bullionWeight%></span>Grms<br>
@@ -222,7 +222,7 @@
           <% completeTransactionBullionData.forEach(data=>{if(data.bullionType==='kachi'){%>
             <li class="list-group-item list-group-item-light my-1 p-2 d-none kachiBullionList listDesign" style="font-size: small;">
               Transaction Type: <span class="fw-bold mx-1"><%=data.transactionType%></span><br>
-              Date : <span class="fw-bold mx-1"><%=data.date.toDateString()%></span><br>
+              Date : <span class="fw-bold mx-1 dateClass"><%=data.date.toDateString()%></span><br>
               Bullion Client : <span class="fw-bold mx-1"><%=data.client.bullionClientName%></span><br>
               Bullion Type : <span class="fw-bold mx-1"><%=data.bullionType%></span><br>
               Bullion Weight : <span class="fw-bold mx-1"><%=data.bullionWeight%></span>Grms<br>
@@ -240,7 +240,7 @@
           <% completeTransactionBullionData.forEach(data=>{if(data.bullionType==='choursa'){%>
             <li class="list-group-item list-group-item-light my-1 p-2 d-none choursaBullionList listDesign" style="font-size: small;">
               Transaction Type: <span class="fw-bold mx-1"><%=data.transactionType%></span><br>
-              Date : <span class="fw-bold mx-1"><%=data.date.toDateString()%></span><br>
+              Date : <span class="fw-bold mx-1 dateClass"><%=data.date.toDateString()%></span><br>
               Bullion Client : <span class="fw-bold mx-1"><%=data.client.bullionClientName%></span><br>
               Bullion Type : <span class="fw-bold mx-1"><%=data.bullionType%></span><br>
               Bullion Weight : <span class="fw-bold mx-1"><%=data.bullionWeight%></span>Grms<br>

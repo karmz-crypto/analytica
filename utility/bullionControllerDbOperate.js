@@ -234,7 +234,7 @@ function bullionTransactionDbEvents(req,res){
 function pendingTransactionData(){ //for bullionView page .....
     var pending = new Promise((resolve,reject)=>{
         var query = bullionTransactionModel.find({transactionStatus:"transactionPending"})
-            .populate('client');
+            .populate('client').sort('-date');
         if(query){resolve(query)}else{reject(error)}
     });
     return pending;
