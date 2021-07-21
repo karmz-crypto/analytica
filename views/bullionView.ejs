@@ -41,7 +41,7 @@
       <hr>
       <div class="my-2 text-center">   
         <a href="/bullion/bullionTransactionForm" style="text-decoration: none;" class="card-link">Add Transaction</a>
-        <a href="/bullion/bullonTransactions" style="text-decoration: none;" class="card-link">See Transaction</a>
+        <a href="/bullion/bullionTransactions" style="text-decoration: none;" class="card-link">See Transaction</a>
       </div>
     </div>
   </div>
@@ -65,7 +65,7 @@
       <div id="bullionPendingCollapse" class="accordion-collapse collapse show" aria-labelledby="bullionPendingHeading" data-bs-parent="#bullionPendingTransaction">
         <div class="accordion-body bg-secondary">
          <% if(pendingTransactionBullionData.length!==0){pendingTransactionBullionData.forEach((data)=>{%>
-          <li class="list-group-item-light list-group-item mb-3 shadow rounded p-3">
+          <li class="list-group-item-light list-group-item mb-3 shadow rounded p-3 listDesign">
             Date:<span class="mx-2 fw-bold"><%=data.date.toDateString()%></span><br>
             Transaction Type:<span class="mx-2 fw-bold"><%=data.transactionType%></span><br>
             Trader Name:<span class="mx-2 fw-bold"><%=data.client.bullionClientName %></span><br>
@@ -135,7 +135,7 @@
           </div>
         </div>
       </div><!--carousel begings here-->
-      <div class="carouselActive d-none border rounded">
+      <div class="carouselActive d-none border rounded bg-light">
         <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
           <div class="carousel-inner p-3">
             <div class="carousel-item active">
@@ -176,8 +176,28 @@
       </h2>
       <div id="bullionTransactionListCollapse" class="accordion-collapse collapse show" aria-labelledby="bullionTransactionListHeading" data-bs-parent="#bullionTransactionList">
         <div class="accordion-body">
-          <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+          <% completeTransactionBullionData.forEach(data=>{%>
+          <li class="list-group-item list-group-item-light my-1 p-2 listDesign" style="font-size: small;">
+            Transaction Type: <span class="fw-bold mx-1"><%=data.transactionType%></span><br>
+            Date : <span class="fw-bold mx-1"><%=data.date.toDateString()%></span><br>
+            Bullion Client : <span class="fw-bold mx-1"><%=data.client.bullionClientName%></span><br>
+            Bullion Type : <span class="fw-bold mx-1"><%=data.bullionType%></span><br>
+            Bullion Weight : <span class="fw-bold mx-1"><%=data.bullionWeight%></span>Grms<br>
+            Bullion Rate : <span class="fw-bold mx-1"><%=data.bullionRateOfCurrentTransaction%></span>Rs.<br>
+            <% if(data.transactionType==="buy_bullion"){%>
+              Debit Cash Amt : <span class="fw-bold mx-1"><%=data.cashPaymentOfCurrentTransaction%></span>
+            <%}%>
+            <% if(data.transactionType==="sell_bullion"){%>
+              Credit Cash Amt : <span class="fw-bold mx-1"><%=data.cashPaymentOfCurrentTransaction%></span>
+            <%}%>
+          </li>
+          <%})%>
         </div>
+      </div>
+      <div class="mx-auto text-center p-2 my-1">
+        <a href="bullion/bullionTransactions" style="text-decoration: none;">
+          View All Transactions
+        </a>
       </div>
     </div>
   </div>

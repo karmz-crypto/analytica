@@ -1,6 +1,7 @@
 window.onload = function(){
     console.log('deco bullion view connect');
     runFunctions();
+    listDecoration();
 }
 
 function runFunctions(){
@@ -57,4 +58,14 @@ function decoPendingTransactionSummary(){
         document.querySelector('.pendingTransactionCollapseTrue').classList.add('d-none');
         document.querySelector('.pendingTransactionCollapseFalse').classList.remove('d-none');
     }
+}
+
+function listDecoration(){
+    var count=0;
+    document.querySelectorAll('.listDesign').forEach(element=>{
+        if(count%2===0){ 
+            element.classList.add('bg-light');
+        }else{element.classList.add('bg-white')}
+        count +=1;
+    });
 }

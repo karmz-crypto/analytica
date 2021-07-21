@@ -1,4 +1,4 @@
-const {bullionTransactionDbEvents,pendingTransactionData} = require('../utility/bullionControllerDbOperate');
+const {bullionTransactionDbEvents,pendingTransactionData,completeTransactionData} = require('../utility/bullionControllerDbOperate');
 //const pendingTransactionData = require('../utility/bullionControllerDbOperate');
 const getDataFromDb = require('../utility/getDataFromDb');
 const mongoose = require('mongoose');
@@ -10,9 +10,11 @@ const bullionTransactionModel = require('../model/bullionTransactionModel');
 exports.getBullion=(req,res)=>{
     var dataArray = getDataFromDb();
     var pendingTransacData = pendingTransactionData();
-    Promise.all([dataArray.p4,pendingTransacData,dataArray.p5]).then((result)=>{
+    var completeTransacData=completeTransactionData();
+    Promise.all([dataArray.p4,pendingTransacData,dataArray.p5,completeTransacData]).then((result)=>{
         //console.log(result[1]);
-        res.render('bullionView',{pageTitle:'Bullion',pendingTransactionBullionData:result[1],bullionStock:result[2]});
+        res.render('bullionView',{pageTitle:'Bullion',pendingTransactionBullionData:result[1],
+        bullionStock:result[2],completeTransactionBullionData:result[3]});
     }).catch();
     
 };

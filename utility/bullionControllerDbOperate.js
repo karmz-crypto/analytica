@@ -240,7 +240,16 @@ function pendingTransactionData(){ //for bullionView page .....
     return pending;
 }
 
+function completeTransactionData(){
+    var complete = new Promise((resolve,reject)=>{
+        var query = bullionTransactionModel.find({transactionStatus:"transactionComplete"})
+            .populate('client').sort('-date');
+            if(query){resolve(query)}else{reject(error)}
+    });
+    return complete;
+}
 
 
-module.exports = {bullionTransactionDbEvents,pendingTransactionData};
+
+module.exports = {bullionTransactionDbEvents,pendingTransactionData,completeTransactionData};
 
