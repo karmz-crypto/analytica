@@ -55,18 +55,18 @@
                       <%})%>
                     </select>
                 </div>
-                <div class="my-2"><hr>
+                <div class="my-2">
                     <a href="/bullion/addBullionClientForm" style="text-decoration: none;font-size: small;">
                         <span class="text-capitalize">
                             Click to Add Trader To your list if not present in select
                         </span>
-                    </a><hr>
+                    </a>
                 </div>
             </div>
             <div class="col-md-6 col-sm-12 d-none sellBullionForm bg-white"><!--sell bullion-->
                 <div class="input-group mb-3"><!--select the type of bullion to sell-->
                     <label class="input-group-text" for="sellBullionType">Select Bullion Type</label>
-                    <select disabled required class="form-select" id="sellBullionType" onchange="sellBullionTypeFunc()">
+                    <select disabled required class="form-select" name="bullionType" id="sellBullionType" onchange="sellBullionTypeFunc()">
                       <option value="" >select type of bullion</option>
                       <option value="kachi">Kachi</option>
                       <option value="choursa">Choursa</option>
@@ -93,10 +93,44 @@
                       
                     </select>
                   </div>-->
+                <div class="kachiTable">
+                    <table class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">Tunch No:</th>
+                            <th scope="col">Weight</th>
+                            <th scope="col">Tunch</th>
+                            <th scope="col">Fine Weight</th>
+                          </tr>
+                        </thead>
+                        <tbody class="tableBody">
+                          <!--<tr>
+                            <th scope="row">1</th>
+                            <td>Mark</td>
+                            <td>Otto</td>
+                            <td>@mdo</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">2</th>
+                            <td>Jacob</td>
+                            <td>Thornton</td>
+                            <td>@fat</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">3</th>
+                            <td>Larry the Bird</td>
+                            <td>@twitter</td>
+                          </tr>-->
+                        </tbody>
+                      </table>
+                </div>
                   <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalKachi">
                     Select Kachi 
                 </button>
+                <span class="mx-2 kachiFineWeightSpan">
+                    
+                </span>
             </div>
             <div class="col-md-6 col-sm-12 my-2 bg-light d-none sellChoursaBullionForm">
 
@@ -295,11 +329,11 @@
 </form>
 <!--kachi list modal-->
   <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="exampleModalKachi" tabindex="-1" aria-labelledby="exampleModalLabelKachi" aria-hidden="true">
     <div class="modal-dialog modal-sm">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Kachi Stock List</h5>
+          <h5 class="modal-title" id="exampleModalLabelKachi">Kachi Stock List</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -327,11 +361,35 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Add To Sell</button>
         </div>
       </div>
     </div>
   </div>
+  <!--kachi data exist modal-->
+  <!-- Button trigger modal -->
+    <button type="button" id="modalButtonId" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Launch demo modal
+    </button>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button id="closeButtonId" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" onclick="kachiDataAction('keep')">Keep Data</button>
+          <button type="button" class="btn btn-white text-danger" onclick="kachiDataAction('remove')">Remove Data</button>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
 
 <!--js script-->
 <script type="text/javascript" src="/bullionTransactionFormJS.js"></script>
