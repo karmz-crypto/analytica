@@ -19,36 +19,36 @@
 <!---------------------------------------------------------------------->
 
 <form method="POST" action="/bullion/addBullionTransaction">
-    <div class="container my-2">
+    <div class="container">
         <div class="row">
-            <div class="col-md-6 col-sm-12 bg-light">
-                <div class="form-check mb-2">
-                    <input required class="form-check-input" type="radio" name="transactionType" value="sell_bullion" id="transactionTypeSell" oninput="bullionFunc()">
+            <div class="col-md-6 col-sm-12 bg-light bullionTypeTransaction">
+                <div class="form-check mb-3">
+                    <input required class="form-check-input" type="radio" name="transactionType" value="sell_bullion" id="transactionTypeSell" oninput="bullionFunc1(event,'.sellBullionForm','.buyBullionForm')">
                     <label class="form-check-label" for="transactionTypeSell">
-                      <span class="text-capitalize text-secondary">
-                          Sell Bullion
-                      </span>
+                    <span class="text-capitalize text-secondary">
+                        Sell Bullion
+                    </span>
                     </label>
-                  </div>
-                  <div class="form-check mb-2">
-                    <input class="form-check-input" type="radio" name="transactionType" value="buy_bullion" id="transactionTypeBuy" oninput="bullionFunc()">
+                </div>
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="radio" name="transactionType" value="buy_bullion" id="transactionTypeBuy" oninput="bullionFunc1(event,'.buyBullionForm','.sellBullionForm')">
                     <label class="form-check-label" for="transactionTypeBuy">
-                      <span class="text-secondary text-capitalize">
-                          Buy Bullion
-                      </span>
+                    <span class="text-secondary text-capitalize">
+                        Buy Bullion
+                    </span>
                     </label>
-                  </div>   
+                </div>   
             </div>
             <div class="col-md-6 col-sm-12 bg-white">
                 <div class="input-group mb-1">
                     <span class="input-group-text" id="date">Date</span>
-                    <input required type="date" name="date" class="form-control" placeholder="date" aria-label="date" aria-describedby="date">
+                    <input required type="date" name="date" class="form-control dateClass" placeholder="date" aria-label="date" aria-describedby="date" onclick="dateLimit('.dateClass')">
                 </div>
             </div>
             <div class="col-md-6 col-sm-12 bg-light">
                 <div class="input-group mb-1">
                     <label class="input-group-text" for="bullionTrader">Bullion Trader</label>
-                    <select required class="form-select" name="clientId" id="bullionTrader">
+                    <select required class="form-select" name="clientId" id="bullionTrader" onchange="validateForm()">
                       <option value="">select Trader Name</option>
                       <% bullionClient.forEach((element)=>{%>
                       <option value="<%=element._id%>"><%=element.bullionClientName%></option><!--this will be fetched from the database-->
@@ -63,7 +63,132 @@
                     </a>
                 </div>
             </div>
-            <div class="col-md-6 col-sm-12 d-none sellBullionForm bg-white"><!--sell bullion-->
+        </div>
+    </div>
+
+     
+
+    <div class="container my-2 d-none buyBullionForm">
+        <div class="row buyBullionFormRow">
+            <div class="col-md-6 col-sm-12 my-2 bg-light">
+                <span class="text-capitalize">
+                    Select Transaction Status:
+                </span>
+                <div class="form-check my-2">
+                    <input disabled required class="form-check-input" type="radio" name="transactionStatus" value="transactionComplete" id="transactionComplete" oninput="bullionFunc1(event,'.transactionCompleteForm','.transactionPendingForm')">
+                    <label class="form-check-label text-secondary" for="transactionComplete">
+                      Transaction Complete<br>
+                      <span class="text-capitalize text-info" style="font-size: small;letter-spacing: 0.09rem;">if bullion is received and Payment is made</span>
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="transactionStatus" value="transactionPending" id="transactionPending" oninput="bullionFunc1(event,'.transactionPendingForm','.transactionCompleteForm')">
+                    <label class="form-check-label text-secondary" for="transactionPending">
+                      Transaction Pending <br>
+                      <span class="text-info text-capitalize" style="font-size: small;letter-spacing: 0.09rem;">if bullion is yet to be received & only booked with traders </span>
+                    </label>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12 transactionCompleteForm d-none">
+                <select disabled required class="form-select" aria-label="Default select example" name="bullionType">
+                    <option value="">select Type Of Bullion</option>
+                    <option value="kachi">Kachi</option>
+                    <option value="choursa">Choursa</option>
+                    <option value="9999_bullion">9999 Bullion</option>
+                  </select>
+            </div>
+            <div class="col-md-6 col-sm-12 my-2 d-none transactionPendingForm">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Bullion Wt:</span>
+                    <input required disabled type="number" step="any" class="form-control" min=1 aria-type="weight" aria-label="bullionWeight" name="bullionWeight">
+                    <span class="input-group-text">Grms</span>
+                </div>
+                <div class="mb-2">
+                    <span class="text-info text-capitalize" style="font-size: small;">
+                        Enter the weight you have booked to buy from your bullion trader
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12 my-2 d-none bg-light transactionPendingForm">
+                <div class="form-check">
+                    <input disabled required class="form-check-input" type="radio" name="bullionRateStatus" id="bullionRateDecided" oninput="displayAction('.bullionRateStatus')">
+                    <label class="form-check-label text-secondary" for="bullionRateDecided">
+                      Bullion Rate Decided
+                        <span class="text-capitalize text-info" style="font-size: small;">
+                            If bullion rate is decided with the bullion trader.
+                        </span>
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="bullionRateStatus" id="bullionRateNotDecided" oninput="hideAction('.bullionRateStatus')">
+                    <label class="form-check-label text-secondary" for="bullionRateNotDecided">
+                      Bullion Rate Not Decided
+                        <span class="text-capitalize text-info" style="font-size: small;">
+                            if bullion rate is not decided with the bullion trader.
+                        </span>
+                    </label>
+                  </div>
+            </div>
+            <div class="col-md-6 col-sm-12 my-2 bg-light d-none bullionRateStatus">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Bullion Rate</span>
+                    <input disabled required type="number" step="any" class="form-control" min=1 aria-type="amount" aria-label="bullionRate" name="bullionRate" oninput="calculateAmountEstimated('.buyBullionForm',['.amountInNumber','.amountInWords'],['bullionRate','bullionWeight'])">
+                    <span class="input-group-text">Rs</span>
+                </div>
+                  <span class="text-capitalize text-info" style="font-size: small;">
+                    bullion decided with the trader.
+                  </span>
+            </div>
+            <div class="col-md-6 col-sm-12 my-2 d-none transactionPendingForm">
+                <div class="form-check my-1">
+                    <input required disabled class="form-check-input" type="radio" name="cashAmountStatus" id="cashAmountPaid" oninput="displayAction('.cashAmountStatus')">
+                    <label class="form-check-label" for="cashAmountPaid">
+                      <span class="text-secondary"> Approx Cash Amount Paid Or Agreed To Pay</span><br>
+                      <span class="text-info text-capitalize" style="font-size: small;">
+                        Select If Only Approx Amount Is paid.
+                      </span>
+                    </label>
+                </div>
+                <div class="form-check my-1">
+                    <input required disabled class="form-check-input" type="radio" name="cashAmountStatus" id="cashAmountPending" oninput="hideAction('.cashAmountStatus')">
+                    <label class="form-check-label" for="cashAmountPending">
+                      <span class="text-secondary">No Cash Amount Yet To Pay</span> <br>
+                      <span class="text-info text-capitalize" style="font-size: small;">Select If only no cash amount is paid</span>
+                    </label>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12 amountEstimated">
+                <span class="text-capitalize text-muted">
+                    Estimated Cash Amount :<span class="amountInNumber mx-2 text-danger">Not Decided</span><br>
+                    <span class="amountInWords fw-bold">
+                        
+                    </span>
+                </span>
+            </div>
+            <div class="col-md-6 col-sm-12 my-2 d-none cashAmountStatus">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Cash Payment</span>
+                    <input disabled required type="number" step="any" min=0 value=0 class="form-control" aria-type="amount" aria-label="cashPayment" name="cashAmount" oninput="pendingAmount('.buyBullionForm',['.pendingCashAmount','.pendingCashAmountWord'],['.amountInNumber','cashAmount'])">
+                    <span class="input-group-text">Rs</span>
+                </div>
+                <div>
+                    Pending Cash Amount : <span class="mx-2 text-danger pendingCashAmount ">
+                        Zero.
+                    </span><br>
+                    <span class="text-capitalize text-muted pendingCashAmountWord fw-bold">
+
+                    </span>
+                </div>
+            </div>
+           
+            
+
+        </div><!--buyBullionFormRow-->
+    </div><!--buyBullionForm Div-->
+
+    <div class="container my-2 d-none sellBullionForm">
+        <div class="row sellBullionFormRow">
+            <div class="col-md-6 col-sm-12 bg-white"><!--sell bullion-->
                 <div class="input-group mb-3"><!--select the type of bullion to sell-->
                     <label class="input-group-text" for="sellBullionType">Select Bullion Type</label>
                     <select disabled required class="form-select" name="bullionType" id="sellBullionType" onchange="sellBullionTypeFunc()">
@@ -73,324 +198,28 @@
                       <option value="9999_bullion">9999 Bullion</option>
                     </select>
                 </div>
-                <li class="list-group-item list-group-item-danger errorMsgBullionType d-none" style="font-size: small;">
+                <li class="list-group-item list-group-item-danger  errorMsgBullionType d-none" style="font-size: small;">
                     *Please Select Correct Option.
                 </li>
             </div>
-            <div class="col-md-6 col-sm-12 d-none sellKachiInputDiv my-2">
-                <!--<div class="input-group mb-3">
-                    <label class="input-group-text" for="sellKachiInput">Options</label>
-                    <select class="form-select" id="sellKachiInput">
-                      <option value="">select Kachi</option>
-                      <%bullionStock.forEach((element)=>{if(element.bullionType==='kachi'){%>
-                        <%element.bullionTransactionId.forEach((dataElement)=>{%>
-                            <%dataElement.kachiDetails.forEach((kachiElement)=>{%>
-                                <option value="1">Tunch Num:<span class="text-priary"><%=kachiElement.kachiTunchNum%> </span>Kachi Weight:<%=kachiElement.kachiWeight%></option>
-                                <%})%>
-                            <%}) %>
-                        
-                        <%}})%>
-                      
-                    </select>
-                  </div>-->
-                <div class="kachiTable">
-                    <table class="table">
-                        <thead>
-                          <tr>
-                            <th scope="col">Tunch No:</th>
-                            <th scope="col">Weight</th>
-                            <th scope="col">Tunch</th>
-                            <th scope="col">Fine Weight</th>
-                          </tr>
-                        </thead>
-                        <tbody class="tableBody">
-                          <!--<tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                          </tr>
-                          <tr>
-                            <th scope="row">2</th>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
-                          </tr>
-                          <tr>
-                            <th scope="row">3</th>
-                            <td>Larry the Bird</td>
-                            <td>@twitter</td>
-                          </tr>-->
-                        </tbody>
-                      </table>
-                </div>
-                  <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalKachi">
-                    Select Kachi 
-                </button>
-                <span class="mx-2 kachiFineWeightSpan">
-                    
-                </span>
-            </div>
-            <div class="col-md-6 col-sm-12 my-2 bg-light d-none sellChoursaBullionForm">
 
-            </div>
-            <div class="col-md-6 col-sm-12 buyBullionForm d-none bg-white">
-                <div class="input-group mb-2">
-                    <span class="input-group-text" id="buyBullionWeightSpan">Bullion Wt.</span>
-                    <input required disabled type="Number" step="any" id="buyBullionWeight" class="form-control buyBullionFormCheck" name="bullionWeight" placeholder="Wt. In Grms" aria-label="bullion Weight" aria-describedby="buyBullionWeightSpan" oninput="cashTransactionInfoFunc('true')">
-                    <span class="input-group-text" id="buyBullionWeightSpan">Grms</span>
-                </div>
-                <div class="mb-2">
-                    <span class="text-info text-capitalize" style="font-size: small;">
-                        Enter the weight you have booked to buy from your bullion trader
-                    </span>
-                </div>
-            </div>
-            <div class="col-md-6 col-sm-12 buyBullionForm d-none">
-                <div class="form-check">
-                    <input disabled required class="form-check-input buyBullionFormCheck" type="radio" name="bullionRateStatus" id="bullionRateTrue" oninput="silverRateStatusFunc()">
-                    <label class="form-check-label" for="bullionRateTrue">
-                      Bullion Rate Decided
-                    </label>
-                    <div class="mb-1">
-                        <span class="text-info text-capitalize" style="font-size: small;">
-                            select this if you have agreed on a bullion rate to buy bullion with the bullion trader 
-                        </span>
-                    </div>
-                  </div>
-                  <div class="form-check">
-                    <input disabled class="form-check-input buyBullionFormCheck" type="radio" name="bullionRateStatus" id="bullionRateFalse" oninput="silverRateStatusFunc()">
-                    <label class="form-check-label" for="bullionRateFalse">
-                      Bullion Rate Not Decided
-                    </label>
-                    <div class="mb-1">
-                        <span class="text-info text-capitalize" style="font-size: small;">
-                            select this if you have not agreed on a bullion rate to buy bullion with the bullion trader, instad have 
-                            only made an approx payment value
-                        </span>
-                    </div>
-                  </div>
-            </div>
-            <div class="col-md-6 col-sm-12 bullionRateStatusTrue d-none">
-                <div class="input-group mb-2">
-                    <span class="input-group-text" id="bullionRate">Bullion Rate</span>
-                    <input required disabled type="number" step="any" class="form-control bullionRateCheckTrue" name="bullionRate" placeholder="Bullion Rate" aria-label="bullion rate" aria-describedby="bullionRate" oninput="cashTransactionInfoFunc('true')">
-                    <span class="input-group-text" id="bullionRate">Rs</span>
-                </div>
-            </div>
-            <div class="col-md-6 col-sm-12 bullionRateStatusFalse d-none">
-                <div class="input-group mb-2">
-                    <span class="input-group-text" id="cashAmount">Cash Amount</span>
-                    <input required disabled type="number" step="any" class="form-control bullionRateCheckFalse" name="cashAmount" placeholder="Cash amt" aria-label="cash amount" aria-describedby="cashAmount" oninput="cashTransactionInfoFunc('false')">
-                    <span class="input-group-text" id="cashAmount">Rs</span>
-                </div>
-            </div>
-            <div class="col-md-6 col-sm-12 cashTransactionInfo d-none">
-                <li class="list-group-item list-group-item-primary mb-1">
-                    Cash Debited From Cash Pool
-                </li>
-                <li class="list-group-item list-group-item-light mb-2">
-                    <span class="text-danger cashDebitInfo">
-
-                    </span><br>
-                    <span class="text-secondary text-capitalize cashDebitWord">
-
-                    </span>
-                </li>
-            </div><hr>
-            <div class="col-md-6 col-sm-12 transactionStatus d-none">
-                <div class="form-check">
-                    <input required disabled class="form-check-input" type="radio" value="transactionPending" name="transactionStatus" id="transactionPending" oninput="transactionCompleteFunc()">
-                    <label class="form-check-label" for="transactionPending">
-                      Transaction Pending
-                    </label>
-                    <div class="mb-1">
-                        <span class="text-info text-capitalize" style="font-size: small;">
-                            select this if your are yet to receive the bullion from the bullion trader.
-                            pending transactions can be completed once the bullion is received with specific info. like 
-                            weight of the item received
-                        </span> 
-                    </div>
-                  </div>
-                  <div class="form-check">
-                    <input disabled class="form-check-input" type="radio" value="transactionComplete" name="transactionStatus" id="transactionComplete" oninput="transactionCompleteFunc()">
-                    <label class="form-check-label" for="transactionComplete">
-                      Transaction Complete
-                    </label>
-                    <div class="mb-1">
-                        <span class="text-capitalize text-info" style="font-size: small;">
-                            select this if you have received the bullion while filling the form. selecting this will
-                            not enable you to change the data in future with other values.
-                        </span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-sm-12 my-2 transactionCompleteForm d-none">
-                <div class="input-group mb-3">
-                    <label class="input-group-text" for="inputGroupSelect01">Bullion Type</label>
-                    <select required disabled name="bullionType"  class="form-select" id="bullionType" onchange="bullionTypeFunc()" >
-                      <option value="">Select type of bullion</option>
-                      <option value="9999_bullion">9999_bullion</option>
-                      <option value="choursa">Choursa</option>
-                      <option value="kachi">Kachi</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-md-6 col-sm-12 my-2 choursaForm d-none">
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="bullionTunchChoursaSpan d-none">Bullion Tunch</span>
-                    <input required disabled type="number" step="any" name="bullionChoursaTunch" id="bullionChoursaTunch" class="form-control" placeholder="bullion Tunch" aria-label="bullionTunch" aria-describedby="bullionTunchChoursaSpan"  oninput="bullionTypeFunc()">
-                </div>
-            </div>
-            <div class="col-md-6 col-sm-12 choursaForm  d-none">
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="bullionWeightChoursaSpan d-none">Choursa Bullion Weight </span>
-                    <input required disabled type="number" step="any" name="bullionWeight" id="bullionChoursaWeight" class="form-control" placeholder="bullion weight" aria-label="bullionWeight" aria-describedby="bullionWeightChoursaSpan"  oninput="bullionTypeFunc()">
-                </div>
-            </div>
-            <div class="col-md-6 col-sm-12 fineBullionForm  d-none">
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="bullionWeightFineSpan d-none">9999 Bullion Weight </span>
-                    <input required disabled type="number" step="any" name="bullionWeight" id="fineBullionWeight" class="form-control" placeholder="bullion weight" aria-label="bullionWeight" aria-describedby="bullionWeightFineSpan"  oninput="bullionTypeFunc()">
-                </div>
-            </div>
-            <!--<div class="col-md-6 col-sm-12 my-2 kachiForm">
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="numberOfKachiSpan">Num Of Kachi</span>
-                    <input type="number" class="form-control" id="totalNumberOfKachi" placeholder="number of kachi" aria-label="totalKachiPiece" aria-describedby="numberOfKachiSpan">
-                </div>
-                <div class="my-2">
-                    <button class="btn btn-primary" type="button" onclick="addKachiFormFields()">
-                        Add Kachi Form Fields
-                    </button>
-                 </div>
-            </div>-->
-            <div class="col-md-6 col-sm-12 m-2 p-2 kachiFormFields d-none border rounded">
-                <!--<div class="input-group mb-3">
-                    <span class="input-group-text countFormFields" id="bullionTunchKachiSpan">Kachi Tunch</span>
-                    <input type="number" step="any" class="form-control bullionKachiTunch" name="bullionKachiTunch" placeholder="kachi Tunch (%)" aria-label="kachiTunch" aria-describedby="bullionKachiTunchSpan">
-                </div>-->
-                <span class="my-2">Kachi Metal Details</span> 
-
-                <table style="width: 100%; font-size: small;" class="p-2 my-2">
-                   <tr> 
-                       <th>Tunch No:</th>
-                       <td><input type="text" name="tunchNumber" class="tunchNumClass" oninput="uniquenessOfKachi()"></td>
-                   </tr>
-                   <tr>
-                       <th>Weight(Grms) :</th>
-                       <td><input type="number" step="any" name="kachiWeight" class="kachiWeightClass"></td> 
-                   </tr>
-                   <tr>
-                       <th>Tunch(%) :</th>
-                       <td><input type="number" step="any" name="kachiTunch" class="kachiTunchClass" oninput="computeKachiFiness('.kachiWeightClass','.kachiTunchClass')"></td>
-                   </tr>
-                </table>
-
-                
-            </div>
-            <div class="my-2 kachiFormFields d-none">
-                <button class="btn btn-primary btn-sm kachiFormFieldsAddBtn" type="button" onclick="addKachiFormFields('add','.kachiFormFields')">
-                    Add Kachi Form Fields
-                </button>
-                <button class="btn btn-primary btn-sm d-none removeFormFields my-2" type="button" onclick="addKachiFormFields('remove','.kachiFormFields')">
-                    Delete Kachi Form Fields
-                </button>
-            </div>
-            <div class="col-md-6 col-sm-12 my-2 d-none transactionCompletePureBullionForm">
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="bullionfineWeightSpan">Fine Weight</span>
-                    <input readonly disabled required type="text" class="form-control" name="bullionFineWeight" id="bullionFineWeight" placeholder="fine weight" aria-label="fine weight" aria-describedby="bullionfineWeightSpan" oninput="bullionTypeFunc()">
-                  </div>
-            </div>
-            <div class="col-md-6 col-sm-12 completeCashTransactionInfo d-none">
-                <li class="list-group-item list-group-item-primary mb-1">
-                    Cash Debited From Cash Pool
-                </li>
-                <li class="list-group-item list-group-item-light mb-2">
-                    <span class="text-danger completeCashDebitInfo">
-
-                    </span><br>
-                    <span class="text-secondary text-capitalize completeCashDebitWord">
-
-                    </span>
-                </li>
-            </div><hr>
-            
-
-           
-            
-        </div><!--end of row-->
-    </div>
-    <div class="container my-2">
-        <button class="btn btn-primary" type="submit">Add Transaction</button>
-    </div>
+        </div><!--sellBullionFormRow-->
+    </div><!--selBullionForm Div-->
+    <button type="button" onclick="validateForm()" class="btn btn-primary p-2 my-5 mx-3 submitButton">Add Transaction</button>
 </form>
-<!--kachi list modal-->
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModalKachi" tabindex="-1" aria-labelledby="exampleModalLabelKachi" aria-hidden="true">
-    <div class="modal-dialog modal-sm">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabelKachi">Kachi Stock List</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <%bullionStock.forEach((element)=>{if(element.bullionType==='kachi'){%>
-                <%element.bullionTransactionId.forEach((dataElement)=>{%>
-                    <%dataElement.kachiDetails.forEach((kachiElement)=>{%>
-                        
-                            <li class="list-group-item list-group-item-light my-1 kachiStockList" id="id<%=kachiElement._id%>" onclick="selectedKachiItem(event)">
-                                Transaction Id: <span class="transactionIdSpan"><%=kachiElement._id%></span>
-                                Tunch Num: <span class="text-primary fw-bold tunchNumSpan"><%=kachiElement.kachiTunchNum%> </span><br>
-                                Kachi Weight: <span class="text-primary fw-bold kachiWeightSpan"><%=kachiElement.kachiWeight%></span><br>
-                                Kachi Tunch: <span class="text-primary fw-bold kachiTunchSpan"><%=kachiElement.kachiTunch%></span><br>
-                            </li>
-                        
-                        <!--<div class="form-check">
-                            <input class="form-check-input sellKachiSelectCheck" type="checkbox" value="<%=kachiElement._id%>" id="<%=kachiElement._id%>">
-                            <label class="form-check-label" for="<%=kachiElement._id%>">
-                              <span class="text-danger fw-bold">Select Kachi</span>
-                            </label>
-                        </div>-->
-                        <%})%>
-                    <%}) %>
-                
-                <%}})%>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!--kachi data exist modal-->
-  <!-- Button trigger modal -->
-    <button type="button" id="modalButtonId" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#exampleModal">
-    Launch demo modal
-    </button>
-  
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-          <button id="closeButtonId" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          ...
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-success" onclick="kachiDataAction('keep')">Keep Data</button>
-          <button type="button" class="btn btn-white text-danger" onclick="kachiDataAction('remove')">Remove Data</button>
-        </div>
-      </div>
-    </div>
-  </div>
+
+
+
+
+        
+        
+        
+        
+    
+
+
  
 
 <!--js script-->
 <script type="text/javascript" src="/bullionTransactionFormJS.js"></script>
-<script type="text/javascript" src="/sellBullionTransactionFormJS.js"></script>
+<!--<script type="text/javascript" src="/sellBullionTransactionFormJS.js"></script>-->

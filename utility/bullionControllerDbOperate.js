@@ -31,23 +31,42 @@ function addBullionClientFunction(req,res){
 
 function bullionTransactionDbEvents(req,res){
     if(req.body.transactionStatus!=='transactionComplete'){ 
+        console.log(req.body.date);
         let cashAmount = 0; 
-        if(req.body.bullionRate!==undefined){
-            console.log('now in if') ;
+        let bullionRate = 0;
+        let pendingCashAmount =0;
+        if(req.body.bullionRate!==undefined && req.body.cashAmount!==undefined){ 
+            bullionRate=req.body.bullionRate;
             cashAmount = parseInt(req.body.bullionWeight)*parseInt(req.body.bullionRate)/1000;
-        }else{ console.log('in else');
+            pendingCashAmount= req.body.cashAmount - cashAmount;
+
+            
+        }else if(req.body.cashAmount!==undefined && req.body.bullionRate===undefined){ console.log('in else');
             cashAmount = parseInt(req.body.cashAmount);
+            bullionRate = 0;
         }
+        else if(req.body.cashAmount===undefined && req.body.bullionRate!==undefined){
+            cashAmount = req.body.bullionRate*req.body.bullionWeight/1000;
+            req.body.cashAmount = 0;
+            bullionRate = req.body.bullionRate;
+        }else{
+            cashAmount=0;
+            req.body.cashAmount=0;
+        }
+        console.log(typeof(cashAmount));
+        console.log(typeof(req.body.cashAmount));
    const bullionTransaction = new bullionTransactionModel({
     _id:new mongoose.Types.ObjectId(),
     transactionType:req.body.transactionType,
     date:new Date(req.body.date),
     client:ObjectID(req.body.clientId),
     bullionWeight:req.body.bullionWeight,
-    bullionRateOfCurrentTransaction:req.body.bullionRate,
-    cashPaymentOfCurrentTransaction:parseInt(cashAmount),
+    bullionRateOfCurrentTransaction:bullionRate,
+    estimatedCashPaymentOfCurrentTransaction:parseInt(cashAmount),
+    actualCashPaymentInTheTransaction:parseInt(req.body.cashAmount),
     transactionStatus:req.body.transactionStatus,
-    bullionFineWeight:req.body.bullionWeight
+    bullionFineWeight:req.body.bullionWeight,
+    pendingCashAmountInTheTransaction: pendingCashAmount
    });
 
    bullionTransaction.save()

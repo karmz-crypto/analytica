@@ -2,9 +2,17 @@ window.onload = function(){
     console.log('sell transaction js connect');
 }
 
+
+
 function sellBullionTypeFunc(){
     
     var bullionType = document.querySelector('#sellBullionType').value;
+    if(bullionType===""){
+        document.querySelector('.errorMsgBullionType').classList.remove('d-none');
+        return;
+    }else{
+        document.querySelector('.errorMsgBullionType').classList.add('d-none');
+    }
     if(bullionType==='kachi'){
         document.querySelector('.sellKachiInputDiv').classList.remove('d-none');
     }else{
@@ -12,6 +20,15 @@ function sellBullionTypeFunc(){
     }
     if(bullionType==='choursa'){
         chcekForKachiData();
+        document.querySelector('.sellChoursaBullionForm').classList.remove('d-none');
+    }else{
+        document.querySelector('.sellChoursaBullionForm').classList.add('d-none');
+    }
+    if(bullionType==='9999_bullion'){
+        chcekForKachiData();
+        document.querySelector('.sell9999BullionForm').classList.remove('d-none');
+    }else{
+        document.querySelector('.sell9999BullionForm').classList.add('d-none');
     }
 
 }
@@ -20,6 +37,7 @@ function selectedKachiItem(event){
    var eventElement = event.target; //console.log(eventElement);
    //console.log(eventElement.tagName);
    if(eventElement.tagName==='LI'){
+       
    document.querySelector(`#${eventElement.id}`).classList.remove('list-group-item-light');
    document.querySelector(`#${eventElement.id}`).classList.add('list-group-item-primary');
    tableRowId = `row${eventElement.id}`; //this id will be of the row holding the kachi data
@@ -91,7 +109,7 @@ function chcekForKachiData(){
         document.querySelector('#modalButtonId').click();
         
     }else{
-        //if no kachi data present then what to do 
+        //if no kachi data present then what to do --notjing
     }
 }
 
@@ -102,9 +120,36 @@ function kachiDataAction(action){
         document.querySelectorAll('.tableRowClass').forEach(element=>{
             document.querySelector('.tableBody').removeChild(element);
         });
+        restoreInitialStateKachiModal();
+
     }else{
         document.querySelector('#closeButtonId').click();
         document.querySelector('#sellBullionType').selectedIndex ='1';
         sellBullionTypeFunc();
     }
+}
+
+function restoreInitialStateKachiModal(){//func to restore the state of kachi stock list modal.
+    document.querySelectorAll('.kachiStockList').forEach(element=>{
+       if(element.querySelector('button')!==null){
+        element.classList.remove('list-group-item-primary');
+        element.classList.add('list-group-item-light');
+        element.removeChild(element.querySelector('button'));
+       }else{
+           return;
+       }
+        
+    });
+}
+
+function validateDataEntry(identifier,extractor){// identifier is the class name of the div in which input is present
+    var element = document.querySelector(identifier);//extractor is class name of span where data frm db is placed 
+    
+    var value = parseFloat(element.querySelector(extractor).innerHTML);
+    if(element.querySelector('input').value>value){
+        element.querySelectorAll('.errorMsg').forEach(element=>{element.classList.remove('d-none')});
+    }else{
+        element.querySelectorAll('.errorMsg').forEach(element=>{element.classList.add('d-none')});
+    }
+
 }

@@ -20,7 +20,7 @@ db.once('open',()=>{
     console.log('db connected');
 });
 app.use(express.json());
-app.use(express.urlencoded({extended:false}));
+app.use(express.urlencoded({extended:true}));
 app.set('view engine','ejs');
 app.use(layouts);
 mongoose.Promise=global.Promise;

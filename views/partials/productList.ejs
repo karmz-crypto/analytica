@@ -1,0 +1,22 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <li class="list-group list-group-flush fw-bold">
+                Product List
+            </li>
+        </div>
+        <div class="col-12 list-group">
+            <%if(products.length){%>
+                <%products.forEach(product=>{%>
+                    <button type="button" class="list-group-item list-group-item-action" data-product-id="<%=product._id%>" onclick="addPurchaseProduct(event)">
+                        Item Name: <span class="mx-2 p-2 text-capitalize text-success" style="font-size: small;"><%=product.productDesc%></span><br>
+                        Item Tunch: <span class="mx-2 p-2 text-capitalize text-success" style="font-size: small;"><%=product.productTunch%></span><br>
+                    </button>
+                <%})%>
+            <%}else{%>
+                <li class="list-group-item list-group-item-danger">No Item Present In Stock</li>
+                <button class="btn btn-primary p-2 my-2" type="button">Add Item To Stock</button>
+            <%}%>
+        </div>
+    </div>
+</div>

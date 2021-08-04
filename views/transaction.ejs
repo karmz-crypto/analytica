@@ -1,0 +1,112 @@
+<div class="container my-2 border-primary border-1 border-bottom">
+    <div class="row">
+        <div class="col-6 p-2 border-end border-primary">
+            <button class="btn btn-primary btn-active" type="button" onclick="changePage(event)">Purchase Transaction</button>
+        </div>
+        <div class="col-6 p-2">
+            <button class="btn btn-white btn-inactive" type="button" onclick="changePage(event)">Sales Transaction</button>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <button onclick="show()">show</button>
+</div>
+
+<div class="container my-3 p-3 purchaseTransaction">
+    <div class="purchaseNavTab">
+        <button type="button" class="btn btn-secondary btn-sm mx-2 addPurchaseBtn" onclick="purchaseFormControl(event)">
+            Add Transaction
+        </button>
+    </div>
+    <div class="addPurchaseDiv d-none my-2 p-2 border-1 border-secondary border">      
+        <%- include('partials/addPurchaseForm.ejs')%>
+        
+    </div>
+    <div class="formSubmitMsg d-none text-success fw-bold text-capitalize my-2 p-2 border-1 border-secondary border">
+        <div class="formSubmitMsg-msg"></div>
+        <button class="btn btn-sm btn-white text-danger m-2 p-2" onclick="uiControlOfMsgDiv(event)">Close</button>
+
+    </div>
+    <div class="purchaseMetadata p-2 my-2">
+        <table class="table table-success table-striped">
+            <thead>
+                <tr>
+                    <td scope="col">Total Purchase Of The Day</td>
+                    <td scope="col">
+                        <div class="dropdown">
+                            <button class="btn btn-success dropdown-toggle" type="button" id="purchaseDropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                            Total Purchase
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="purchaseDropdownMenuButton">
+                                <li onclick="metadataView(event)" class="purchase"><a role="button" class="dropdown-item">Weekly Purchase</a></li>
+                                <li onclick="metadataView(event)" class="purchase"><a role="button" class="dropdown-item">Monthly Purchase</a></li>
+                                <li onclick="metadataView(event)" class="purchase"><a role="button" class="dropdown-item">Yearly Purchase</a></li>
+                                <li onclick="metadataView(event)" class="purchase"><a role="button" class="dropdown-item">Total Purchase</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <button class="btn btn-sm btn-success" type="button">
+                            View Transaction
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<div class="container my-3 p-3 salesTransaction d-none">
+    <div class="purchaseNavTab">
+        <button type="button" class="btn btn-secondary btn-sm mx-2 addSalesTransaction">Add Transaction</button>
+    </div>
+    <div class="purchaseMetadata p-2 my-2">
+        <table class="table table-success table-striped">
+            <thead>
+                <tr>
+                    <td scope="col">Total Sale Of The Day</td>
+                    <td scope="col">
+                        <div class="dropdown">
+                            <button class="btn btn-success dropdown-toggle" type="button" id="salesDropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                Total Sales
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="salesDropdownMenuButton">
+                                <li onclick="metadataView(event)" class="sales"><a role="button" class="dropdown-item activeName">Weekly Sales</a></li>
+                                <li onclick="metadataView(event)" class="sales"><a role="button" class="dropdown-item">Monthly Sales</a></li>
+                                <li onclick="metadataView(event)" class="sales"><a role="button" class="dropdown-item">Yearly Sales</a></li>
+                                <li onclick="metadataView(event)" class="sales"><a role="button" class="dropdown-item">Total Sales</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <button class="btn btn-sm btn-success">View Transaction</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+
+<script type="text/javascript" src="/transactionJS.js"></script>
+<script type="text/javascript" src="/productListJS.js"></script>
+<script type="text/javascript" src="/addPurchaseFormJS.js"></script>

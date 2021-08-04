@@ -5,6 +5,7 @@ const purchaseController = require('../controller/purchaseController');
 const productsController = require('../controller/productsController');
 const paymentController = require('../controller/paymentController');
 const bullionController = require('../controller/bullionController');
+const transactionController = require('../controller/transactionController');
 const api = express.Router();
 
 api.get('/',indexController.getIndex);
@@ -24,5 +25,6 @@ api.get('/bullion/addBullionClientForm',bullionController.addBullionClientForm);
 api.post('/bullion/addBullionClient',bullionController.addBullionClient);
 api.get('/bullion/bullionTransactionForm',bullionController.addBullionTransactionForm);
 api.post('/bullion/addBullionTransaction',bullionController.addBullionTransaction);
+api.get('/transactions',transactionController.getTransactions);
 
 module.exports = api;

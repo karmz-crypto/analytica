@@ -28,9 +28,6 @@ const bullionTransactionSchema =Schema({
         required:true
     },
     client:{type:mongoose.Schema.Types.ObjectId,ref:'BullionClient',required:true},
-    bullionCenterName:{
-        type:String
-    },
     bullionType:{
         type:String,
         default:'9999_bullion'
@@ -41,23 +38,28 @@ const bullionTransactionSchema =Schema({
     },
     bullionTunch:{
         type:Number,
+        default:100
     },
     bullionWeight:{
         type:Number,
         required:true
     },
-    bullionFineWeight:{ //if the bullion transaction is pure bullion then bullion wt & fine bullion wt will be same
-        type:Number,
-        required:true
-    },
+    bullionFineWeight:{type:Number},
     bullionRateOfCurrentTransaction:{
         type:Number
     },
-    cashPaymentOfCurrentTransaction:{ //this will affect the cash pool of the user either credit/debit.
-        type:Number
+    
+    estimatedCashPaymentOfCurrentTransaction:{ //this will affect the cash pool of the user either credit/debit.
+        type:Number,
+        required:true
     },
-    bullionPaymentOfCurrentTransaction:{ //this will affect the bullion pool of the user either credit/debit
-        type:Number
+    actualCashPaymentInTheTransaction:{
+        type:Number,
+        required:true
+    },
+    pendingCashAmountInTheTransaction:{
+        type:Number,
+        required:true
     },
     transactionStatus:{
         type:String,

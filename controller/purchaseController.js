@@ -7,6 +7,7 @@ const getDataFromDb = require('../utility/getDataFromDb');
 const { promiseImpl } = require('ejs');
 const { ObjectId } = require('bson');
 const { ObjectID } = require('bson');
+const PurchaseModel = require('../model/PurchaseModel');
 //const PurchaseModel = require('../model/PurchaseModel');
 
 exports.getPurchase = (req,res)=>{
@@ -80,7 +81,10 @@ exports.addPurchaseForm =(req,res)=>{
 };
 
 exports.addPurchase = (req,res)=>{
-
+  //console.log('u r here');
+  //console.log(req.body.purchaseSilver);
+  //console.log(req.body.date);
+  //console.log(req.body);
   //console.log(req.body.clientId);
   //console.log(req.body.purchaseCash);
   //adding the product data to product model via purchase form
@@ -104,11 +108,12 @@ exports.addPurchase = (req,res)=>{
     */
 
     //console.log(product._id);
+    /*
    const purchase = new purchaseModel({
     _id:new mongoose.Types.ObjectId(),
     client: ObjectId(req.body.clientId), // received via purchase form
     date:new Date(req.body.date),
-    product:ObjectId(req.body.productId),//received via form purchase form 
+    product:ObjectId(req.body.purchaseProductId),//received via form purchase form 
     purchaseWeight:req.body.purchaseWeight,
     purchaseTunch:req.body.purchaseTunch,
     purchaseLabourPerKg:req.body.purchaseLabourPerKg,
@@ -116,7 +121,7 @@ exports.addPurchase = (req,res)=>{
     purchaseCash:req.body.purchaseCash
    });
    purchase.save()
-        .then(()=>{ /*trial*/ clientModel.findById(req.body.clientId).exec()
+        .then(()=>{ clientModel.findById(req.body.clientId).exec()
           .then((element)=>{
                       element.purchaseCount += parseInt(1);
                       element.totalPurchaseSilver += parseInt(purchase.purchaseSilver);
@@ -141,9 +146,14 @@ exports.addPurchase = (req,res)=>{
                 })
                 .catch(error=>console.log(error))})
             .catch(error=>console.log(error));
-          res.render('success',{pageTitle:'Success'});
+          //res.render('success',{pageTitle:'Success'});
+          res.send('data submited successfully')
         })
-        .catch((error)=>{res.render('error',{pageTitle:'Error',error:error})});
+        .catch((error)=>{
+          //res.render('error',{pageTitle:'Error',error:error})
+          res.send(error);
+        }); */
+
    /*
   purchaseModel.init()
     .then(()=>{
@@ -167,5 +177,57 @@ exports.addPurchase = (req,res)=>{
 
     })//closing then promise of init
     .catch(error=>console.log(error));  */
+
+    const purchase = new PurchaseModel({
+      _id:new mongoose.Types.ObjectId(),
+      client: ObjectId(req.body.clientId), // received via purchase form
+      date:new Date(req.body.date),
+      purchaseSilver:req.body.purchaseSilver,
+      purchaseCash:req.body.purchaseCash
+    });
+    purchase.save().then(transactionData=>{
+      purchaseModel.findById(transactionData._id).exec().then(data=>{
+        console.log(req.body.purchaseProductId.length);
+        console.log((req.body.purchaseProductId).length);
+        for(var i=0;i<(req.body.purchaseProductId).length;i++){
+          data.purchaseProductInfo.push({ productId:req.body.purchaseProductId[i],
+            purchaseWeight:req.body.purchaseWeight[i],
+            purchaseTunch:req.body.purchaseTunch[i],
+            purchaseLabourPerKg:req.body.purchaseLabourPerKg[i],
+            fineSilver:parseFloat(req.body.purchaseWeight[i])*parseFloat(req.body.purchaseTunch[i])/100,
+            purchaseCash:parseFloat(req.body.purchaseWeight[i])*parseFloat(req.body.purchaseLabourPerKg[i])/1000
+          });
+        }data.save().then(updatedData=>{ console.log(`updated data${updatedData}`);
+          clientModel.findById(req.body.clientId).exec().then(clientData=>{
+            clientData.purchaseCount += parseInt(1);
+            clientData.totalPurchaseSilver += parseFloat(purchase.purchaseSilver);
+            clientData.totalPurchaseCash += parseFloat(purchase.purchaseCash);
+            clientData.purchaseProduct.push(purchase._id);
+            clientData.save().then(()=>{
+              for(var i=0;i<(req.body.purchaseProductId).length;i++){
+                productModel.findById(req.body.purchaseProductId[i]).exec().then(productElement=>{
+                  //console.log("pur"+updatedData.purchaseProductInfo[i]);
+                  updatedData.purchaseProductInfo.forEach(element=>{
+                    productElement.totalProductPurchase += parseInt(element.purchaseWeight);
+                  });
+                 // productElement.totalProductPurchase += parseInt(updatedData.purchaseProductInfo[i].purchaseWeight);
+                  productElement.numberOfPurchase += parseInt(1);
+                  productElement.productInStock = productElement.totalProductPurchase-productElement.totalProductSale;
+                  if(productElement.productInStock>0){
+                    productElement.productStatus=true;
+                    if(productElement.productInStock<1500){
+                      productElement.productStockMessage ="Running Out Of Stock !!"
+                    }else{productElement.productStockMessage=`product Available ${productElement.productInStock}`}
+                  }else{productElement.productStatus=false;}
+                  productElement.save().then(pElement=>console.log(pElement))
+                }).catch();
+              }
+            }).catch();
+          }).catch();
+        }).catch();
+        
+      }).catch();
+      res.send(true);
+    }).catch(error=>{res.send(error)});
   
 };

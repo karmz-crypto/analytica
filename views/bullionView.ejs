@@ -71,7 +71,9 @@
             Trader Name:<span class="mx-2 fw-bold"><%=data.client.bullionClientName %></span><br>
             Bullion Wt. :<span class="mx-2 fw-bold"><%=data.bullionWeight %></span>Grms<br>
             Bullion Rate: <span class="mx-2 fw-bold"><%=data.bullionRateOfCurrentTransaction%></span>Rupees<br>
-            Cash Payment:<span class="mx-2 fw-bold"> <%=data.cashPaymentOfCurrentTransaction%> </span>Rupees<br>
+            Estimated Cash Payment:<span class="mx-2 fw-bold"> <%=data.estimatedCashPaymentOfCurrentTransaction%> </span>Rupees<br>
+            Cash Payment Made:<span class="mx-2 fw-bold"><%=data.actualCashPaymentInTheTransaction%></span>Ruppes<br>
+            Pending Cash Amount:<span class="mx-2 fw-bold"><%=data.pendingCashAmountInTheTransaction%></span>Rupees
             <hr>
             <a href="/bullion/<%=data._id%>/updateTransction" style="text-decoration: none;">Complete Transaction</a> 
           </li>

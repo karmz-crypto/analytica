@@ -3,10 +3,9 @@
 
 window.onload = function(){
     console.log('js connected');
-   bullionFunc();
+   //bullionFunc();
 };
-
-
+/*
 function bullionFunc(){
     if(document.querySelector('#transactionTypeBuy').checked){
        document.querySelectorAll('.buyBullionForm').forEach((element)=>{
@@ -149,7 +148,7 @@ function completeCashTransactionInfo(){
     document.querySelector('.completeCashDebitInfo').innerHTML = document.querySelector('#bullionFineWeight').value*document.querySelector('.bullionRateCheckTrue').value/1000;
     var wordAmt = convertNumberToWords(document.querySelector('#bullionFineWeight').value*document.querySelector('.bullionRateCheckTrue').value/1000);
     document.querySelector('.completeCashDebitWord').innerHTML=wordAmt;
-}
+} */
 /*
 function addKachiFormFields(){
     if(localStorage.getItem('FormState')!==null){
@@ -217,6 +216,7 @@ function removeFormFields(numberOfFields){
 }
 */
 
+/*
 function addKachiFormFields(action){
     var len = document.querySelectorAll('.tableIndex').length;
     if(action!=='remove'){
@@ -463,9 +463,361 @@ function sellBullionTypeFunc(){
     if(document.querySelector('#sellBullionType').value===""){
         document.querySelector('.errorMsgBullionType').classList.remove('d-none');
     }
+} */
+
+
+function bullionFunc1(event,action,inaction){
+   displayAction(action);
+   hideAction(inaction);
+
+}
+
+function displayAction(action){
+    document.querySelectorAll(action).forEach(element=>{
+        element.classList.remove('d-none');
+        enableAction(element);
+    });
+}
+
+function enableAction(element){
+    let formFields = ['input','radio','checkbox','select'];
+    formFields.map(fields=>{
+        element.querySelectorAll(fields).forEach(field=>{
+            field.removeAttribute('disabled');
+        });
+    });
+}
+
+function hideAction(inaction){
+    document.querySelectorAll(inaction).forEach(element=>{
+        element.classList.add('d-none');
+        disableAction(element);
+    });
+}
+
+function disableAction(element){
+    let formFields = ['input','radio','checkbox','select'];
+    formFields.map(fields=>{
+        element.querySelectorAll(fields).forEach(field=>{
+            field.setAttribute('disabled',true);
+        });
+    });
+}
+
+function calculateAmountEstimated(divClass,displayAt,dataExtractFrom){
+    //it first finds the limitedElement that is the limited area of the html page to query the place where the amount will be displayed
+    // and any amount in number will be displayed in words too ...
+    //the arguments required 1. the limitedElement defined by the div class within which these elements exist 
+    // 2. the value element 
+    //disaplyAt is an array of class names where the calculated amt and number in words will be affixed
+    var limitedElement = document.querySelector(divClass);
+    //console.log(limitedElement.querySelector('input[]'))
+    limitedElement.querySelector(displayAt[0]).innerHTML =  parseFloat(limitedElement.querySelector(`input[name=${dataExtractFrom[0]}]`).value)*parseFloat(limitedElement.querySelector(`input[name=${dataExtractFrom[1]}]`).value/1000);
+    var wordString = convertNumberToWords(limitedElement.querySelector(displayAt[0]).innerHTML );
+    limitedElement.querySelector(displayAt[1]).innerHTML = wordString;
+}
+
+function pendingAmount(divClass,displayAt,dataExtractFrom){
+    //to claculate pending cash amount the logic should be estimated amount - cash Amount 
+    // we are going to have a <span>estimated cash amount</span> from which we will extract data 
+    //1. from where to extract data ---- one from span and other from input 
+    //2. what operation to carry out
+    //3.where to display the data .
+    limitedElement = document.querySelector(divClass);
+    limitedElement.querySelector(displayAt[0]).innerHTML= parseFloat(document.querySelector(dataExtractFrom[0]).innerHTML)-parseFloat(document.querySelector(`input[name=${dataExtractFrom[1]}]`).value);
+    if(parseFloat(limitedElement.querySelector(displayAt[0]).innerHTML)<0){
+        //limitedElement.querySelector(displayAt[1]).style.fontColor='green';
+        var wordString = convertNumberToWords(Math.abs(limitedElement.querySelector(displayAt[0]).innerHTML));
+        limitedElement.querySelector(displayAt[1]).innerHTML = `Amount In Excess : ${wordString}`;
+    }else if(parseFloat(limitedElement.querySelector(displayAt[0]).innerHTML)>0){
+        var wordString = convertNumberToWords(limitedElement.querySelector(displayAt[0]).innerHTML);
+        limitedElement.querySelector(displayAt[1]).innerHTML = wordString;
+    }else{
+        var wordString = convertNumberToWords(limitedElement.querySelector(displayAt[0]).innerHTML);
+    limitedElement.querySelector(displayAt[1]).innerHTML = wordString;}
 }
 
 
+function convertNumberToWords(amount) {
+    var words = new Array();
+    words[0] = '';
+    words[1] = 'One';
+    words[2] = 'Two';
+    words[3] = 'Three';
+    words[4] = 'Four';
+    words[5] = 'Five';
+    words[6] = 'Six';
+    words[7] = 'Seven';
+    words[8] = 'Eight';
+    words[9] = 'Nine';
+    words[10] = 'Ten';
+    words[11] = 'Eleven';
+    words[12] = 'Twelve';
+    words[13] = 'Thirteen';
+    words[14] = 'Fourteen';
+    words[15] = 'Fifteen';
+    words[16] = 'Sixteen';
+    words[17] = 'Seventeen';
+    words[18] = 'Eighteen';
+    words[19] = 'Nineteen';
+    words[20] = 'Twenty';
+    words[30] = 'Thirty';
+    words[40] = 'Forty';
+    words[50] = 'Fifty';
+    words[60] = 'Sixty';
+    words[70] = 'Seventy';
+    words[80] = 'Eighty';
+    words[90] = 'Ninety';
+    amount = amount.toString();
+    var atemp = amount.split(".");
+    var number = atemp[0].split(",").join("");
+    var n_length = number.length;
+    var words_string = "";
+    if (n_length <= 9) {
+        var n_array = new Array(0, 0, 0, 0, 0, 0, 0, 0, 0);
+        var received_n_array = new Array();
+        for (var i = 0; i < n_length; i++) {
+            received_n_array[i] = number.substr(i, 1);
+        }
+        for (var i = 9 - n_length, j = 0; i < 9; i++, j++) {
+            n_array[i] = received_n_array[j];
+        }
+        for (var i = 0, j = 1; i < 9; i++, j++) {
+            if (i == 0 || i == 2 || i == 4 || i == 7) {
+                if (n_array[i] == 1) {
+                    n_array[j] = 10 + parseInt(n_array[j]);
+                    n_array[i] = 0;
+                }
+            }
+        }
+        var value = "";
+        for (var i = 0; i < 9; i++) {
+            if (i == 0 || i == 2 || i == 4 || i == 7) {
+                value = n_array[i] * 10;
+            } else {
+                value = n_array[i];
+            }
+            if (value != 0) {
+                words_string += words[value] + " ";
+            }
+            if ((i == 1 && value != 0) || (i == 0 && value != 0 && n_array[i + 1] == 0)) {
+                words_string += "Crores ";
+            }
+            if ((i == 3 && value != 0) || (i == 2 && value != 0 && n_array[i + 1] == 0)) {
+                words_string += "Lakhs ";
+            }
+            if ((i == 5 && value != 0) || (i == 4 && value != 0 && n_array[i + 1] == 0)) {
+                words_string += "Thousand ";
+            }
+            if (i == 6 && value != 0 && (n_array[i + 1] != 0 && n_array[i + 2] != 0)) {
+                words_string += "Hundred and ";
+            } else if (i == 6 && value != 0) {
+                words_string += "Hundred ";
+            }
+        }
+        words_string = words_string.split("  ").join(" ");
+    }
+    return words_string;
+}
+
+function validateForm(){
+    //validate the data entry ....
+    //date data ... date must not be of future unless a special case suggest
+    //input ... weight amount must not be in negative 
+    // select must not be value=""
+    //logic when we submit the form 
+    // all the formfields without disabled attribute will be validated for its data entry i.e input and select only in my case.
+    //input can be weight /name/amount 
+    
+    let errorElements = [];
+    let formFields = ['input','select'];
+    //console.log(document.querySelector('input'));
+    formFields.map(fields=>{
+        if(fields!=='select'){
+            document.querySelectorAll(fields).forEach(field=>{
+                if(field.getAttribute('disabled')){
+                    return;
+                }else{
+                    if(field.getAttribute('type')==='radio'){ 
+                        let attrName = field.getAttribute('name');
+                        //console.log(attrName);
+                        let element = document.querySelectorAll(`input[name=${attrName}]`);
+                        for(var i=0;i<element.length;i++){
+                            // console.log(element[i]);
+                            
+                                //errorElements.push(element[i]);
+                            
+                            if(i===element.length-1){return; //to make sure that loop is run 1 less than the length of element list
+                            }else{
+                                if(element[i].checked || element[i+1].checked){
+                                    
+                                    if(element[i+1].parentElement.parentElement.querySelector('.errorMsg')){
+                                    
+                                        restoreFormFields(element[i+1]);
+                                        for(var i=0;i<element.length;i++){
+                                            sliceArray(element[i],errorElements);
+                                        }
+                                    }else{
+                                        return;
+                                    }  
+                                }else{
+                                    errorElements.push(element[i]);
+                                    errorElements.push(element[i+1]);
+                                    
+                                    
+                                    if(element[i].parentElement.parentElement.querySelector('.errorMsg')!==null){
+                                        return;
+                                    }else{
+                                    element[i+1].parentElement.parentElement.appendChild(createElementFunc('li','*one of the options must be selected'));
+                                    decorateErrorFormFields(element[i+1]);
+                                    
+
+                                
+                                    //console.log(element[i+1].parentElement.parentElement);
+                                    }
+                                }
+                            } 
+                        }
+                    }else if(field.getAttribute('type')==='checkbox'){
+
+                    }else if(field.getAttribute('type')==='number'){
+                        if(field.getAttribute('aria-type')){
+                            if(field.getAttribute('aria-type')==='amount'||field.getAttribute('aria-type')==='weight'){
+                                if(field.value < 0 || field.value === '-0'){
+                                    errorElements.push(field);
+                                    
+                                    //field.appendChild(createElementFunc('li'));
+                                    if(field.parentElement.parentElement.querySelector('.errorMsg')){
+                                        return;
+                                    }else{
+                                        field.parentElement.parentElement.appendChild(createElementFunc('li','*negative value is not accepted'));
+                                        decorateErrorFormFields(field);
+                                        //document.querySelector('.submitButton').setAttribute('disabled',true);//disable submit
+                                        
+                                    }
+                                   
+                                       
+                                }else{
+                                    restoreFormFields(field);
+                                    sliceArray(field,errorElements);
+                                    document.querySelector('.submitButton').removeAttribute('disabled');// enable submit
+                                }
+                            }
+                        }
+
+                    }else if(field.getAttribute('type')==='text'){
+                        var regex = [a-zA-Z][a-zA-Z ]+[a-zA-Z]*$;
+                        var isValid = regex.test(field.value);
+                        if(isValid){
+                            //if true then valid match
+                            restoreFormFields(field);
+                            sliceArray(field,errorElements);
+                            document.querySelector('.submitButton').removeAttribute('disabled');// enable submit
+                        }else{
+                            //else if match is not valid
+                            if(field.parentElement.parentElement.querySelector('.errorMsg')){
+                                return;
+                            }else{
+                                field.parentElement.parentElement.appendChild(createElementFunc('li','*negative value is not accepted'));
+                                decorateErrorFormFields(field);
+                                errorElements.push(field);
+                                //document.querySelector('.submitButton').setAttribute('disabled',true);//disable submit
+                                
+                            }
+                        }
+                        
+                    }else{return;}
+                    
+                }
+            });
+
+
+        }else{//for fields select
+
+            document.querySelectorAll(fields).forEach(field=>{
+                if(field.getAttribute('disabled')){
+                    return;
+                }else{
+                    if(field.value!==""){
+                        //if values of the field is acceptable
+                        restoreFormFields(field);
+                        sliceArray(field,errorElements);
+                        //document.querySelector('.submitButton').removeAttribute('disabled');// enable submit
+    
+                    }else{
+                        // if the field value is not acceptable
+                        if(field.parentElement.parentElement.querySelector('.errorMsg')){
+                            return;
+                        }else{
+                            field.parentElement.parentElement.appendChild(createElementFunc('li','*select valid option'));
+                            decorateErrorFormFields(field);
+                            errorElements.push(field);
+                            
+                           // document.querySelector('.submitButton').setAttribute('disabled',true);//disable submit
+                            
+                        }
+    
+                    }
+                }
+                
+            });
+            
+        }
+    });
+
+   
+    setOnClickValidation(errorElements);
+    if(errorElements.length!==0){
+        return;
+    }else{
+        
+        document.querySelector('.submitButton').setAttribute('type','submit');
+    
+    }
+}
+
+function setOnClickValidation(errorElements){
+    errorElements.map(element=>{
+        if(element.type==='radio'||element.type==='checkbox'){
+            element.setAttribute('onclick','validateForm()');
+        }else if(element.type==='number'|| element.type==='text'){
+            element.setAttribute('onkeyup','validateForm()');
+        }
+        
+    });
+}
+
+function sliceArray(element,arrayList){ // this function is to remove the element when error is corrected 
+    let indexElement = arrayList.indexOf(element);//arrayList is a variable holding the array of elements that are error
+    arrayList.slice(indexElement,1);
+}
+
+
+function decorateErrorFormFields(element){
+    element.parentElement.parentElement.classList.add('border-1','border-danger','border','shadow', 'p-3', 'mb-5', 'bg-body', 'rounded');
+   
+}
+
+function restoreFormFields(element){ // this function will restore the form fields once the error is corrected 
+    
+    element.parentElement.parentElement.classList.remove('border-1','border-danger','border','shadow', 'p-3', 'mb-5', 'bg-body', 'rounded');
+    if(element.parentElement.parentElement.querySelector('.errorMsg')){
+        element.parentElement.parentElement.removeChild(element.parentElement.parentElement.querySelector('.errorMsg'));
+    }else{
+        return;
+    }
+}
+
+function createElementFunc(element,msg){ // this will ceate a list containing the error msg ...
+    let liElement = document.createElement(element);
+    liElement.classList.add('list-group','list-group-flush','text-danger','text-capitalize','errorMsg');
+    liElement.appendChild(document.createTextNode(msg));
+    return liElement;
+}
+
+function dateLimit(dateClass){
+    document.querySelector(dateClass).max = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().split("T")[0];
+}
 
 
 
