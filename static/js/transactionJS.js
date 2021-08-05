@@ -131,14 +131,13 @@ function uiControlOfMsgDiv(event){ // class formSubmitMsg
 
 function removeProduct(event){//target paramenter is for the target table body(tbody) from which to remove the product.
     let productId = event.target.dataset.productId;
-    let selectedElement;
-    console.log(productId);
+    //console.log(productId);
     let inputElement = document.querySelector('.purchaseProductListTableBody').querySelectorAll('input');
-    selectedElement= inputElement.forEach(element=>{
+     inputElement.forEach(element=>{
         if(element.value===productId){
-         removeCalulation(element);
+         removeCalulation(element.parentElement);//passing argument (row element to capture the data and manipulate the formCalculation)
          element.parentElement.parentElement.removeChild(element.parentElement);
-    }
+        }
     });
     
     //console.log(selectedElement);
@@ -150,10 +149,41 @@ function removeProduct(event){//target paramenter is for the target table body(t
     console.log(tbody);
     tbody.removeChild(rowElement[rowElement.length-1]);*/
 
+    // to check if any product is present in the table if not then hide the heading and the final form calulation 
+
+    let rowElement = document.querySelector('.purchaseProductListTableBody').querySelectorAll('tr');
+    if(rowElement.length===0){ 
+        document.querySelector('.purchaseTableDiv').classList.add('d-none');
+        document.querySelector('.purchaseProductFinalAmount').classList.add('d-none');
+    }
+
 
 }
 
 function removeCalulation(element){
-   console.log(element)
+    let elementObject = {};
+   
+        elementObject.purchaseWeight = element.querySelector('input[name="purchaseWeight"]').value;
+        elementObject.purchaseTunch = element.querySelector('input[name="purchaseTunch"]').value;
+        elementObject.purchaseLabourPerKg = element.querySelector('input[name="purchaseLabourPerKg"]').value;
+        console.log(elementObject);
 
+            document.querySelector('.purchaseProductFinalAmount').querySelectorAll('input').forEach(inputElement=>{
+                
+                if(inputElement.getAttribute('name')==='netWeight'){ 
+                    if(elementObject.purchaseWeight!==""){
+                        inputElement.value = inputElement.value - elementObject.purchaseWeight;
+                    }
+                }
+                 if(inputElement.getAttribute('name')==='purchaseSilver'){
+                    if(elementObject.purchaseTunch!==""){
+                        inputElement.value = inputElement.value-(elementObject.purchaseWeight*elementObject.purchaseTunch/100);
+                    }
+                }
+                 if(inputElement.getAttribute('name')==='purchaseCash'){ 
+                    if(elementObject.purchaseLabourPerKg!==""){
+                        inputElement.value = inputElement.value-(elementObject.purchaseWeight*elementObject.purchaseLabourPerKg/1000);
+                    }  
+                }
+            });  
 }

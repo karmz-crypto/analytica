@@ -92,12 +92,18 @@ function setAttributes(el, attrs) {
       let isPresent = false;
     var tableClass = document.querySelector('.purchaseProductListTableBody');
     tableClass.querySelectorAll('input').forEach(element=>{
-        if(eventElement.dataset.productId===element.value){
-            let span = document.createElement('span');
-            span.classList.add('text-danger','text-capitalize');
-            span.style.fontSize ="small";
-            span.appendChild(document.createTextNode('the product is already added. You can remove the product or change the weight of the purchase'));
-            eventElement.appendChild(span);
+        if(eventElement.dataset.productId===element.value){ 
+                if(!eventElement.querySelector('.itemPresentMsg')){
+                    let span = document.createElement('span');
+                    span.classList.add('text-danger','text-capitalize','itemPresentMsg');
+                    span.style.fontSize ="small";
+                    span.appendChild(document.createTextNode('the product is already added. You can remove the product or change the weight of the purchase'));
+                    eventElement.appendChild(span);
+                }
+                //console.log(eventElement.querySelectorAll('span'));
+                
+            
+           
             isPresent = true;
         }
     });
