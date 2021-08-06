@@ -58,6 +58,9 @@ function purchaseFormControl(event){
     if(eventElement.classList.contains('addPurchaseBtn')){
         document.querySelector('.addPurchaseDiv').classList.remove('d-none');
         document.querySelector('.addPurchaseDiv').querySelector('fieldset').removeAttribute('disabled');
+        document.querySelector('.addPurchaseDiv').querySelectorAll('button').forEach(button=>{
+            button.removeAttribute('disabled');
+        });
     }
 }
 
@@ -82,7 +85,6 @@ function purchasePostData(target){
     };
     
     //postData ={product:{purchaseProductId,purchaseWeight,purchaseTunch,purchaseLabourPerkg}}
-    console.log(postObject);
     let url = '/purchase/addPurchase';
     fetch(url,{
         method:"POST",
@@ -98,9 +100,8 @@ function purchasePostData(target){
     })}).catch();
 }
 
-function extractData(name){
+function extractData(name){ //this func is to extract data from the html page 
     let arr =[];
-    let retrunData;
     var elements = document.querySelectorAll(`input[name=${name}]`);
     if(elements.length!==1){
         for(var i=0;i<elements.length;i++){
@@ -139,7 +140,7 @@ function removeProduct(event){//target paramenter is for the target table body(t
          element.parentElement.parentElement.removeChild(element.parentElement);
         }
     });
-    
+    restoreProdutListState(productId);
     //console.log(selectedElement);
     
     //removeCalulation(productIdentity);//to remove the data from form calulaton on removing of the item .
@@ -160,7 +161,7 @@ function removeProduct(event){//target paramenter is for the target table body(t
 
 }
 
-function removeCalulation(element){
+function removeCalulation(element){ //func to remove the data from the final calculation after the product is removed.
     let elementObject = {};
    
         elementObject.purchaseWeight = element.querySelector('input[name="purchaseWeight"]').value;
@@ -187,3 +188,93 @@ function removeCalulation(element){
                 }
             });  
 }
+
+function restoreProdutListState(productId){
+    document.querySelector('#productListInPurchaseForm').querySelector('.modal-body').querySelectorAll('button')
+        .forEach(button=>{
+            if(button.dataset.productId===productId){
+                if(button.querySelector('.itemPresentMsg')){
+                    button.removeChild(button.querySelector('.itemPresentMsg'));
+                }
+                
+            }
+        })
+}
+
+//function to control form data entry ...........
+function formDataControl(event){ 
+    if(event.target.tagName==='SELECT'){
+        if(event.target.value===""){ 
+            let span= document.createElement('span');
+            span.classList.add('text-capitalize','text-danger','errorMsgSpan');
+            span.style.fontSize="small";
+            event.target.classList.add('border', 'border-1','border-danger','rounded');
+            span.appendChild(document.createTextNode('*please select appropriate option.'))
+            event.target.parentElement.appendChild(span);
+            validFormSubmit(false);
+            
+        }else{
+            if(event.target.parentElement.querySelector('.errorMsgSpan')){
+                event.target.parentElement.removeChild(event.target.parentElement.querySelector('.errorMsgSpan'));
+                event.target.classList.remove('border', 'border-1','border-danger','rounded');
+                validFormSubmit(true);
+            }
+           
+        }
+    }
+    if(event.target.tagName==='INPUT'){ console.log('input');
+        var patt = -/[0-9]/;
+        if(event.target.value===""||event.target.value<0||event.target.value===(event.target.value).match(patt)){ console.log('value less 0');
+            let span= document.createElement('span');
+            span.classList.add('text-capitalize','text-danger','errorMsgSpan');
+            span.style.fontSize="small";
+            event.target.classList.add('border', 'border-1','border-danger','rounded');
+            span.appendChild(document.createTextNode('*negative values are not permitted'))
+            event.target.parentElement.appendChild(span);
+            validFormSubmit(false);
+        }else{
+            if(event.target.parentElement.querySelector('.errorMsgSpan')){
+                event.target.parentElement.removeChild(event.target.parentElement.querySelector('.errorMsgSpan'));
+                event.target.classList.remove('border', 'border-1','border-danger','rounded');
+                validFormSubmit(true);
+            }
+        }
+    }
+}
+
+function dateLimit(dateClass){ console.log('datecontrol');
+    let formFields = ['select','input'];
+    formFields.map(fields=>{
+        document.querySelectorAll(fields).forEach(field=>{
+            if(field.getAttribute('disabled')){
+                return;
+            }else{
+                field.setAttribute('onfocusout','formDataControl(event)');
+            }
+        });
+    });
+    document.querySelector(dateClass).max = new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000).toISOString().split("T")[0];
+    document.querySelectorAll('select').forEach(select=>{ 
+        if(!select.getAttribute('disabled')){ 
+            select.classList.remove('d-none');
+        }
+    });
+}
+
+function validFormSubmit(isTrue){ // tru : enables submit btn &&& flase: disables submit btn.
+    if(isTrue){ console.log(isTrue);
+        document.querySelectorAll('.submitForm').forEach(button=>{ console.log(button.parentElement);
+            if(!button.parentElement.parentElement.querySelector('input').getAttribute('disabled')){
+                button.removeAttribute('disabled');
+            }
+        });
+    }else{ console.log(isTrue);
+        document.querySelectorAll('.submitForm').forEach(button=>{ console.log(button.parentElement);
+            if(!button.parentElement.parentElement.querySelector('input').getAttribute('disabled')){
+                button.setAttribute('disabled',true);
+            }
+        });
+    }
+}
+
+

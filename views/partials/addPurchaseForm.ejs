@@ -64,23 +64,23 @@
     <fieldset class="purchaseFieldSet" disabled>
       <div class="row">
         <div class="col-6">
-          <div class="mb-1">
+          <div class="mb-3">
             <label for="date" class="form-label">Date</label>
-            <input type="date" name="date" class="form-control" id="date" required>
+            <input type="date" name="date" class="form-control dateClass" id="date" required onclick="dateLimit('.dateClass')">
             <div class="form-text">Date is must for any entry</div>
           </div>
         </div>
       </div>
-      <div class="row">
+      <div class="row ">
         <div class="col-12">
-          <div class="mb-1">
-            <select name="clientId" class="form-select">
-              <option selected>Select a Client</option>
+          <div class="mb-3">
+            <select  name="clientId" class="form-select d-none">
+              <option value="">Select a Client</option>
                 <%clients.forEach(clientElement=>{%>
               <option value="<%=clientElement._id%>"><%=clientElement.clientName%></option>
                   <%})%>
             </select>
-            </div>
+          </div>
             <div class="form-text text-capitalize">
               <a href="/clients/addClientsForm" style="text-decoration: none;">
                 client not present in the list click to add a client
@@ -188,9 +188,9 @@
         
       </div>-->
       <div class="col-12 my-2 p-2 formActionBtn">
-        <button type="button" class="btn btn-primary btn-sm p-2 mx-2 submitForm" style="letter-spacing: 0.08rem;" onclick="purchasePostData('.addPurchaseDiv')">Submit</button>
-        <button type="reset" class="btn btn-whte p-2 btn-sm mx-2 resetForm float-end" style="letter-spacing: 0.08rem;">Reset</button>
-        <button type="button" class="btn btn-danger btn-sm mx-2 p-2 float-end closeForm" style="letter-spacing: 0.08rem;" onclick="closeForm('.addPurchaseDiv')">Close</button>
+        <button disabled type="button" class="btn btn-primary btn-sm p-2 mx-2 submitForm" style="letter-spacing: 0.08rem;" onclick="purchasePostData('.addPurchaseDiv')">Submit</button>
+        <button disabled type="reset" class="btn btn-whte p-2 btn-sm mx-2 resetForm float-end" style="letter-spacing: 0.08rem;">Reset</button>
+        <button disabled type="button" class="btn btn-danger btn-sm mx-2 p-2 float-end closeForm" style="letter-spacing: 0.08rem;" onclick="closeForm('.addPurchaseDiv')">Close</button>
       </div>
     
     </fieldset>
