@@ -21,11 +21,11 @@ function topBtnDesign(eventElement){
         //eventElement.classList.add('btn-active','btn-primary');
         eventElement.parentElement.parentElement.querySelectorAll('button').forEach(btnElement=>{
             if(btnElement.classList.contains('btn-active')){
-                btnElement.classList.remove('btn-active','btn-primary');
+                btnElement.classList.remove('btn-active','btn-success');
                 btnElement.classList.add('btn-white','btn-inactive');
             }else{ 
                 btnElement.classList.remove('btn-inactive','btn-white');
-                btnElement.classList.add('btn-active','btn-primary');
+                btnElement.classList.add('btn-active','btn-success');
             }
         });
         return true;
