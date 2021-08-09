@@ -51,7 +51,7 @@
                 <tr>
                     <td>
                         <%let purchaseToday=0; purchase.forEach(purchaseData=>{let purchaseDate= new Date(purchaseData.date);let today= new Date()%>
-                            <%if (purchaseDate.getFullYear()===today.getFullYear()&& purchaseDate.getMonth()===today.getMonth()&&purchaseDate.getDate()===today.getDate()){%>
+                            <%if (parseInt(new Date().getTime()-new Date(purchaseData.date).getTime())<=1){%>
                                 <%purchaseToday+=purchaseData.purchaseSilver%>
                             <%}%>
                             <%})%>
