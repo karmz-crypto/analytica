@@ -28,7 +28,7 @@
 
     </div>
     <div class="purchaseMetadata p-2 my-2">
-        <table class="table table-success table-striped">
+        <table class="table table-success metadataViewPurchaseTable table-striped">
             <thead>
                 <tr>
                     <td scope="col">Total Purchase Of The Day</td>
@@ -38,10 +38,10 @@
                             Total Purchase
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="purchaseDropdownMenuButton">
-                                <li onclick="metadataView(event)" class="purchase"><a role="button" class="dropdown-item">Weekly Purchase</a></li>
-                                <li onclick="metadataView(event)" class="purchase"><a role="button" class="dropdown-item">Monthly Purchase</a></li>
-                                <li onclick="metadataView(event)" class="purchase"><a role="button" class="dropdown-item">Yearly Purchase</a></li>
-                                <li onclick="metadataView(event)" class="purchase"><a role="button" class="dropdown-item">Total Purchase</a></li>
+                                <li onclick="metadataView(event)" class="purchase weekly"><a role="button" class="dropdown-item">Weekly Purchase</a></li>
+                                <li onclick="metadataView(event)" class="purchase monthly"><a role="button" class="dropdown-item">Monthly Purchase</a></li>
+                                <li onclick="metadataView(event)" class="purchase yearly"><a role="button" class="dropdown-item">Yearly Purchase</a></li>
+                                <li onclick="metadataView(event)" class="purchase total"><a role="button" class="dropdown-item">Total Purchase</a></li>
                             </ul>
                         </div>
                     </td>
@@ -49,8 +49,31 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>Mark</td>
-                    <td>Otto</td>
+                    <td>
+                        <%let purchaseToday=0; purchase.forEach(purchaseData=>{%>
+                            <%if(new Date(purchaseData.date).toDateString()===new Date().toDateString()){%>
+                                <%purchaseToday+=purchaseData.purchaseSilver%>
+                            <%}%>
+                            <%})%>
+                            <span class="fw-bold text-success mx-2"><%=purchaseToday%></span> Grms
+                    </td> 
+                    <td>    
+                        <% let purchaseWeekly=0;let purchaseMonthly=0;let purchaseYearly=0;let purchaseTotal=0%>
+                        <%purchase.forEach(purchaseData=>{%>
+                            <%purchaseTotal+=purchaseData.purchaseSilver%>
+                            <% let days = parseInt((new Date().getTime()-new Date(purchaseData.date).getTime())/(1000*3600*24))%>
+                            <%if(days<8){%>
+                                <%purchaseWeekly+=purchaseData.purchaseSilver%> <%}%>
+                                <%if(days<32){%>
+                                    <%purchaseMonthly+=purchaseData.purchaseSilver}%>
+                                <%if(days<367){%>
+                                    <%purchaseYearly+=purchaseData.purchaseSilver}%>
+                            <%})%>
+                           <span class="fw-bold text-success mx-2 weeklyPurchase d-none"><%=purchaseWeekly%> Grms</span> 
+                           <span class="fw-bold text-success mx-2 monthlyPurchase d-none"><%=purchaseMonthly%> Grms</span> 
+                           <span class="fw-bold text-success mx-2 yearlyPurchase d-none"><%=purchaseYearly%> Grms</span> 
+                           <span class="fw-bold text-success mx-2 totalPurchase"><%=purchaseTotal%> Grms</span> 
+                    </td>
                 </tr>
                 <tr>
                     <td colspan="2">

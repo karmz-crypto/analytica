@@ -41,16 +41,51 @@ function show(){ //temp
     document.querySelector('.purchaseTransaction').classList.add('d-none');
 }
 
-function metadataView(event){ console.log('in func');
+function metadataView(event){ //console.log('in func');
     let salesElement = document.querySelector('#salesDropdownMenuButton');
     let purchaseElement = document.querySelector('#purchaseDropdownMenuButton');
-    let eventElement = event.target; console.log(eventElement.parentElement);
-    if(eventElement.parentElement.classList.contains('sales')){ console.log('pur contains')
+    let eventElement = event.target; //console.log(eventElement.parentElement);
+    if(eventElement.parentElement.classList.contains('sales')){ //console.log('pur contains')
         salesElement.innerHTML = eventElement.innerHTML;
-    }else if(eventElement.parentElement.classList.contains('purchase')){ console.log('contains');
+    }else if(eventElement.parentElement.classList.contains('purchase')){ //console.log('contains');
         purchaseElement.innerHTML = eventElement.innerHTML;
+        viewMetaData(eventElement);
     }
 
+}
+
+function viewMetaData(eventElement){
+    if(eventElement.parentElement.classList.contains('purchase')){
+        let purchaseMetaData = document.querySelector('.metadataViewPurchaseTable');
+        if(eventElement.parentElement.classList.contains('weekly')){    
+            purchaseMetaData.querySelector('.weeklyPurchase').classList.remove('d-none');
+            doNotDisplay(eventElement,'.weeklyPurchase',purchaseMetaData);
+        }else if(eventElement.parentElement.classList.contains('monthly')){
+            purchaseMetaData.querySelector('.monthlyPurchase').classList.remove('d-none');
+            doNotDisplay(eventElement,'.monthlyPurchase',purchaseMetaData);
+        }else if(eventElement.parentElement.classList.contains('.yearlyPurchase')){
+            purchaseMetaData.querySelector('.yearlyPurchase').classList.remove('d-none');
+            doNotDisplay(eventElement,'.yearlyPurchase',purchaseMetaData);
+        }else{
+            purchaseMetaData.querySelector('.totalPurchase').classList.remove('d-none');
+            doNotDisplay(eventElement,'.totalPurchase',purchaseMetaData);
+        }
+    }else{
+
+    }
+}
+
+function doNotDisplay(eventElement,except,serachIn){
+    let purchaseClassElements = ['.weeklyPurchase','.monthlyPurchase','.yearlyPurchase','.totalPurchase'];
+    if(eventElement.parentElement.classList.contains('purchase')){
+        purchaseClassElements.map(element=>{
+            if(element===except){
+                return;
+            }else{
+                serachIn.querySelector(element).classList.add('d-none');
+            }
+        });
+    }
 }
 
 function purchaseFormControl(event){
@@ -62,6 +97,10 @@ function purchaseFormControl(event){
             button.removeAttribute('disabled');
         });
     }
+    if(!eventElement.parentElement.parentElement.querySelector('.formSubmitMsg').classList.contains('d-none')){
+        eventElement.parentElement.parentElement.querySelector('.formSubmitMsg').classList.add('d-none');
+    }
+    
 }
 
 function closeForm(target){
@@ -92,7 +131,7 @@ function purchasePostData(target){
         headers:{"content-type":"application/json; charset=UTF-8"}
     }).then(res=>{res.json().then(data=>{
         if(data===true){
-
+            location.reload();
             (document.querySelector(target).parentElement).querySelector('.formSubmitMsg').querySelector('.formSubmitMsg-msg').innerHTML = "your data was succesfully submitted !!"
             closeForm(target);
             (document.querySelector(target).parentElement).querySelector('.formSubmitMsg').classList.remove('d-none');

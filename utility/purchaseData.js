@@ -14,7 +14,7 @@ function getPurchaseData(req,res){
     }else{
        // var query = purchaseModel.find().exec();
         var promiseData = new Promise((resolve,reject)=>{
-            var query = purchaseModel.findById(paramId).exec();
+            var query = purchaseModel.find().exec();
             if(query){resolve(query)}else{reject(error)}
         });
     }
