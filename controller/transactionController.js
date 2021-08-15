@@ -18,3 +18,12 @@ exports.getTransactions = (req,res)=>{
     }).catch();
      
 };
+
+exports.getTransactionPurchase = (req,res)=>{
+   
+    let purchase = purchaseData.getPurchaseData(req,res);
+    Promise.all([purchase]).then(result=>{
+        purchaseDataItem = result[0];
+        res.send(purchaseDataItem);
+    }).catch(error=>{res.send(error)});
+};

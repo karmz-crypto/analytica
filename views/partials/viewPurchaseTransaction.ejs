@@ -1,0 +1,61 @@
+<div class="container p-2">
+    <li class="list-group-item list-group-item-dark">Recent Purchase Transaction</li>
+</div>
+<div class="container p-2">
+    <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+</div>
+<div class="container my-2 p-2  border border-1 border-secondary rounded">
+    <% purchase.forEach(purchaseData=>{%>
+        <% if(parseInt((new Date().getTime()-new Date(purchaseData.date).getTime())/(1000*3600*24))<2){%>
+        <li class="list-group-item list-group-item-action clientDetails list-group-item-success">
+            <span class="fw-bold"><%= purchaseData.client.clientName%></span>
+            <span class="float-end mx-2">
+                <%=purchaseData.date.toDateString()%>
+            </span>
+        </li>
+        <li class="list-group-item list-group-item-success purchaseDetails ">
+            Fine Silver:<span class="mx-2"><%= purchaseData.purchaseSilver%></span>
+            Cash :<span class="mx-2"><%= purchaseData.purchaseCash%></span><br>
+        </li>
+        <li class="list-group-item list-group-item-success mb-3">
+            <button type="button" class="btn btn-sm btn-success" data-id="<%=purchaseData._id%>" data-bs-toggle="modal" data-bs-target="#transactionDetailModal" onclick="getPurchaseData(event)" >
+                View Details
+            </button>
+        </li>
+        
+
+    <%}})%>
+    <div class="my-1">
+        <button class="btn btn-sm btn-success">
+            View Complete Transaction
+        </button>
+        <button class="btn btn-sm btn-danger mx-5">
+            Close
+        </button>
+    </div>
+</div>
+
+<!--transaction detail modal -->
+<!-- Button trigger modal -->
+  <!-- Modal -->
+  <div class="modal fade" id="transactionDetailModal" tabindex="-1" aria-labelledby="transactionDetailLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-success" id="transactionDetailLabel">Purchase Details:</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body bg-secondary">
+         
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="/viewPurchaseTransaction.js"></script>

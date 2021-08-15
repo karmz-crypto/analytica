@@ -131,10 +131,11 @@ function purchasePostData(target){
         headers:{"content-type":"application/json; charset=UTF-8"}
     }).then(res=>{res.json().then(data=>{
         if(data===true){
-            location.reload();
+            
             (document.querySelector(target).parentElement).querySelector('.formSubmitMsg').querySelector('.formSubmitMsg-msg').innerHTML = "your data was succesfully submitted !!"
             closeForm(target);
             (document.querySelector(target).parentElement).querySelector('.formSubmitMsg').classList.remove('d-none');
+            setTimeout(()=>{window.location.reload();},3000);
         }
     })}).catch();
 }
@@ -150,7 +151,7 @@ function extractData(name){ //this func is to extract data from the html page
         let arr = []
         let data = ['purchaseProductId','purchaseTunch','purchaseWeight','purchaseLabourPerKg'];
        
-            if(elements[0].name===data[0]||elements[0].name===data[1]||elements[0].name===data[2]){
+            if(elements[0].name===data[0]||elements[0].name===data[1]||elements[0].name===data[2]||elements[0].name===data[3]){
                 arr.push(elements[0].value);
                 return arr;
             }else{

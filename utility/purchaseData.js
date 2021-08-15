@@ -8,13 +8,13 @@ function getPurchaseData(req,res){
     if(paramId){
         //var query = purchaseModel.findById(paramId).exec();
         var promiseData = new Promise((resolve,reject)=>{
-            var query = purchaseModel.findById(paramId).exec();
+            var query = purchaseModel.findById(paramId).populate('purchaseProductInfo.productId client').sort('-date').exec();
             if(query){resolve(query)}else{reject(error)}
         });
     }else{
        // var query = purchaseModel.find().exec();
         var promiseData = new Promise((resolve,reject)=>{
-            var query = purchaseModel.find().exec();
+            var query = purchaseModel.find({}).populate('purchaseProductInfo.productId client').sort('-date').exec();
             if(query){resolve(query)}else{reject(error)}
         });
     }

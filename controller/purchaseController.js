@@ -187,17 +187,20 @@ exports.addPurchase = (req,res)=>{
     });
     purchase.save().then(transactionData=>{
       purchaseModel.findById(transactionData._id).exec().then(data=>{
-        console.log(req.body.purchaseProductId.length);
-        console.log((req.body.purchaseProductId).length);
+        //console.log(req.body.purchaseProductId.length);
+        //console.log((req.body.purchaseProductId).length);
         for(var i=0;i<(req.body.purchaseProductId).length;i++){
-          data.purchaseProductInfo.push({ productId:req.body.purchaseProductId[i],
-            purchaseWeight:req.body.purchaseWeight[i],
-            purchaseTunch:req.body.purchaseTunch[i],
-            purchaseLabourPerKg:req.body.purchaseLabourPerKg[i],
-            fineSilver:parseFloat(req.body.purchaseWeight[i])*parseFloat(req.body.purchaseTunch[i])/100,
-            purchaseCash:parseFloat(req.body.purchaseWeight[i])*parseFloat(req.body.purchaseLabourPerKg[i])/1000
-          });
-        }data.save().then(updatedData=>{ console.log(`updated data${updatedData}`);
+    
+            data.purchaseProductInfo.push({ productId:req.body.purchaseProductId[i],
+              purchaseWeight:req.body.purchaseWeight[i],
+              purchaseTunch:req.body.purchaseTunch[i],
+              purchaseLabourPerKg:req.body.purchaseLabourPerKg[i],
+              fineSilver:parseFloat(req.body.purchaseWeight[i])*parseFloat(req.body.purchaseTunch[i])/100,
+              purchaseCash:parseFloat(req.body.purchaseWeight[i])*parseFloat(req.body.purchaseLabourPerKg[i])/1000
+            });
+          
+         
+        }data.save().then(updatedData=>{ //console.log(`updated data${updatedData}`);
           clientModel.findById(req.body.clientId).exec().then(clientData=>{
             clientData.purchaseCount += parseInt(1);
             clientData.totalPurchaseSilver += parseFloat(purchase.purchaseSilver);
@@ -219,7 +222,7 @@ exports.addPurchase = (req,res)=>{
                       productElement.productStockMessage ="Running Out Of Stock !!"
                     }else{productElement.productStockMessage=`product Available ${productElement.productInStock}`}
                   }else{productElement.productStatus=false;}
-                  productElement.save().then(pElement=>console.log(pElement))
+                  productElement.save().then(/*pElement=>console.log(pElement)*/)
                 }).catch();
               }
             }).catch();
