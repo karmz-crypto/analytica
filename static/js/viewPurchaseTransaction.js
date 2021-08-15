@@ -41,3 +41,26 @@ function getPurchaseData(event){
 
 }
 
+function searchTransaction(event){
+    let parentEl = event.target.parentElement;
+    let alternateButton = parentEl.querySelector('.btn-success');
+    //console.log(parentEl);
+    if(!event.target.classList.contains('btn-success')){
+        
+        console.log(alternateButton);
+        alternateButton.classList.remove('btn-success');
+        alternateButton.classList.add('btn-light');
+        setTimeout(()=>{event.target.classList.remove('btn-light');
+        event.target.classList.add('btn-success');},500);
+        
+    }
+
+    if(!event.target.classList.contains('searchByNameBtn')){
+        parentEl.parentElement.querySelector('.searchByName').classList.add('d-none');
+        parentEl.parentElement.querySelector('.searchByDate').classList.remove('d-none');
+    }else{
+        parentEl.parentElement.querySelector('.searchByName').classList.remove('d-none');
+        parentEl.parentElement.querySelector('.searchByDate').classList.add('d-none');
+    }
+}
+
