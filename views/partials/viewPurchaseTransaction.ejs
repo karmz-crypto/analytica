@@ -1,15 +1,27 @@
 <div class="container p-2">
-    <li class="list-group-item list-group-item-dark">Recent Purchase Transaction</li>
+    <li class="list-group-item list-group-item-dark clearfix">Purchase Transaction
+      <button class=" float-end btn btn-sm btn-outline-success mb-2" data-bs-toggle="collapse" data-bs-target="#searchTransactionCollapse" aria-expanded="false" aria-controls="searchTransactionCollapse">
+        Search
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+          <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+        </svg>
+      </button>
+    </li>
+    
 </div>
-<div class="container p-2">
-    <form class="d-flex searchByName">
-        <input class="form-control me-2" type="search" placeholder="Search Transaction" aria-label="Search">
-        <button class="btn btn-outline-success" type="button">Search</button>
+<div class="container collapse p-2" id="searchTransactionCollapse">
+    <form class="searchByName">
+      <fieldset class="d-flex">
+        <input class="form-control mx-2 inputSearchByName" type="search" placeholder="Search Transaction" aria-label="Search">
+        <button class="btn btn-outline-success" type="button" onclick="getPurchaseTransactionData(event,'name')">Search</button>
+      </fieldset>  
     </form>
     <form class="searchByDate d-none">
-      Start:<input class="form-control" type="date" placeholder="Start Date" aria-label="Search"><br>
-      End:<input class="form-control" type="date" placeholder="End Date" aria-label="Search"><br>
-      <button class="btn btn-outline-success mx-2" type="button">Search</button>
+      <fieldset>
+        Start:<input class="form-control inputSearchByDateStart" type="date" placeholder="Start Date" aria-label="Search"><br>
+        End:<input class="form-control inputSearchByDateEnd" type="date" placeholder="End Date" aria-label="Search"><br>
+        <button class="btn btn-outline-success mx-2" type="button" onclick="getPurchaseTransactionData(event,'date')">Search</button>
+      </fieldset>
   </form>
   <div class="container p-2 my-2">
     <span class="text-success fw-bold m-2 border-bottom border-2 border-secondary">Search By </span><br>
@@ -28,32 +40,39 @@
     </button>
   </div>
 </div>
-<div class="container my-2 p-2  border border-1 border-secondary rounded">
-    <% purchase.forEach(purchaseData=>{%>
-        <% if(parseInt((new Date().getTime()-new Date(purchaseData.date).getTime())/(1000*3600*24))<2){%>
-        <li class="list-group-item list-group-item-action clientDetails list-group-item-success">
-            <span class="fw-bold"><%= purchaseData.client.clientName%></span>
-            <span class="float-end mx-2">
-                <%=purchaseData.date.toDateString()%>
-            </span>
-        </li>
-        <li class="list-group-item list-group-item-success purchaseDetails ">
-            Fine Silver:<span class="mx-2"><%= purchaseData.purchaseSilver%></span>
-            Cash :<span class="mx-2"><%= purchaseData.purchaseCash%></span><br>
-        </li>
-        <li class="list-group-item list-group-item-success mb-3">
-            <button type="button" class="btn btn-sm btn-success" data-id="<%=purchaseData._id%>" data-bs-toggle="modal" data-bs-target="#transactionDetailModal" onclick="getPurchaseData(event)" >
-                View Details
-            </button>
-        </li>
-        
 
-    <%}})%>
+<div class="container my-2 p-2  border border-1 border-secondary rounded">
+  <div class="searchPurchaseTransactionDiv text-success my-2">
+    <!--Client Name : <span class="clientName mx-2 fw-bold"></span><br>
+    <span class="fw-bold mx-5">Purchase Details</span>-->
+
+  </div>
+  <div class="recentPurchaseTransactionDiv my-2">
+    <% purchase.forEach(purchaseData=>{%>
+      <% if(parseInt((new Date().getTime()-new Date(purchaseData.date).getTime())/(1000*3600*24))<2){%>
+      <li class="list-group-item list-group-item-action clientDetails list-group-item-success">
+          <span class="fw-bold"><%= purchaseData.client.clientName%></span>
+          <span class="float-end mx-2">
+              <%=purchaseData.date.toDateString()%>
+          </span>
+      </li>
+      <li class="list-group-item list-group-item-success purchaseDetails ">
+          Fine Silver:<span class="mx-2"><%= purchaseData.purchaseSilver%></span>
+          Cash :<span class="mx-2"><%= purchaseData.purchaseCash%></span><br>
+      </li>
+      <li class="list-group-item list-group-item-success mb-3">
+          <button type="button" class="btn btn-sm btn-success" data-id="<%=purchaseData._id%>" data-bs-toggle="modal" data-bs-target="#transactionDetailModal" onclick="getPurchaseData(event)" >
+              View Details
+          </button>
+      </li>
+  <%}})%>
+  </div>
+   
     <div class="my-1">
-        <button class="btn btn-sm btn-success">
+        <button class="btn btn-sm btn-success my-2">
             View Complete Transaction
         </button>
-        <button class="btn btn-sm btn-danger mx-5">
+        <button class="btn btn-sm btn-danger mx-3 my-2">
             Close
         </button>
     </div>

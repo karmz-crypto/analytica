@@ -1,4 +1,5 @@
 const purchaseModel = require('../model/PurchaseModel');
+const clientModel = require('../model/ClientsModel');
 const mongoose = require('mongoose');
 //const { getPurchase } = require('../controller/purchaseController');
 
@@ -21,6 +22,22 @@ function getPurchaseData(req,res){
     return promiseData;
 }
 
-let purchaseDbOperation = {getPurchaseData};
+function searchPurchaseData(req,res){ //console.log('here');
+    if(req.params.id==='searchName'){
+       var promiseData = new Promise((resolve,reject)=>{
+           let query = clientModel.find({clientName:req.body.name}).populate({path:'purchaseProduct',model:'Purchase',populate:{path:'purchaseProductInfo.productId',model:'Product'}}).sort('-date').exec();
+           if(query){resolve(query)}else{reject(error)}
+       }); 
+    }else{
+        var promiseData = new Promise((resolve,reject)=>{
+            let query = purchaseModel.find({}).populate('purchaseProductInfo.productId client').sort('-date').exec();
+            if(query){resolve(query)}else{reject(error)}
+        }); 
+    }
+    return promiseData;
+}
+
+
+let purchaseDbOperation = {getPurchaseData,searchPurchaseData};
 
 module.exports = purchaseDbOperation ; 

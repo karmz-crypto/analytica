@@ -20,10 +20,22 @@ exports.getTransactions = (req,res)=>{
 };
 
 exports.getTransactionPurchase = (req,res)=>{
-   
+   if(req.params.id==='searchName'||req.params.id==='searchDate'){  //console.log(req.body.name);
+    let searchDataItem = purchaseData.searchPurchaseData(req,res);
+    //console.log(searchDataItem);
+    Promise.all([searchDataItem]).then(result=>{
+         searchedDataItem = result[0];//console.log(searchedDataItem);
+
+         res.send(searchedDataItem);
+        
+    }).catch(error=>{res.send(error)});
+
+   }else{
     let purchase = purchaseData.getPurchaseData(req,res);
     Promise.all([purchase]).then(result=>{
         purchaseDataItem = result[0];
         res.send(purchaseDataItem);
     }).catch(error=>{res.send(error)});
+   }
+    
 };
