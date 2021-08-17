@@ -20,7 +20,9 @@ function getPurchaseData(event){
                
               let paraEl = document.createElement('p');
               paraEl.classList.add('p-2','my-1','bg-light','border','border-1','border-success','rounded');
-              paraEl.innerHTML =  ` Product Desc : <span class="mx-3 fw-bold productDesc">${product.productId.productDesc}</span><br>
+              paraEl.innerHTML =  `<li class="list-group-item list-group-item-success">
+              Client Name: <span class="mx-2 fw-bold">${data.client.clientName.toUpperCase()}</span></li>
+               Product Desc : <span class="mx-3 fw-bold productDesc">${product.productId.productDesc}</span><br>
               Product Tunch : <span class="mx-3 fw-bold productTunch">${product.productId.productTunch}</span> % <br>
               Purchase Tunch : <span class="mx-3 fw-bold productTunch">${product.purchaseTunch}</span> % <br>
               Purchase Weight : <span class="mx-3 fw-bold productWeight">${product.purchaseWeight}</span> Grms <br>
