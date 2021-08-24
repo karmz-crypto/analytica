@@ -6,14 +6,15 @@ const mongoose = require('mongoose');
 const purchaseData = require('../utility/purchaseData');
 const productData = require('../utility/productData');
 const clientData = require('../utility/clientData');
+const salesData = require('../utility/saleData');
 
-exports.getTransactions = (req,res)=>{
+exports.getTransactions = (req,res)=>{ //console.log('transaction');
     let purchase = purchaseData.getPurchaseData(req,res);
     let product = productData.getProductData(req,res);
     let client = clientData.getClientData(req,res);
-    Promise.all([product,client,purchase]).then(result=>{
+    Promise.all([product,client,purchase]).then(result=>{ //console.log(result[2]);
         res.render('transaction',{pageTitle:'Transactions',
-            clients:result[1],products:result[0],purchase:result[2]
+            clients:result[1],products:result[0],purchase:result[2],sales:[{}]
         });
     }).catch();
      
@@ -38,4 +39,13 @@ exports.getTransactionPurchase = (req,res)=>{
     }).catch(error=>{res.send(error)});
    }
     
+};
+
+
+
+exports.addSalesTransaction = (req,res)=>{
+    console.log('u r here ');
+    let sale = salesData.addSales(req,res);
+    console.log(sale);
+    res.send(true);
 };

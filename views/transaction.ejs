@@ -1,20 +1,17 @@
 <div class="container my-2 border-primary border-1 border-bottom">
     <div class="row">
         <div class="col-6 p-2 border-end border-primary">
-            <button class="btn btn-sm btn-success btn-active" type="button" onclick="changePage(event)">Purchase Transaction</button>
+            <button class="btn btn-sm btn-success btn-active purchase" type="button" onclick="changePage(event)">Purchase Transaction</button>
         </div>
         <div class="col-6 p-2">
-            <button class="btn btn-sm btn-white btn-inactive" type="button" onclick="changePage(event)">Sales Transaction</button>
+            <button class="btn btn-sm btn-white btn-inactive sales" type="button" onclick="changePage(event)">Sales Transaction</button>
         </div>
     </div>
-</div>
-<div class="container">
-    <button onclick="show()">show</button>
 </div>
 
 <div class="container my-3 p-3 purchaseTransaction">
     <div class="purchaseNavTab">
-        <button type="button" class="btn btn-secondary btn-sm mx-2 addPurchaseBtn" onclick="purchaseFormControl(event)">
+        <button type="button" class="btn btn-secondary btn-sm mx-2 addPurchaseBtn" onclick="formControl(event)">
             Add Transaction
         </button>
     </div>
@@ -55,7 +52,7 @@
                                 <%purchaseToday+=purchaseData.purchaseSilver%>
                             <%}%>
                             <%})%>
-                            <span class="fw-bold text-success mx-2"><%=purchaseToday%></span> Grms
+                            <span class="fw-bold text-success mx-2"><%=Math.round(purchaseToday)%></span> Grms
                     </td> 
                     <td>    
                         <% let purchaseWeekly=0;let purchaseMonthly=0;let purchaseYearly=0;let purchaseTotal=0%>
@@ -69,15 +66,15 @@
                                 <%if(days<367){%>
                                     <%purchaseYearly+=purchaseData.purchaseSilver}%>
                             <%})%>
-                           <span class="fw-bold text-success mx-2 weeklyPurchase d-none"><%=purchaseWeekly/1000%> Kgs</span> 
-                           <span class="fw-bold text-success mx-2 monthlyPurchase d-none"><%=purchaseMonthly/1000%> Kgs</span> 
-                           <span class="fw-bold text-success mx-2 yearlyPurchase d-none"><%=purchaseYearly/1000%> Kgs</span> 
-                           <span class="fw-bold text-success mx-2 totalPurchase"><%=purchaseTotal/1000%> Kgs</span> 
+                           <span class="fw-bold text-success mx-2 weeklyPurchase d-none"><%=Math.round(purchaseWeekly/1000)%> Kgs</span> 
+                           <span class="fw-bold text-success mx-2 monthlyPurchase d-none"><%=Math.round(purchaseMonthly/1000)%> Kgs</span> 
+                           <span class="fw-bold text-success mx-2 yearlyPurchase d-none"><%=Math.round(purchaseYearly/1000)%> Kgs</span> 
+                           <span class="fw-bold text-success mx-2 totalPurchase"><%=Math.round(purchaseTotal/1000)%> Kgs</span> 
                     </td>
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <button class="btn btn-sm btn-success" type="button" data-bs-toggle="collapse" data-bs-target="#viewPurchaseTransactionId" aria-expanded="false" aria-controls="viewPurchaseTransactionId">
+                        <button class="btn btn-sm btn-success purchaseTransactionView" type="button" data-bs-toggle="collapse" data-bs-target="#viewPurchaseTransactionId" aria-expanded="false" aria-controls="viewPurchaseTransaction">
                             View Transaction
                         </button>
                     </td>
@@ -92,25 +89,38 @@
 
 </div>
 
-<div class="container my-3 p-3 salesTransaction d-none">
-    <div class="purchaseNavTab">
-        <button type="button" class="btn btn-secondary btn-sm mx-2 addSalesTransaction">Add Transaction</button>
+<!---sales -->
+
+<div class="container d-none my-3 p-3 salesTransaction">
+    <div class="salesNavTab">
+        <button type="button" class="btn btn-secondary btn-sm mx-2 addSalesBtn" onclick="formControl(event)">
+            Add Transaction
+        </button>
     </div>
-    <div class="purchaseMetadata p-2 my-2">
-        <table class="table table-success table-striped">
+    <div class="addSalesDiv d-none my-2 p-2 border-1 border-secondary border">      
+        <%- include('partials/addSalesForm.ejs')%>
+        
+    </div>
+    <div class="formSubmitMsg d-none text-success fw-bold text-capitalize my-2 p-2 border-1 border-secondary border">
+        <div class="formSubmitMsg-msg"></div>
+        <button class="btn btn-sm btn-white text-danger m-2 p-2" onclick="uiControlOfMsgDiv(event)">Close</button>
+
+    </div>
+    <div class="saleMetadata p-2 my-2">
+        <table class="table table-success metadataViewSaleTable table-striped">
             <thead>
                 <tr>
                     <td scope="col">Total Sale Of The Day</td>
                     <td scope="col">
                         <div class="dropdown">
                             <button class="btn btn-success dropdown-toggle" type="button" id="salesDropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                Total Sales
+                            Total Sale
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="salesDropdownMenuButton">
-                                <li onclick="metadataView(event)" class="sales"><a role="button" class="dropdown-item activeName">Weekly Sales</a></li>
-                                <li onclick="metadataView(event)" class="sales"><a role="button" class="dropdown-item">Monthly Sales</a></li>
-                                <li onclick="metadataView(event)" class="sales"><a role="button" class="dropdown-item">Yearly Sales</a></li>
-                                <li onclick="metadataView(event)" class="sales"><a role="button" class="dropdown-item">Total Sales</a></li>
+                                <li onclick="metadataView(event)" class="sale weekly"><a role="button" class="dropdown-item">Weekly Sale</a></li>
+                                <li onclick="metadataView(event)" class="sale monthly"><a role="button" class="dropdown-item">Monthly Sale</a></li>
+                                <li onclick="metadataView(event)" class="sale yearly"><a role="button" class="dropdown-item">Yearly sale</a></li>
+                                <li onclick="metadataView(event)" class="sale total"><a role="button" class="dropdown-item">Total Sale</a></li>
                             </ul>
                         </div>
                     </td>
@@ -118,18 +128,114 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>Mark</td>
-                    <td>Otto</td>
+                    <td>
+                        <%let saleToday=0; sales.forEach(saleData=>{let saleDate= new Date(saleData.date);let today= new Date()%>
+                            <%if (parseInt(new Date().getTime()-new Date(saleData.date).getTime())/(1000*3600*24)<=1){%>
+                                <%saleToday+=saleData.saleSilver%>
+                            <%}%>
+                            <%})%>
+                            <span class="fw-bold text-success mx-2"><%=Math.round(saleToday)%></span> Grms
+                    </td> 
+                    <td>    
+                        <% let saleWeekly=0;let saleMonthly=0;let saleYearly=0;let saleTotal=0%>
+                        <%sales.forEach(saleData=>{%>
+                            <%saleTotal+=saleData.saleSilver%>
+                            <% let days = parseInt((new Date().getTime()-new Date(saleData.date).getTime())/(1000*3600*24))%>
+                            <%if(days<8){%>
+                                <%saleWeekly+=saleData.saleSilver%> <%}%>
+                                <%if(days<32){%>
+                                    <%saleMonthly+=saleData.saleSilver}%>
+                                <%if(days<367){%>
+                                    <%saleYearly+=saleData.saleSilver}%>
+                            <%})%>
+                           <span class="fw-bold text-success mx-2 weeklySale d-none"><%=Math.round(saleWeekly/1000)%> Kgs</span> 
+                           <span class="fw-bold text-success mx-2 monthlySale d-none"><%=Math.round(saleMonthly/1000)%> Kgs</span> 
+                           <span class="fw-bold text-success mx-2 yearlySale d-none"><%=Math.round(saleYearly/1000)%> Kgs</span> 
+                           <span class="fw-bold text-success mx-2 totalSale"><%=Math.round(saleTotal/1000)%> Kgs</span> 
+                    </td>
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <button class="btn btn-sm btn-success">View Transaction</button>
+                        <button class="btn btn-sm btn-success saleTransactionView" type="button" data-bs-toggle="collapse" data-bs-target="#viewSalesTransactionId" aria-expanded="false" aria-controls="viewSalesTransaction">
+                            View Transaction
+                        </button>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
+    <div class="viewSaleTransaction my-1 p-1 container">
+        <%- include('partials/viewSalesTransaction.ejs')%>
+    </div>
+
+
 </div>
+
+<!--for modal -->
+
+  <!--modal -->
+
+
+<!-- Modal product list -->
+<div class="modal fade" id="productListForm" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <%- include('partials/productList.ejs')%>  
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Add Product To List</button>
+          <span class="text-capitalize text-info" style="font-size: small;">Click To add product if not present in the list</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!--modal for product details-->
+  
+  <div class="modal fade" id="productDetailsModal" tabindex="-1" aria-labelledby="productDetailsLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="productDetailsLabel">Product Details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          
+            <li class="list-group-item list-group-item-light my-2">
+              Item Name: <span class="mx-2 fw-bold appendHere"></span><br>
+              Item Tunch: <span class="mx-2 fw-bold appendHere"></span>
+            </li>
+            <button class="btn btn-sm btn-secondary p-2" type="button" data-bs-toggle="collapse" data-bs-target="#productDetailsCollapse" aria-expanded="false" aria-controls="productDetailsCollapse">
+              More Info
+            </button>
+          
+            <div class="collapse my-2" id="productDetailsCollapse">
+              <div class="card card-body">
+                Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
+              </div>
+            </div>
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-sm btn-white text-danger removeBtn" onclick="removeProduct(event)">Remove Product</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  
+  
+  
+  
+  
 
 
 
@@ -137,3 +243,4 @@
 <script type="text/javascript" src="/transactionJS.js"></script>
 <script type="text/javascript" src="/productListJS.js"></script>
 <script type="text/javascript" src="/addPurchaseFormJS.js"></script>
+<script type="text/javascript" src="/addSalesFormJS.js"></script>

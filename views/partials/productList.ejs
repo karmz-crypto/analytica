@@ -8,7 +8,7 @@
         <div class="col-12 list-group">
             <%if(products.length){%>
                 <%products.forEach(product=>{%>
-                    <button type="button" class="list-group-item list-group-item-action" data-product-id="<%=product._id%>" onclick="addPurchaseProduct(event)">
+                    <button type="button" class="list-group-item list-group-item-action productLiBtn" data-product-id="<%=product._id%>" onclick="addProduct(event)">
                         Item Name: <span class="mx-2 p-2 text-capitalize text-success" style="font-size: small;"><%=product.productDesc%></span><br>
                         Item Tunch: <span class="mx-2 p-2 text-capitalize text-success" style="font-size: small;"><%=product.productTunch%></span><br>
                     </button>

@@ -1,9 +1,13 @@
 
+
 function getPurchaseData(event){
     //console.log(event.target);
     let id = event.target.dataset.id;
    // console.log(id);   
     let url = `/api/transaction/purchase/${id}`;
+    let modalElement = document.querySelector('#transactionDetailModal');
+            let bodyElement =  modalElement.querySelector('.modal-body');
+            bodyElement.innerHTML = ''; // clear the modal body and then set the innerHTML with the required data.
     
     fetch(url).then(res=>{
         if(res.status!==200){
@@ -11,17 +15,15 @@ function getPurchaseData(event){
         }
         res.json().then(data=>{ //console.log(data);
             //let fetchDiv = document.createElement('div');
-            
-            let modalElement = document.querySelector('#transactionDetailModal');
-            let bodyElement =  modalElement.querySelector('.modal-body');
-            bodyElement.innerHTML = ''; // clear the modal body and then set the innerHTML with the required data.
-           
+            let nameListEl = document.createElement('li');
+            nameListEl.innerHTML = `<li class="list-group-item list-group-item-success my-1">
+            Client Name: <span class="mx-2 fw-bold">${data.client.clientName.toUpperCase()}</span></li>`
+            bodyElement.appendChild(nameListEl);
           data.purchaseProductInfo.forEach(product=>{
                
               let paraEl = document.createElement('p');
               paraEl.classList.add('p-2','my-1','bg-light','border','border-1','border-success','rounded');
-              paraEl.innerHTML =  `<li class="list-group-item list-group-item-success">
-              Client Name: <span class="mx-2 fw-bold">${data.client.clientName.toUpperCase()}</span></li>
+              paraEl.innerHTML =  `
                Product Desc : <span class="mx-3 fw-bold productDesc">${product.productId.productDesc}</span><br>
               Product Tunch : <span class="mx-3 fw-bold productTunch">${product.productId.productTunch}</span> % <br>
               Purchase Tunch : <span class="mx-3 fw-bold productTunch">${product.purchaseTunch}</span> % <br>
@@ -39,7 +41,11 @@ function getPurchaseData(event){
             bodyElement.appendChild(liElement_2);
            
         })
-    }).catch();
+    }).catch(error=>{if(error){
+        bodyElement.innerHTML = `<p class="text-center bg-light text-danger">Server Error in Fetching Your Data</p>`
+    }}
+       
+    );
 
 }
 

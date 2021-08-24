@@ -63,10 +63,10 @@
   <form>  
     <fieldset class="purchaseFieldSet" disabled>
       <div class="row">
-        <div class="col-6">
+        <div class="col-12">
           <div class="mb-3">
             <label for="date" class="form-label">Date</label>
-            <input type="date" name="date" class="form-control dateClass" id="date" required onclick="dateLimit('.dateClass')">
+            <input type="date" name="purchaseDate" class="form-control dateClass" id="date" required onclick="dateLimit('.dateClass')">
             <div class="form-text">Date is must for any entry</div>
           </div>
         </div>
@@ -74,7 +74,7 @@
       <div class="row ">
         <div class="col-12">
           <div class="mb-3">
-            <select  name="clientId" class="form-select d-none">
+            <select  name="purchaseClientId" class="form-select d-none">
               <option value="">Select a Client</option>
                 <%clients.forEach(clientElement=>{%>
               <option value="<%=clientElement._id%>"><%=clientElement.clientName%></option>
@@ -121,7 +121,7 @@
           <div class="col-md-6 col-sm-12 my-3 d-none purchaseProductFinalAmount">
             <div class="input-group mb-3">
               <span class="input-group-text">Net Weight</span>
-              <input readonly required type="number" step="any" name="netWeight" class="form-control" aria-label="net weight">
+              <input readonly required type="number" step="any" name="purchaseNetWeight" class="form-control" aria-label="net weight">
               <span class="input-group-text">Grms</span>
             </div>
             <div class="input-group mb-3">
@@ -136,7 +136,7 @@
             </div>
           </div>
           <!-- Button trigger modal for product list-->
-          <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#productListInPurchaseForm">
+          <button type="button" class="btn btn-secondary btn-sm purchaseProduct" data-bs-toggle="modal" data-bs-target="#productListForm" onclick="getWindow(event)">
             Add Product To Purchase List
           </button>
         
@@ -188,7 +188,7 @@
         
       </div>-->
       <div class="col-12 my-2 p-2 formActionBtn">
-        <button disabled type="button" class="btn btn-primary btn-sm p-2 mx-2 submitForm" style="letter-spacing: 0.08rem;" onclick="purchasePostData('.addPurchaseDiv')">Submit</button>
+        <button disabled type="button" class="btn btn-primary btn-sm p-2 mx-2 submitForm purchaseSubmitForm" style="letter-spacing: 0.08rem;" onclick="purchasePostData(event,'.addPurchaseDiv')">Submit</button>
         <button disabled type="reset" class="btn btn-whte p-2 btn-sm mx-2 resetForm float-end" style="letter-spacing: 0.08rem;">Reset</button>
         <button disabled type="button" class="btn btn-danger btn-sm mx-2 p-2 float-end closeForm" style="letter-spacing: 0.08rem;" onclick="closeForm('.addPurchaseDiv')">Close</button>
       </div>
@@ -198,57 +198,5 @@
 </div>  
 
 
-<!-- Modal product list -->
-<div class="modal fade" id="productListInPurchaseForm" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <%- include('productList.ejs')%>  
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Add Product To List</button>
-        <span class="text-capitalize text-info" style="font-size: small;">Click To add product if not present in the list</span>
-      </div>
-    </div>
-  </div>
-</div>
 
-<!--modal for product details-->
-
-<div class="modal fade" id="productDetailsModal" tabindex="-1" aria-labelledby="productDetailsLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="productDetailsLabel">Product Details</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        
-          <li class="list-group-item list-group-item-light my-2">
-            Item Name: <span class="mx-2 fw-bold appendHere"></span><br>
-            Item Tunch: <span class="mx-2 fw-bold appendHere"></span>
-          </li>
-          <button class="btn btn-sm btn-secondary p-2" type="button" data-bs-toggle="collapse" data-bs-target="#productDetailsCollapse" aria-expanded="false" aria-controls="productDetailsCollapse">
-            More Info
-          </button>
-        
-          <div class="collapse my-2" id="productDetailsCollapse">
-            <div class="card card-body">
-              Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
-            </div>
-          </div>
-        
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-sm btn-white text-danger removeBtn" onclick="removeProduct(event)">Remove Product</button>
-      </div>
-    </div>
-  </div>
-</div>
 

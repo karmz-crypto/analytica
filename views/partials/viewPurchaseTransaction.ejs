@@ -1,7 +1,7 @@
-<div class="collapse" id="viewPurchaseTransactionId">
+<div class="collapse viewTransactionModal" id="viewPurchaseTransactionId">
   <div class="p-2">
-    <li class="list-group-item list-group-item-dark clearfix">Purchase Transaction
-      <button class=" float-end btn btn-sm btn-outline-success mb-2" data-bs-toggle="collapse" data-bs-target="#searchTransactionCollapse" aria-expanded="false" aria-controls="searchTransactionCollapse">
+    <li class="list-group-item list-group-item-dark clearfix fw-bold" style="font-size: small;">Purchase Transaction
+      <button class=" float-end btn btn-sm btn-outline-success mb-2" data-bs-toggle="collapse" data-bs-target="#searchPurchaseTransactionCollapse" aria-expanded="false" aria-controls="searchTransactionCollapse">
         Search
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
           <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
@@ -10,7 +10,7 @@
     </li>
     
   </div>
-  <div class=" collapse p-2" id="searchTransactionCollapse">
+  <div class=" collapse p-2" id="searchPurchaseTransactionCollapse">
     <form class="searchByName">
       <fieldset class="d-flex">
         <input class="form-control mx-2 inputSearchByName" type="search" placeholder="Search Transaction" aria-label="Search">
@@ -79,6 +79,7 @@
     </div>
   </div>
 </div>
+<!--view sales transaction -->
 
 <!--transaction detail modal -->
 <!-- Button trigger modal -->
@@ -90,11 +91,11 @@
           <h5 class="modal-title text-success" id="transactionDetailLabel">Purchase Details:</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body bg-secondary">
+        <div class="modal-body p-2 m-1 bg-secondary">
          
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-sm btn-outline-secondary text-danger" data-bs-dismiss="modal">Close</button>
         </div>
       </div>
     </div>

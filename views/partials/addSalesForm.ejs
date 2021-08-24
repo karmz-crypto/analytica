@@ -1,0 +1,102 @@
+<div class="container my-2">
+    <li class="list-group-item list-group-item-primary p-3">Add Sales Form
+      <button class="btn btn-sm btn-danger float-end closeForm" type="button" style="letter-spacing: 0.08rem;" onclick="closeForm('.addSalesDiv')">Close</button>
+    </li>
+</div>
+  <div class="container my-2">
+    <!--<form method="post" action="/purchase/addPurchase">-->
+    <form>  
+      <fieldset class="salesFieldSet" disabled>
+        <div class="row">
+          <div class="col-12">
+            <div class="mb-3">
+              <label for="date" class="form-label">Date</label>
+              <input type="date" name="saleDate" class="form-control dateClass" id="date" required onclick="dateLimit('.dateClass')">
+              <div class="form-text">Date is must for any entry</div>
+            </div>
+          </div>
+        </div>
+        <div class="row ">
+          <div class="col-12">
+            <div class="mb-3">
+              <select  name="saleClientId" class="form-select d-none">
+                <option value="">Select a Client</option>
+                  <%clients.forEach(clientElement=>{%>
+                <option value="<%=clientElement._id%>"><%=clientElement.clientName%></option>
+                    <%})%>
+              </select>
+            </div>
+              <div class="form-text text-capitalize">
+                <a href="/clients/addClientsForm" style="text-decoration: none;">
+                  client not present in the list click to add a client
+                </a>
+              </div>
+          </div>
+        </div>
+        <div class="row my-2">
+          
+            <div class="col-md-6 col-sm-12 d-none salesTableDiv">
+              <table class="table table-striped table-hover">
+                <thead>
+                  <tr>
+                    
+                      <th scope="col">#</th>
+                      <th scope="col">Item Desc</th>
+                      <th scope="col">tunch (%)</th>
+                      <th scope="col">Weight (Grms)</th>
+                      <th scope="col">Labour (/Kg)</th>
+                  </tr>
+                </thead>
+                <tbody class="salesProductListTableBody">
+                  
+                  <!--<tr>
+                    
+                    <th scope="row" class="tBodyIndex">1</th>
+                    <input type="hidden" value="" name="productId">
+                    <td> <button type="button" class=" text-wrap list-group-item list-group-item-action" style="font-size: small;">nakashi bartan</button></td>
+                    <td><input type="number" step="any" name="purchaseTunch" min=1 max=100 style="width: 100%;"></td>
+                    <td><input type="number" step="any" name="purchaseWeight" min=1 style="width: 125%;"></td>
+                    <td><input type="number" step="any" min=1 name="purchaseLabour" style="width: 100%;"></td>
+                  
+                  </tr>-->
+            
+                </tbody>
+              </table>
+            </div>
+            <div class="col-md-6 col-sm-12 my-3 d-none salesProductFinalAmount">
+              <div class="input-group mb-3">
+                <span class="input-group-text">Net Weight</span>
+                <input readonly required type="number" step="any" name="saleNetWeight" class="form-control" aria-label="net weight">
+                <span class="input-group-text">Grms</span>
+              </div>
+              <div class="input-group mb-3">
+                <span class="input-group-text">Fine Bullion</span>
+                <input readonly required type="number" step="any" name="saleSilver" class="form-control" aria-label="fine silver">
+                <span class="input-group-text">Grms</span>
+              </div>
+              <div class="input-group mb-3">
+                <span class="input-group-text">Labour Cash</span>
+                <input readonly required type="number" step="any" name="saleCash" class="form-control" aria-label="net labour">
+                <span class="input-group-text">Rs.</span>
+              </div>
+            </div>
+            <!-- Button trigger modal for product list-->
+            <button type="button" class="btn btn-secondary btn-sm saleProduct" data-bs-toggle="modal" data-bs-target="#productListForm" onclick="getWindow(event)">
+              Add Product To Sales List
+            </button>
+          
+          
+        </div>
+       
+        <div class="col-12 my-2 p-2 formActionBtn">
+          <button disabled type="button" class="btn btn-primary btn-sm p-2 mx-2 submitForm salesSubmitForm" style="letter-spacing: 0.08rem;" onclick="purchasePostData(event,'.addSalesDiv')">Submit</button>
+          <button disabled type="reset" class="btn btn-whte p-2 btn-sm mx-2 resetForm float-end" style="letter-spacing: 0.08rem;">Reset</button>
+          <button disabled type="button" class="btn btn-danger btn-sm mx-2 p-2 float-end closeForm" style="letter-spacing: 0.08rem;" onclick="closeForm('.addSalesDiv')">Close</button>
+        </div>
+      
+      </fieldset>
+    </form>
+  </div>  
+
+
+

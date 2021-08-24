@@ -8,7 +8,7 @@ function changePage(event){
     let eventElement = event.target;
     let changePage=topBtnDesign(eventElement);
     if(changePage){
-        pageView();
+        pageView(event.target);
     }else{
         console.log('failed to load the page');
     }
@@ -32,21 +32,39 @@ function topBtnDesign(eventElement){
     }
 }
 
-function pageView(){
+function pageView(eventElement){
+    let purchaseElement = document.querySelector('.purchaseTransaction');
+    let salesElement = document.querySelector('.salesTransaction');
+    if(eventElement.classList.contains('purchase')){ //purchase
+        if(purchaseElement.classList.contains('d-none')){
+            closeForm('.addSalesDiv');
+            salesElement.querySelector('fieldset').setAttribute('disabled',true);
+            salesElement.classList.add('d-none');
+            purchaseElement.classList.remove('d-none');
+           
+        }else{
+            return;
+        }
+    }else{
+        if(salesElement.classList.contains('d-none')){ //sales
+            closeForm('.addPurchaseDiv');
+            purchaseElement.querySelector('fieldset').setAttribute('disabled',true);
+            purchaseElement.classList.add('d-none');
+            salesElement.classList.remove('d-none');
+        }else{
+            return;
+        }
+
+    }
 
 }
-
-function show(){ //temp
-    document.querySelector('.salesTransaction').classList.remove('d-none');
-    document.querySelector('.purchaseTransaction').classList.add('d-none');
-}
-
 function metadataView(event){ //console.log('in func');
     let salesElement = document.querySelector('#salesDropdownMenuButton');
     let purchaseElement = document.querySelector('#purchaseDropdownMenuButton');
     let eventElement = event.target; //console.log(eventElement.parentElement);
-    if(eventElement.parentElement.classList.contains('sales')){ //console.log('pur contains')
+    if(eventElement.parentElement.classList.contains('sale')){ //console.log('pur contains')
         salesElement.innerHTML = eventElement.innerHTML;
+        viewMetaData(eventElement);
     }else if(eventElement.parentElement.classList.contains('purchase')){ //console.log('contains');
         purchaseElement.innerHTML = eventElement.innerHTML;
         viewMetaData(eventElement);
@@ -54,7 +72,7 @@ function metadataView(event){ //console.log('in func');
 
 }
 
-function viewMetaData(eventElement){
+function viewMetaData(eventElement){ //console.log('sale');
     if(eventElement.parentElement.classList.contains('purchase')){
         let purchaseMetaData = document.querySelector('.metadataViewPurchaseTable');
         if(eventElement.parentElement.classList.contains('weekly')){    
@@ -71,12 +89,27 @@ function viewMetaData(eventElement){
             doNotDisplay(eventElement,'.totalPurchase',purchaseMetaData);
         }
     }else{
+        let saleMetaData = document.querySelector('.metadataViewSaleTable');
+        if(eventElement.parentElement.classList.contains('weekly')){    
+            saleMetaData.querySelector('.weeklySale').classList.remove('d-none');
+            doNotDisplay(eventElement,'.weeklySale',saleMetaData);
+        }else if(eventElement.parentElement.classList.contains('monthly')){
+            saleMetaData.querySelector('.monthlySale').classList.remove('d-none');
+            doNotDisplay(eventElement,'.monthlySale',saleMetaData);
+        }else if(eventElement.parentElement.classList.contains('.yearlySale')){
+            saleMetaData.querySelector('.yearlySale').classList.remove('d-none');
+            doNotDisplay(eventElement,'.yearlySale',saleMetaData);
+        }else{
+            saleMetaData.querySelector('.totalSale').classList.remove('d-none');
+            doNotDisplay(eventElement,'.totalSale',saleMetaData);
+        }
 
     }
 }
 
 function doNotDisplay(eventElement,except,serachIn){
     let purchaseClassElements = ['.weeklyPurchase','.monthlyPurchase','.yearlyPurchase','.totalPurchase'];
+    let saleClassElements = ['.weeklySale','.monthlySale','.yearlySale','.totalSale'];
     if(eventElement.parentElement.classList.contains('purchase')){
         purchaseClassElements.map(element=>{
             if(element===except){
@@ -85,15 +118,31 @@ function doNotDisplay(eventElement,except,serachIn){
                 serachIn.querySelector(element).classList.add('d-none');
             }
         });
+    }else{
+        saleClassElements.map(element=>{
+            if(element===except){
+                return;
+            }else{
+                serachIn.querySelector(element).classList.add('d-none');
+            }
+        });
+
     }
 }
 
-function purchaseFormControl(event){
+function formControl(event){
     eventElement = event.target;
-    if(eventElement.classList.contains('addPurchaseBtn')){
+    //console.log(eventElement.parentElement.parentElement);
+    if(eventElement.classList.contains('addPurchaseBtn')){ //console.log('purchase');
         document.querySelector('.addPurchaseDiv').classList.remove('d-none');
         document.querySelector('.addPurchaseDiv').querySelector('fieldset').removeAttribute('disabled');
         document.querySelector('.addPurchaseDiv').querySelectorAll('button').forEach(button=>{
+            button.removeAttribute('disabled');
+        });
+    }else{ //console.log('sales');
+        document.querySelector('.addSalesDiv').classList.remove('d-none');
+        document.querySelector('.addSalesDiv').querySelector('fieldset').removeAttribute('disabled');
+        document.querySelector('.addSalesDiv').querySelectorAll('button').forEach(button=>{
             button.removeAttribute('disabled');
         });
     }
@@ -109,22 +158,47 @@ function closeForm(target){
     document.querySelector(target).classList.add('d-none');
 }
 
-function purchasePostData(target){
-    purchaseInputName = ["date","purchaseProductId","purchaseWeight","purchaseSilver","purchaseCash","purchaseTunch","purchaseLabourPerKg"];
-    purchaseSelectName=["clientId"];
-    let postObject = {
-            date : (extractData("date")),
-            purchaseWeight : (extractData('purchaseWeight')),
-            purchaseTunch : (extractData('purchaseTunch')),
-            purchaseProductId : extractData('purchaseProductId'),
-            purchaseLabourPerKg : (extractData('purchaseLabourPerKg')),
+function purchasePostData(event,target){
+    let inputName = [];
+    //let selectName = [];
+    let postObject = {};
+    let url ;
+    if(event.target.classList.contains('purchaseSubmitForm')){ 
+         inputName =  ["purchaseDate","purchaseProductId","purchaseWeight","purchaseSilver","purchaseCash","purchaseTunch","purchaseLabourPerKg"];
+         selectName = ["purchaseClientId"];
+         postObject = {
+            date : (extractData(inputName[0])),
+            purchaseWeight : (extractData(inputName[2])),
+            purchaseTunch : (extractData(inputName[5])),
+            purchaseProductId : extractData(inputName[1]),
+            purchaseLabourPerKg : (extractData(inputName[6])),
             clientId : document.querySelector('select[name="clientId"]').value,
-            purchaseSilver : parseFloat(extractData('purchaseSilver')),
-            purchaseCash : parseFloat(extractData('purchaseCash')),
+            purchaseSilver : parseFloat(extractData(inputName[3])),
+            purchaseCash : parseFloat(extractData(inputName[4])),
     };
     
+         url = '/purchase/addPurchase';
+    }else{
+         inputName =  ["saleDate","saleProductId","saleWeight","saleSilver","saleCash","saleTunch","saleLabourPerKg"];
+         selectName = ["saleClientId"];
+         postObject = {
+            date : (extractData(inputName[0])),
+            saleWeight : (extractData(inputName[2])),
+            saleTunch : (extractData(inputName[5])),
+            saleProductId : extractData(inputName[1]),
+            saleLabourPerKg : (extractData(inputName[6])),
+            clientId : document.querySelector(`select[name=${selectName[0]}]`).value,
+            saleSilver : parseFloat(extractData(inputName[3])),
+            saleCash : parseFloat(extractData(inputName[4])),
+    };
+    
+         url = '/sales/addSales';
+    }
+    
+   
     //postData ={product:{purchaseProductId,purchaseWeight,purchaseTunch,purchaseLabourPerkg}}
-    let url = '/purchase/addPurchase';
+    console.log(postObject);
+    
     fetch(url,{
         method:"POST",
         body:JSON.stringify(postObject),
@@ -135,23 +209,26 @@ function purchasePostData(target){
             (document.querySelector(target).parentElement).querySelector('.formSubmitMsg').querySelector('.formSubmitMsg-msg').innerHTML = "your data was succesfully submitted !!"
             closeForm(target);
             (document.querySelector(target).parentElement).querySelector('.formSubmitMsg').classList.remove('d-none');
-            setTimeout(()=>{window.location.reload();},3000);
+           // setTimeout(()=>{window.location.reload();},3000);
         }
     })}).catch();
 }
 
 function extractData(name){ //this func is to extract data from the html page 
+    //console.log(name);
     let arr =[];
     var elements = document.querySelectorAll(`input[name=${name}]`);
+    console.log(elements[0]);
     if(elements.length!==1){
         for(var i=0;i<elements.length;i++){
-             arr.push(elements[i].value); console.log(elements[i].value);
+             arr.push(elements[i].value); //console.log(elements[i].value);
         } return arr;
     }else{
         let arr = []
-        let data = ['purchaseProductId','purchaseTunch','purchaseWeight','purchaseLabourPerKg'];
+        let data = ['purchaseProductId','saleProductId','purchaseTunch','saleTunch','purchaseWeight','saleWeight','purchaseLabourPerKg','saleLabourPerKg'];
+        
        
-            if(elements[0].name===data[0]||elements[0].name===data[1]||elements[0].name===data[2]||elements[0].name===data[3]){
+            if(data.indexOf(elements[0].name)>=0){ console.log(`found the index of ${elements[0].name}`);
                 arr.push(elements[0].value);
                 return arr;
             }else{
@@ -172,11 +249,17 @@ function uiControlOfMsgDiv(event){ // class formSubmitMsg
 
 function removeProduct(event){//target paramenter is for the target table body(tbody) from which to remove the product.
     let productId = event.target.dataset.productId;
+    console.log(event.target);
     //console.log(productId);
-    let inputElement = document.querySelector('.purchaseProductListTableBody').querySelectorAll('input');
+    let target = event.target.dataset.action;console.log(target);
+    if(target==='purchase'){ //console.log('purchase');
+        var inputElement = document.querySelector('.purchaseProductListTableBody').querySelectorAll('input');
+    }else{ //console.log('sales');
+        var inputElement = document.querySelector('.salesProductListTableBody').querySelectorAll('input');
+    }
      inputElement.forEach(element=>{
         if(element.value===productId){
-         removeCalulation(element.parentElement);//passing argument (row element to capture the data and manipulate the formCalculation)
+         removeCalulation(element.parentElement,target);//passing argument (row element to capture the data and manipulate the formCalculation)
          element.parentElement.parentElement.removeChild(element.parentElement);
         }
     });
@@ -191,46 +274,59 @@ function removeProduct(event){//target paramenter is for the target table body(t
     tbody.removeChild(rowElement[rowElement.length-1]);*/
 
     // to check if any product is present in the table if not then hide the heading and the final form calulation 
-
-    let rowElement = document.querySelector('.purchaseProductListTableBody').querySelectorAll('tr');
-    if(rowElement.length===0){ 
-        document.querySelector('.purchaseTableDiv').classList.add('d-none');
-        document.querySelector('.purchaseProductFinalAmount').classList.add('d-none');
+    if(target==='purchase'){
+        let rowElement = document.querySelector('.purchaseProductListTableBody').querySelectorAll('tr');
+        if(rowElement.length===0){ 
+            document.querySelector('.purchaseTableDiv').classList.add('d-none');
+            document.querySelector('.purchaseProductFinalAmount').classList.add('d-none');
+        }
+    }else{
+        let rowElement = document.querySelector('.salesProductListTableBody').querySelectorAll('tr');
+        if(rowElement.length===0){ 
+            document.querySelector('.salesTableDiv').classList.add('d-none');
+            document.querySelector('.salesProductFinalAmount').classList.add('d-none');
+        }
     }
+    
 
 
 }
 
-function removeCalulation(element){ //func to remove the data from the final calculation after the product is removed.
+function removeCalulation(element,target){ //func to remove the data from the final calculation after the product is removed.
     let elementObject = {};
+    if(target==='purchase'){
+        var identifier = ['purchaseWeight','purchaseTunch','purchaseLabourPerKg','.purchaseProductFinalAmount','purchaseNetWeight','purchaseSilver','purchaseCash'];
+    }else{
+        var identifier = ['saleWeight','saleTunch','saleLabourPerKg','.salesProductFinalAmount','saleNetWeight','saleSilver','saleCash'];
+    }
    
-        elementObject.purchaseWeight = element.querySelector('input[name="purchaseWeight"]').value;
-        elementObject.purchaseTunch = element.querySelector('input[name="purchaseTunch"]').value;
-        elementObject.purchaseLabourPerKg = element.querySelector('input[name="purchaseLabourPerKg"]').value;
-        console.log(elementObject);
+        elementObject.weight = element.querySelector(`input[name=${identifier[0]}]`).value;
+        elementObject.tunch = element.querySelector(`input[name=${identifier[1]}]`).value;
+        elementObject.labourPerKg = element.querySelector(`input[name=${identifier[2]}]`).value;
+        //console.log(elementObject);
 
-            document.querySelector('.purchaseProductFinalAmount').querySelectorAll('input').forEach(inputElement=>{
+            document.querySelector(identifier[3]).querySelectorAll('input').forEach(inputElement=>{
                 
-                if(inputElement.getAttribute('name')==='netWeight'){ 
-                    if(elementObject.purchaseWeight!==""){
-                        inputElement.value = inputElement.value - elementObject.purchaseWeight;
+                if(inputElement.getAttribute('name')===identifier[4]){ 
+                    if(elementObject.weight!==""){
+                        inputElement.value = inputElement.value - elementObject.weight;
                     }
                 }
-                 if(inputElement.getAttribute('name')==='purchaseSilver'){
-                    if(elementObject.purchaseTunch!==""){
-                        inputElement.value = inputElement.value-(elementObject.purchaseWeight*elementObject.purchaseTunch/100);
+                 if(inputElement.getAttribute('name')===identifier[5]){
+                    if(elementObject.tunch!==""){
+                        inputElement.value = inputElement.value-(elementObject.weight*elementObject.tunch/100);
                     }
                 }
-                 if(inputElement.getAttribute('name')==='purchaseCash'){ 
-                    if(elementObject.purchaseLabourPerKg!==""){
-                        inputElement.value = inputElement.value-(elementObject.purchaseWeight*elementObject.purchaseLabourPerKg/1000);
+                 if(inputElement.getAttribute('name')===identifier[6]){ 
+                    if(elementObject.labourPerKg!==""){
+                        inputElement.value = inputElement.value-(elementObject.weight*elementObject.labourPerKg/1000);
                     }  
                 }
             });  
 }
 
 function restoreProdutListState(productId){
-    document.querySelector('#productListInPurchaseForm').querySelector('.modal-body').querySelectorAll('button')
+    document.querySelector('#productListForm').querySelector('.modal-body').querySelectorAll('button')
         .forEach(button=>{
             if(button.dataset.productId===productId){
                 if(button.querySelector('.itemPresentMsg')){
@@ -244,7 +340,9 @@ function restoreProdutListState(productId){
 //function to control form data entry ...........
 function formDataControl(event){ 
     if(event.target.tagName==='SELECT'){
-        if(event.target.value===""){ 
+        if(event.target.value===""){ if(event.target.parentElement.querySelector('.errorMsgSpan')){
+            validFormSubmit(false);
+        }else{
             let span= document.createElement('span');
             span.classList.add('text-capitalize','text-danger','errorMsgSpan');
             span.style.fontSize="small";
@@ -252,6 +350,8 @@ function formDataControl(event){
             span.appendChild(document.createTextNode('*please select appropriate option.'))
             event.target.parentElement.appendChild(span);
             validFormSubmit(false);
+            }
+            
             
         }else{
             if(event.target.parentElement.querySelector('.errorMsgSpan')){
@@ -265,13 +365,18 @@ function formDataControl(event){
     if(event.target.tagName==='INPUT'){ console.log('input');
         var patt = -/[0-9]/;
         if(event.target.value===""||event.target.value<0||event.target.value===(event.target.value).match(patt)){ console.log('value less 0');
-            let span= document.createElement('span');
-            span.classList.add('text-capitalize','text-danger','errorMsgSpan');
-            span.style.fontSize="small";
-            event.target.classList.add('border', 'border-1','border-danger','rounded');
-            span.appendChild(document.createTextNode('*negative values are not permitted'))
-            event.target.parentElement.appendChild(span);
-            validFormSubmit(false);
+            if(event.target.parentElement.querySelector('.errorMsgSpan')){
+                validFormSubmit(false);
+            }else{
+                
+                let span= document.createElement('span');
+                span.classList.add('text-capitalize','text-danger','errorMsgSpan');
+                span.style.fontSize="small";
+                event.target.classList.add('border', 'border-1','border-danger','rounded');
+                span.appendChild(document.createTextNode('*negative values are not permitted'))
+                event.target.parentElement.appendChild(span);
+                validFormSubmit(false);
+                }
         }else{
             if(event.target.parentElement.querySelector('.errorMsgSpan')){
                 event.target.parentElement.removeChild(event.target.parentElement.querySelector('.errorMsgSpan'));

@@ -26,5 +26,6 @@ api.post('/bullion/addBullionClient',bullionController.addBullionClient);
 api.get('/bullion/bullionTransactionForm',bullionController.addBullionTransactionForm);
 api.post('/bullion/addBullionTransaction',bullionController.addBullionTransaction);
 api.get('/transactions',transactionController.getTransactions);
+api.post('/sales/addSales',transactionController.addSalesTransaction);
 
 module.exports = api;

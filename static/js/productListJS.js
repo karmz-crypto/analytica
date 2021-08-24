@@ -3,27 +3,55 @@ window.onload = ()=>{
     console.log('productList ejs connect');
 };
 
-function addPurchaseProduct(event){
+function addProduct(event){
     let eventElement = event.target;
-    //console.log(eventElement.tagName);
+    console.log(eventElement);
     if(eventElement.tagName!=='BUTTON'){
         alert('Product Not Added Please Select Again')
     }else{
-        let productId = eventElement.dataset.productId;
+        //let productId = eventElement.dataset.productId;
         //console.log(productId);
-        createPurchaseProductTable(eventElement);
+        getPosition(eventElement);
     }
     
 }
 
-function createPurchaseProductTable(eventElement){
+function getWindow(event){ //currently i have two window ..1..purchase ...2..sales 
+    if(event.target.classList.contains('purchaseProduct')){
+        document.querySelectorAll('.productLiBtn').forEach(product=>{
+            product.classList.remove('saleProduct');
+            product.classList.add('purchaseProduct');
+        });
+    }else{
+        document.querySelectorAll('.productLiBtn').forEach(product=>{
+            product.classList.remove('purchaseProduct');
+            product.classList.add('saleProduct');
+        });
+    }
+}
+
+function getPosition(eventElement){
+    let position = [];
+    if(eventElement.classList.contains('purchaseProduct')){
+         let purchase = ['.purchaseTableDiv','.purchaseProductFinalAmount','.purchaseProductListTableBody'];
+         position = purchase;
+    }else{
+        let sale = ['.salesTableDiv','.salesProductFinalAmount','.salesProductListTableBody'];
+        position = sale;
+    }
+    createProductTable(eventElement,position);
+    
+}
+
+function createProductTable(eventElement,position){
+    console.log(eventElement.dataset.productId);
    
-    let isItemPresent = checkItemInList(eventElement); console.log(isItemPresent);
+    let isItemPresent = checkItemInList(eventElement,position); console.log(isItemPresent);
     if(isItemPresent){
         return;
     }else{
-        document.querySelector('.purchaseTableDiv').classList.remove('d-none');
-        document.querySelector('.purchaseProductFinalAmount').classList.remove('d-none');
+        document.querySelector(position[0]).classList.remove('d-none');
+        document.querySelector(position[1]).classList.remove('d-none');
         var tr = createElement('tr');
     var th = createElement('th');
     var td1 = createElement('td');
@@ -63,13 +91,23 @@ function createPurchaseProductTable(eventElement){
   var index = document.querySelectorAll('.tBodyIndex').length;
   th.appendChild(document.createTextNode(index+1));
   //console.log(tr);
-  setAttributes(th,{"class":"tBodyIndex","scope":"row"});
-  setAttributes(inputHidden,{"type":"hidden","value":" ","name":"purchaseProductId","value":eventElement.dataset.productId});
-  setAttributes(button,{"type":"button", "class":" text-wrap list-group-item list-group-item-action","data-product-id":eventElement.dataset.productId, "style":"font-size: small;","onclick":"copyPasteData(event)","data-bs-toggle":"modal","data-bs-target":"#productDetailsModal"});
-  setAttributes(inputWastage,{"type":"number", "step":"any", "name":"purchaseTunch", "min":"1", "max":"100", "style":"width: 110%;"});
-  setAttributes(inputWeight,{"type":"number", "step":"any", "name":"purchaseWeight", "min":"1", "style":"width: 125%;"});
-  setAttributes(inputLabour,{"type":"number", "step":"any", "name":"purchaseLabourPerKg", "min":"1", "style":    "width: 100%;","onfocusout":"formCalculation(event)"});
-  document.querySelector('.purchaseProductListTableBody').appendChild(tr);
+  if(eventElement.classList.contains('purchaseProduct')){ 
+    setAttributes(th,{"class":"tBodyIndex","scope":"row"});
+    setAttributes(inputHidden,{"type":"hidden","value":" ","name":"purchaseProductId","value":eventElement.dataset.productId});
+    setAttributes(button,{"type":"button", "class":" text-wrap list-group-item list-group-item-action ","data-product-id":eventElement.dataset.productId,"data-action":"purchase", "style":"font-size: small;","onclick":"copyPasteData(event,'purchase')","data-bs-toggle":"modal","data-bs-target":"#productDetailsModal"});
+    setAttributes(inputWastage,{"type":"number", "step":"any", "name":"purchaseTunch", "min":"1", "max":"100", "style":"width: 110%;"});
+    setAttributes(inputWeight,{"type":"number", "step":"any", "name":"purchaseWeight", "min":"1", "style":"width: 125%;"});
+    setAttributes(inputLabour,{"class":"purchaseTable","type":"number", "step":"any", "name":"purchaseLabourPerKg", "min":"1", "style":    "width: 100%;","onfocusout":"formCalculation(event)"});
+    }else{
+        setAttributes(th,{"class":"tBodyIndex","scope":"row"});
+        setAttributes(inputHidden,{"type":"hidden","value":" ","name":"saleProductId","value":eventElement.dataset.productId});
+        setAttributes(button,{"type":"button", "class":" text-wrap list-group-item list-group-item-action","data-product-id":eventElement.dataset.productId,"data-action":"sale", "style":"font-size: small;","onclick":"copyPasteData(event,'sale')","data-bs-toggle":"modal","data-bs-target":"#productDetailsModal"});
+        setAttributes(inputWastage,{"type":"number", "step":"any", "name":"saleTunch", "min":"1", "max":"100", "style":"width: 110%;"});
+        setAttributes(inputWeight,{"type":"number", "step":"any", "name":"saleWeight", "min":"1", "style":"width: 125%;"});
+        setAttributes(inputLabour,{"class":"salesTable","type":"number", "step":"any", "name":"saleLabourPerKg", "min":"1", "style":    "width: 100%;","onfocusout":"formCalculation(event)"});
+    }
+  
+  document.querySelector(position[2]).appendChild(tr);
   
     }
     
@@ -88,9 +126,10 @@ function setAttributes(el, attrs) {
     }
   }
 
-  function checkItemInList(eventElement){
+  function checkItemInList(eventElement,position){
+     console.log(eventElement);
       let isPresent = false;
-    var tableClass = document.querySelector('.purchaseProductListTableBody');
+    var tableClass = document.querySelector(position[2]);
     tableClass.querySelectorAll('input').forEach(element=>{
         if(eventElement.dataset.productId===element.value){ 
                 if(!eventElement.querySelector('.itemPresentMsg')){
@@ -111,38 +150,67 @@ function setAttributes(el, attrs) {
   }
 
   function formCalculation(event){  //console.log('in func');
-    let purchaseTunchArr = [];
-    let purchaseWeightArr = [];
-    let purchaseCashArr = [];
-    let purchaseCash =0 ;
-    let purchaseSilver =0;
-    let purchaseWeight=0;
-       document.querySelectorAll('input[name="purchaseTunch"]').forEach(element=>{
-           purchaseTunchArr.push((element.value));
-       });
-       document.querySelectorAll('input[name="purchaseWeight"]').forEach(element=>{
-            purchaseWeightArr.push((element.value));
-        });
-    document.querySelectorAll('input[name="purchaseLabourPerKg"]').forEach(element=>{
-        purchaseCashArr.push((element.value));
-    });
 
-    for(var i=0;i<purchaseTunchArr.length;i++){
-        purchaseWeight += parseFloat(purchaseWeightArr[i]);
-        purchaseSilver += parseFloat(purchaseWeightArr[i])*parseFloat(purchaseTunchArr[i])/100;
-        purchaseCash += parseFloat(purchaseWeightArr[i])*parseFloat(purchaseCashArr[i])/1000; 
-        
+    let tunchArray = [];
+    let weightArray = [];
+    let cashArray = [];
+    let cash =0 ;
+    let silver =0;
+    let weight=0;
+    if(event.target.classList.contains('purchaseTable')){ //console.log('purchase');
+        document.querySelectorAll('input[name="purchaseTunch"]').forEach(element=>{
+            tunchArray.push((element.value));
+            console.log(tunchArray[0]);
+        });
+        document.querySelectorAll('input[name="purchaseWeight"]').forEach(element=>{
+             weightArray.push((element.value));console.log(weightArray[0]);
+         });
+     document.querySelectorAll('input[name="purchaseLabourPerKg"]').forEach(element=>{
+         cashArray.push((element.value));console.log(cashArray[0]);
+     });
+ 
+     for(var i=0;i<tunchArray.length;i++){
+         weight += parseFloat(weightArray[i]);
+         silver += parseFloat(weightArray[i])*parseFloat(tunchArray[i])/100;
+         cash += parseFloat(weightArray[i])*parseFloat(cashArray[i])/1000; 
+         
+     }
+     console.log(weight,silver,cash);
+     document.querySelector('input[name="purchaseNetWeight"]').value = weight;
+         document.querySelector('input[name="purchaseSilver"]').value = silver;
+         document.querySelector('input[name="purchaseCash"]').value = cash;
+
+    }else{ //console.log('sales');
+
+        document.querySelectorAll('input[name="saleTunch"]').forEach(element=>{
+            tunchArray.push((element.value));
+        });
+        document.querySelectorAll('input[name="saleWeight"]').forEach(element=>{
+             weightArray.push((element.value));
+         });
+     document.querySelectorAll('input[name="saleLabourPerKg"]').forEach(element=>{
+         cashArray.push((element.value));
+     });
+ 
+     for(var i=0;i<tunchArray.length;i++){
+         weight += parseFloat(weightArray[i]);
+         silver += parseFloat(weightArray[i])*parseFloat(tunchArray[i])/100;
+         cash += parseFloat(weightArray[i])*parseFloat(cashArray[i])/1000; 
+         
+     }
+     console.log(weight,silver,cash);
+     document.querySelector('input[name="saleNetWeight"]').value = weight;
+         document.querySelector('input[name="saleSilver"]').value = silver;
+         document.querySelector('input[name="saleCash"]').value = cash;
+
     }
-   // console.log(purchaseWeight,purchaseSilver,purchaseCash);
-    document.querySelector('input[name="netWeight"]').value = purchaseWeight;
-        document.querySelector('input[name="purchaseSilver"]').value = purchaseSilver;
-        document.querySelector('input[name="purchaseCash"]').value = purchaseCash;
+     
 
        
 }
   
-  function copyPasteData(event){ console.log('in copy paste');
-      let eventElement = event.target;
+  function copyPasteData(event,target){ console.log('in copy paste');
+      let eventElement = event.target; //consoel.log(eventElement);
       let productId = eventElement.dataset.productId;
       const url = `/api/product/${productId}`;
       fetch(url)
@@ -157,6 +225,7 @@ function setAttributes(el, attrs) {
                     span[0].innerHTML= data.productDesc;
                     span[1].innerHTML= data.productTunch;
                     document.querySelector('#productDetailsModal').querySelector('.removeBtn').setAttribute('data-product-id',productId); 
+                    document.querySelector('#productDetailsModal').querySelector('.removeBtn').setAttribute('data-action',target); 
                    
                 });
             
