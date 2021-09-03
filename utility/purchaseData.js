@@ -15,7 +15,7 @@ function getPurchaseData(req,res){
     }else{
        // var query = purchaseModel.find().exec();
         var promiseData = new Promise((resolve,reject)=>{
-            var query = purchaseModel.find({}).populate('purchaseProductInfo.productId client').sort('-date').exec();
+            var query = purchaseModel.find({}).populate({path:'purchaseProductInfo.productId',model:'Product',path:'client',model:'Client'}).sort('-date').exec();
             if(query){resolve(query)}else{reject(error)}
         });
     }

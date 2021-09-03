@@ -7,14 +7,18 @@ const purchaseData = require('../utility/purchaseData');
 const productData = require('../utility/productData');
 const clientData = require('../utility/clientData');
 const salesData = require('../utility/saleData');
+const processData = require('../utility/purchaseProcess');
 
 exports.getTransactions = (req,res)=>{ //console.log('transaction');
     let purchase = purchaseData.getPurchaseData(req,res);
     let product = productData.getProductData(req,res);
     let client = clientData.getClientData(req,res);
-    Promise.all([product,client,purchase]).then(result=>{ //console.log(result[2]);
+    let processedPurchase = processData.processPurchase(purchase,new Date().getMonth());
+    Promise.all([product,client,purchase,processedPurchase]).then(result=>{ //console.log(result[3].previousYearMonthlyPurchase);
         res.render('transaction',{pageTitle:'Transactions',
-            clients:result[1],products:result[0],purchase:result[2],sales:[{}]
+            clients:result[1],products:result[0],purchase:result[2],sales:[{}],
+            currentYearMonthlyPurchase:result[3].currentYearMonthlyPurchase,
+            previousYearMonthlyPurchase:result[3].previousYearMonthlyPurchase
         });
     }).catch();
      

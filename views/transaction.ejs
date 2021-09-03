@@ -12,7 +12,7 @@
 <div class="container my-3 p-3 purchaseTransaction">
     <div class="purchaseNavTab">
         <button type="button" class="btn btn-secondary btn-sm mx-2 addPurchaseBtn" onclick="formControl(event)">
-            Add Transaction
+            Add Purchase Transaction
         </button>
     </div>
     <div class="addPurchaseDiv d-none my-2 p-2 border-1 border-secondary border">      
@@ -31,8 +31,8 @@
                     <td scope="col">Total Purchase Of The Day</td>
                     <td scope="col">
                         <div class="dropdown">
-                            <button class="btn btn-success dropdown-toggle" type="button" id="purchaseDropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                            Total Purchase
+                            <button class="btn btn-sm btn-success dropdown-toggle" type="button" id="purchaseDropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                Total Purchase
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="purchaseDropdownMenuButton">
                                 <li onclick="metadataView(event)" class="purchase weekly"><a role="button" class="dropdown-item">Weekly Purchase</a></li>
@@ -85,6 +85,143 @@
     <div class="viewPurchaseTransaction my-1 p-1 container">
         <%- include('partials/viewPurchaseTransaction.ejs')%>
     </div>
+    <div class="container my-1">
+        <table class="table table-striped table-success">
+            <thead>
+              <tr>
+                <th scope="col">Top Purchase Of The Day</th>
+                <th scope="col">
+                    <div class="dropdown">
+                    <button class="btn btn-success btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                      <%let month = new Date().getMonth()%>
+                        <% let monthArray = ['January','Feburay','March','April','May','June','July','August','September','October','November','December']%>
+                        <%=monthArray[month]%>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <% monthArray.forEach(array=>{%>
+                            <li><a role="button" class="dropdown-item" href="#"><%=array%></a></li>
+                        <%})%>
+                    </ul>
+                  </div></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Mark</td>
+                <td>Otto</td>
+              </tr>
+              <tr>
+                <td colspan="2"><button class=" btn btn-sm btn-success" href="#">View Monthly Purchase Transaction</button></td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+    <div class="container accordianMetadataDiv my-1">
+        <div class="accordion accordion-flush" id="accordionFlushExample">
+            <div class="accordion-item my-1">
+              <h2 class="accordion-header" id="flush-headingOne">
+                <button style="background-color: #fee27f;" class="accordion-button collapsed border rounded text-success" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne" style="letter-spacing: 0.08rem;">
+                  Items Purchased 
+                </button>
+              </h2>
+              <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                    <div class="my-1 p-3 clear-fix border border-bottom">
+                        <div class="dropdown">
+                            Select Month
+                            <button class="btn btn-success btn-sm dropdown-toggle float-end" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                <%=monthArray[month]%>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <% monthArray.forEach(array=>{%>
+                                    <li><a role="button" class="dropdown-item" href="#"><%=array%></a></li>
+                                <%})%>
+                            </ul>
+                          </div>
+                    </div>
+                    <table class="table table-success table-striped itemPurchasedAccordianTable">
+                        <caption class="text-capitalize"  style="font-size: small;"> <span>yearly comparision of purchase of item</span><br>
+                        </caption>
+                        
+                        <thead>
+                          <tr>
+                            <th scope="col">#</th>
+                            <th colspan="2" scope="col">Item </th>
+                            <th scope="col">Tunch </th>
+                            <th scope="col"><%=new Date().getFullYear()%></th>
+                            <th scope="col"><%=new Date().getFullYear()-1%></th>
+                          </tr>
+                        </thead>
+                        
+                        <tbody class="itemPurchasedAccordianTbody">
+                            <% var productName;%>
+                            <% var productTunch %>
+                            <% var index = 0;%>
+                            <%currentYearMonthlyPurchase.productId.forEach(data=>{%>
+                                <%products.forEach(productData=>{%>
+                                   <% if(JSON.stringify(productData._id)===data){%>
+                                       <% productName = productData.productDesc;%>
+                                       <% productTunch = productData.productTunch%>
+                                    <%}%>
+                                <%})%>
+                                <% if(currentYearMonthlyPurchase.purchase[index]!==0 || previousYearMonthlyPurchase.purchase[index]!==0){%>
+                                    <tr class="d-none">
+                                        <th scope="row"><%=index+1%></th>             
+                                        <td colspan="2"><%=productName%></td>
+                                        <td><%=productTunch%></td>
+                                        <% var cymp = currentYearMonthlyPurchase.purchase[index]/1000;%>
+                                        <% var pymp = previousYearMonthlyPurchase.purchase[index]/1000%>
+                                        
+                                        <td class="fw-bold text-success"><%=Math.round(currentYearMonthlyPurchase.purchase[index]/1000)%></td>
+                                        <td class="fw-bold text-success"><%=Math.round(previousYearMonthlyPurchase.purchase[index]/1000)%></td>                
+                                                        
+                                    </tr> 
+                               <% } %>
+                                
+                                <%index++%>
+                            <%})%>
+                      
+                        </tbody>
+                    </table>
+                    <div class="paginationNav d-none">
+                        <nav aria-label="Page navigation example">
+                            Page NO:
+                            <input type="text" readonly value="1" maxlength="2" size="2" class="mb-2 border border-1 border-success rounded mx-2">
+                              
+                            <ul class="pagination">
+                              <li class="page-item"><a role="button" class="page-link previous">Previous</a></li>
+                              <li class="page-item"><a role="button" class="page-link pageOne activePage">1</a></li>
+                              <li class="page-item"><a role="button " class="page-link pageTwo" onclick="changePage(event,'itemPurchasedAccordianTbody')">2</a></li>
+                              <li class="page-item"><a role="button" class="page-link pageThree" onclick="changePage(event,'itemPurchasedAccordianTbody')">3</a></li>
+                              <li class="page-item"><a role="button" class="page-link next" onclick="changePage(event,'itemPurchasedAccordianTbody')">Next</a></li>
+                            </ul>
+                          </nav>
+                    </div>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item my-1">
+              <h2 class="accordion-header" id="flush-headingTwo">
+                <button style="background-color: #fee27f;" class=" border rounded accordion-button collapsed text-success" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                  Accordion Item #2
+                </button>
+              </h2>
+              <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the second item's accordion body. Let's imagine this being filled with some actual content.</div>
+              </div>
+            </div>
+            <div class="accordion-item my-1">
+              <h2 class="accordion-header" id="flush-headingThree">
+                <button style="background-color: #fee27f;" class="border rounded accordion-button collapsed text-success" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+                  Accordion Item #3
+                </button>
+              </h2>
+              <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the third item's accordion body. Nothing more exciting happening here in terms of content, but just filling up the space to make it look, at least at first glance, a bit more representative of how this would look in a real-world application.</div>
+              </div>
+            </div>
+          </div>
+    </div>
 
 
 </div>
@@ -94,7 +231,7 @@
 <div class="container d-none my-3 p-3 salesTransaction">
     <div class="salesNavTab">
         <button type="button" class="btn btn-secondary btn-sm mx-2 addSalesBtn" onclick="formControl(event)">
-            Add Transaction
+            Add Sales Transaction
         </button>
     </div>
     <div class="addSalesDiv d-none my-2 p-2 border-1 border-secondary border">      
@@ -190,7 +327,7 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           <button type="button" class="btn btn-primary">Add Product To List</button>
-          <span class="text-capitalize text-info" style="font-size: small;">Click To add product if not present in the list</span>
+          <a class="text-capitalize text-info" style="font-size: small;" href="products/addProductsForm">Click To add product if not present in the list</span>
         </div>
       </div>
     </div>

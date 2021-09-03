@@ -172,7 +172,7 @@ function purchasePostData(event,target){
             purchaseTunch : (extractData(inputName[5])),
             purchaseProductId : extractData(inputName[1]),
             purchaseLabourPerKg : (extractData(inputName[6])),
-            clientId : document.querySelector('select[name="clientId"]').value,
+            clientId : document.querySelector(`select[name=${selectName[0]}]`).value,
             purchaseSilver : parseFloat(extractData(inputName[3])),
             purchaseCash : parseFloat(extractData(inputName[4])),
     };
