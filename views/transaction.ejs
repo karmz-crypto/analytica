@@ -188,12 +188,12 @@
                             Page NO:
                             <input type="text" readonly value="1" maxlength="2" size="2" class="mb-2 border border-1 border-success rounded mx-2">
                               
-                            <ul class="pagination">
+                            <ul class="pagination purchase">
                               <li class="page-item"><a role="button" class="page-link previous">Previous</a></li>
                               <li class="page-item"><a role="button" class="page-link pageOne activePage">1</a></li>
-                              <li class="page-item"><a role="button " class="page-link pageTwo" onclick="changePage(event,'itemPurchasedAccordianTbody')">2</a></li>
-                              <li class="page-item"><a role="button" class="page-link pageThree" onclick="changePage(event,'itemPurchasedAccordianTbody')">3</a></li>
-                              <li class="page-item"><a role="button" class="page-link next" onclick="changePage(event,'itemPurchasedAccordianTbody')">Next</a></li>
+                              <li class="page-item"><a role="button " class="page-link pageTwo" onclick="changeTablePage(event,'itemPurchasedAccordianTbody')">2</a></li>
+                              <li class="page-item"><a role="button" class="page-link pageThree" onclick="changeTablePage(event,'itemPurchasedAccordianTbody')">3</a></li>
+                              <li class="page-item"><a role="button" class="page-link next" onclick="changeTablePage(event,'itemPurchasedAccordianTbody')">Next</a></li>
                             </ul>
                           </nav>
                     </div>
@@ -304,6 +304,143 @@
     <div class="viewSaleTransaction my-1 p-1 container">
         <%- include('partials/viewSalesTransaction.ejs')%>
     </div>
+    <div class="container my-1">
+        <table class="table table-striped table-success">
+            <thead>
+              <tr>
+                <th scope="col">Top Purchase Of The Day</th>
+                <th scope="col">
+                    <div class="dropdown">
+                    <button class="btn btn-success btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                      <%let monthSale = new Date().getMonth()%>
+                        <% let monthSaleArray = ['January','Feburay','March','April','May','June','July','August','September','October','November','December']%>
+                        <%=monthSaleArray[month]%>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <% monthSaleArray.forEach(array=>{%>
+                            <li><a role="button" class="dropdown-item" href="#"><%=array%></a></li>
+                        <%})%>
+                    </ul>
+                  </div></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Mark</td>
+                <td>Otto</td>
+              </tr>
+              <tr>
+                <td colspan="2"><button class=" btn btn-sm btn-success" href="#">View Monthly Purchase Transaction</button></td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+    <div class="container accordianMetadataDiv my-1">
+        <div class="accordion accordion-flush" id="accordionSaleFlushExample">
+            <div class="accordion-item my-1">
+              <h2 class="accordion-header" id="flush-headingOneSale">
+                <button style="background-color: #fee27f;" class="accordion-button collapsed border rounded text-success" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOneSale" aria-expanded="false" aria-controls="flush-collapseOneSale" style="letter-spacing: 0.08rem;">
+                  Items Sale
+                </button>
+              </h2>
+              <div id="flush-collapseOneSale" class="accordion-collapse collapse" aria-labelledby="flush-headingOneSale" data-bs-parent="#accordionSaleFlushExample">
+                <div class="accordion-body">
+                    <div class="my-1 p-3 clear-fix border border-bottom">
+                        <div class="dropdown">
+                            Select Month
+                            <button class="btn btn-success btn-sm dropdown-toggle float-end" type="button" id="dropdownMenuButtonSale" data-bs-toggle="dropdown" aria-expanded="false">
+                                <%=monthSaleArray[monthSale]%>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButtonSale">
+                                <% monthSaleArray.forEach(array=>{%>
+                                    <li><a role="button" class="dropdown-item" href="#"><%=array%></a></li>
+                                <%})%>
+                            </ul>
+                          </div>
+                    </div>
+                    <table class="table table-success table-striped itemSaleAccordianTable">
+                        <caption class="text-capitalize"  style="font-size: small;"> <span>yearly comparision of sale of item</span><br>
+                        </caption>
+                        
+                        <thead>
+                          <tr>
+                            <th scope="col">#</th>
+                            <th colspan="2" scope="col">Item </th>
+                            <th scope="col">Tunch </th>
+                            <th scope="col"><%=new Date().getFullYear()%></th>
+                            <th scope="col"><%=new Date().getFullYear()-1%></th>
+                          </tr>
+                        </thead>
+                        
+                        <tbody class="itemSaleAccordianTbody">
+                            <% var productNameSale;%>
+                            <% var productTunchSale %>
+                            <% var index = 0;%>
+                            <%currentYearMonthlySale.productId.forEach(data=>{%>
+                                <%products.forEach(productData=>{%>
+                                   <% if(JSON.stringify(productData._id)===data){%>
+                                       <% productNameSale = productData.productDesc;%>
+                                       <% productTunchSale = productData.productTunch%>
+                                    <%}%>
+                                <%})%>
+                                <% if(currentYearMonthlySale.purchase[index]!==0 || previousYearMonthlySale.purchase[index]!==0){%>
+                                    <tr class="d-none">
+                                        <th scope="row"><%=index+1%></th>             
+                                        <td colspan="2"><%=productNameSale%></td>
+                                        <td><%=productTunchSale%></td>
+                                        <% var cymp = currentYearMonthlySale.purchase[index]/1000;%>
+                                        <% var pymp = previousYearMonthlySale.purchase[index]/1000%>
+                                        
+                                        <td class="fw-bold text-success"><%=Math.round(currentYearMonthlySale.purchase[index]/1000)%></td>
+                                        <td class="fw-bold text-success"><%=Math.round(previousYearMonthlySale.purchase[index]/1000)%></td>                
+                                                        
+                                    </tr> 
+                               <%}%>
+                                
+                                <%index++%>
+                            <%})%>
+                      
+                        </tbody>
+                    </table>
+                    <div class="paginationNav d-none">
+                        <nav aria-label="Page navigation example">
+                            Page NO:
+                            <input type="text" readonly value="1" maxlength="2" size="2" class="mb-2 border border-1 border-success rounded mx-2">
+                              
+                            <ul class="pagination sale">
+                              <li class="page-item"><a role="button" class="page-link previous">Previous</a></li>
+                              <li class="page-item"><a role="button" class="page-link pageOne activePage">1</a></li>
+                              <li class="page-item"><a role="button " class="page-link pageTwo" onclick="changeTablePage(event,'itemSaleAccordianTbody')">2</a></li>
+                              <li class="page-item"><a role="button" class="page-link pageThree" onclick="changeTablePage(event,'itemSaleAccordianTbody')">3</a></li>
+                              <li class="page-item"><a role="button" class="page-link next" onclick="changeTablePage(event,'itemSaleAccordianTbody')">Next</a></li>
+                            </ul>
+                          </nav>
+                    </div>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item my-1">
+              <h2 class="accordion-header" id="flush-headingTwo">
+                <button style="background-color: #fee27f;" class=" border rounded accordion-button collapsed text-success" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                  Accordion Item #2
+                </button>
+              </h2>
+              <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the second item's accordion body. Let's imagine this being filled with some actual content.</div>
+              </div>
+            </div>
+            <div class="accordion-item my-1">
+              <h2 class="accordion-header" id="flush-headingThree">
+                <button style="background-color: #fee27f;" class="border rounded accordion-button collapsed text-success" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+                  Accordion Item #3
+                </button>
+              </h2>
+              <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the third item's accordion body. Nothing more exciting happening here in terms of content, but just filling up the space to make it look, at least at first glance, a bit more representative of how this would look in a real-world application.</div>
+              </div>
+            </div>
+          </div>
+    </div>
 
 
 </div>
@@ -362,6 +499,26 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
           <button type="button" class="btn btn-sm btn-white text-danger removeBtn" onclick="removeProduct(event)">Remove Product</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--view transaction details -->
+
+  <!-- Modal -->
+  <div class="modal fade" id="transactionDetailModal" tabindex="-1" aria-labelledby="transactionDetailLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-success" id="transactionDetailLabel">Purchase Details:</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-2 m-1 bg-secondary">
+         
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-sm btn-outline-secondary text-danger" data-bs-dismiss="modal">Close</button>
         </div>
       </div>
     </div>

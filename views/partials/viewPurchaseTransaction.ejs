@@ -26,12 +26,12 @@
     </form>
     <div class="container p-2 my-2">
       <span class="text-success fw-bold m-2 border-bottom border-2 border-secondary">Search By </span><br>
-      <button type="button" class="btn btn-sm btn-success mx-3 my-2 searchByNameBtn" onclick="searchTransaction(event)">Name
+      <button type="button" class="btn btn-sm btn-success mx-3 my-2 searchByNameBtn" onclick="searchPurchaseTransaction(event)">Name
         <span class="mx-2"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-file-person-fill" viewBox="0 0 16 16">
           <path d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm-1 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0zm-3 4c2.623 0 4.146.826 5 1.755V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-1.245C3.854 11.825 5.377 11 8 11z"/>
         </svg></span>
       </button>
-      <button type="button" class="btn btn-sm btn-light mx-3 my-3 searchByDateBtn" onclick="searchTransaction(event)">Date
+      <button type="button" class="btn btn-sm btn-light mx-3 my-3 searchByDateBtn" onclick="searchPurchaseTransaction(event)">Date
         <span class="mx-2">
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-calendar-date" viewBox="0 0 16 16">
             <path d="M6.445 11.688V6.354h-.633A12.6 12.6 0 0 0 4.5 7.16v.695c.375-.257.969-.62 1.258-.777h.012v4.61h.675zm1.188-1.305c.047.64.594 1.406 1.703 1.406 1.258 0 2-1.066 2-2.871 0-1.934-.781-2.668-1.953-2.668-.926 0-1.797.672-1.797 1.809 0 1.16.824 1.77 1.676 1.77.746 0 1.23-.376 1.383-.79h.027c-.004 1.316-.461 2.164-1.305 2.164-.664 0-1.008-.45-1.05-.82h-.684zm2.953-2.317c0 .696-.559 1.18-1.184 1.18-.601 0-1.144-.383-1.144-1.2 0-.823.582-1.21 1.168-1.21.633 0 1.16.398 1.16 1.23z"/>
@@ -84,7 +84,7 @@
 <!--transaction detail modal -->
 <!-- Button trigger modal -->
   <!-- Modal -->
-  <div class="modal fade" id="transactionDetailModal" tabindex="-1" aria-labelledby="transactionDetailLabel" aria-hidden="true">
+  <!--<div class="modal fade" id="transactionDetailModal" tabindex="-1" aria-labelledby="transactionDetailLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -99,6 +99,6 @@
         </div>
       </div>
     </div>
-  </div>
+  </div>-->
 
   <script type="text/javascript" src="/viewPurchaseTransaction.js"></script>

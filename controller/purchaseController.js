@@ -81,6 +81,7 @@ exports.addPurchaseForm =(req,res)=>{
 };
 
 exports.addPurchase = (req,res)=>{
+  //console.log(req.body);
   //console.log('u r here');
   //console.log(req.body.purchaseSilver);
   //console.log(req.body.date);
@@ -179,6 +180,7 @@ exports.addPurchase = (req,res)=>{
     .catch(error=>console.log(error));  */
 
     const purchase = new PurchaseModel({
+
       _id:new mongoose.Types.ObjectId(),
       client: ObjectId(req.body.clientId), // received via purchase form
       date:new Date(req.body.date),

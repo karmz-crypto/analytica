@@ -209,7 +209,7 @@ function purchasePostData(event,target){
             (document.querySelector(target).parentElement).querySelector('.formSubmitMsg').querySelector('.formSubmitMsg-msg').innerHTML = "your data was succesfully submitted !!"
             closeForm(target);
             (document.querySelector(target).parentElement).querySelector('.formSubmitMsg').classList.remove('d-none');
-           // setTimeout(()=>{window.location.reload();},3000);
+            setTimeout(()=>{window.location.reload();},3000);
         }
     })}).catch();
 }

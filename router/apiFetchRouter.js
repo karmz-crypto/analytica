@@ -8,6 +8,8 @@ apiFetchRouter.get('/client/:id/purchase',clientViewApi.getApiPurchase);
 apiFetchRouter.get('/product/:id',productApi.getProductApi);
 apiFetchRouter.get('/transaction/purchase/:id',transaction.getTransactionPurchase);
 apiFetchRouter.post('/transaction/purchase/:id',transaction.getTransactionPurchase);
+apiFetchRouter.get('/transaction/sale/:id',transaction.getTransactionSale);
+apiFetchRouter.post('/transaction/sale/:id',transaction.getTransactionSale);
 
 
 

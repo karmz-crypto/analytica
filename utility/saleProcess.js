@@ -2,24 +2,24 @@
 const productData = require('../model/ProductModel');
 const mongoose = require('mongoose');
 
-function processPurchase(purchaseData,month){ 
+function processSale(purchaseData,month){ 
    // console.log(purchaseData);
 
     let dataProcessType ={
-        monthlyPurchase:'monthlyPurchaseData'
+        monthlyPurchase:'monthlySaleData'
     };
-    let dataProcessResult = {currentYearMonthlyPurchase:{},previousYearMonthlyPurchase:{}};
+    let dataProcessResult = {currentYearMonthlySale:{},previousYearMonthlySale:{}};
     let productIdArray = [];
     let exclusiveArray = [];
     purchaseData.then(data=>{
         data.forEach(element=>{
-            element.purchaseProductInfo.forEach(data=>{
+            element.saleProductInfo.forEach(data=>{
                 productIdArray.push(stringifyObject(data.productId));
             });
         });
        exclusiveArray = removeDuplicate(productIdArray);// unique item list ..
-        dataProcessResult.currentYearMonthlyPurchase = dataProcessing(data,exclusiveArray,dataProcessType.monthlyPurchase,month,new Date().getFullYear()); // the array of object id passed is string not an object ... 
-        dataProcessResult.previousYearMonthlyPurchase = dataProcessing(data,exclusiveArray,dataProcessType.monthlyPurchase,month,new Date().getFullYear()-1); // the array of object id passed is string not an object ... 
+        dataProcessResult.currentYearMonthlySale = dataProcessing(data,exclusiveArray,dataProcessType.monthlyPurchase,month,new Date().getFullYear()); // the array of object id passed is string not an object ... 
+        dataProcessResult.previousYearMonthlySale = dataProcessing(data,exclusiveArray,dataProcessType.monthlyPurchase,month,new Date().getFullYear()-1); // the array of object id passed is string not an object ... 
     }).catch();
     return dataProcessResult;
 }
@@ -38,7 +38,7 @@ function converToObject(arrayItem){
 
 function dataProcessing(purchaseData,exclusiveArray,operations,month,year){
    // the exclusive array is the string of productId.... an objectId of mongoDb.
-   if(operations==='monthlyPurchaseData'){
+   if(operations==='monthlySaleData'){
        return monthlyPurchaseData(purchaseData,exclusiveArray,month,year);
    }
 }
@@ -49,9 +49,9 @@ function monthlyPurchaseData(purchaseData,exclusiveArray,month,year){
        exclusiveArray.forEach(item=>{  let purchaseWeight = 0;
             purchaseData.forEach(data=>{
                 if(new Date(data.date).getMonth()===month && new Date(data.date).getFullYear()===year){
-                    data.purchaseProductInfo.forEach(product=>{
+                    data.saleProductInfo.forEach(product=>{
                         if(JSON.stringify(product.productId)===item){
-                                purchaseWeight += product.purchaseWeight;  
+                                purchaseWeight += product.saleWeight;  
                         } 
                     });
                 }
@@ -64,6 +64,6 @@ function monthlyPurchaseData(purchaseData,exclusiveArray,month,year){
 }
 
 
-const processedData = {processPurchase};
+const processedData = {processSale};
 
 module.exports = processedData;

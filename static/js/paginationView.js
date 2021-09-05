@@ -4,13 +4,13 @@ window.onload = ()=>{
 };
 
 function paginationView(){
-    var tBodyClassArray = ['.itemPurchasedAccordianTbody'] ;
+    var tBodyClassArray = ['.itemPurchasedAccordianTbody','.itemSaleAccordianTbody'] ;//table body to be affected with pagnation
     tBodyClassArray.forEach(element=>{
         var tBodyElement = document.querySelector(element);
         if(tBodyElement!==null){
-            var childCount = tBodyElement.childElementCount;
+            var childCount = tBodyElement.childElementCount; //console.log(childCount);
            // var numberOfPages = numberOfPage(childCount);
-            if(childCount>1){
+            if(childCount>=1){
                 addPagination(tBodyElement);
                 createPageStructure(tBodyElement);
             }
@@ -47,15 +47,23 @@ function onLoadPageStructure(childElementCollection,tBodyElement){
 
 }
 
-function changePage(event,tableBody){ //onclick event handler of paginationNav 
+function changeTablePage(event,tableBody){ //onclick event handler of paginationNav 
     // first connect  the previous button and page 1 button of pagination Nav with changePage function by default it is nt present.
     var eventElement = event.target;
     var parentElement = eventElement.parentElement.parentElement;
+    var tableBodyClassName ;
     //console.log(parentElement); 
-    parentElement.querySelector('.previous').setAttribute('onclick','changePage(event,"itemPurchasedAccordianTbody")');
+    if(parentElement.classList.contains('purchase')){
+        parentElement.querySelector('.previous').setAttribute('onclick','changeTablePage(event,"itemPurchasedAccordianTbody")');
+        parentElement.querySelector('.pageOne').setAttribute('onclick','changeTablePage(event,"itemPurchasedAccordianTbody")');
+    }else{
+        parentElement.querySelector('.previous').setAttribute('onclick','changeTablePage(event,"itemSaleAccordianTbody")');
+        parentElement.querySelector('.pageOne').setAttribute('onclick','changeTablePage(event,"itemSaleAccordianTbody")');
+    }
+    
     parentElement.querySelector('.previous').removeAttribute('disabled');
     parentElement.querySelector('.previous').classList.remove('text-muted');
-    parentElement.querySelector('.pageOne').setAttribute('onclick','changePage(event,"itemPurchasedAccordianTbody")');
+    
     parentElement.querySelector('.activePage').classList.remove('bg-secondary','text-white','activePage');
     eventElement.classList.add('bg-secondary','text-white','activePage');
     var numOfPage = numberOfPage(tableBody);//tableBody is the selector of the table tBody class name passed on click event

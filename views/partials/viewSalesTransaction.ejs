@@ -15,24 +15,24 @@
       <form class="searchByName">
         <fieldset class="d-flex">
           <input class="form-control mx-2 inputSearchByName" type="search" placeholder="Search Transaction" aria-label="Search">
-          <button class="btn btn-outline-success" type="button" onclick="getPurchaseTransactionData(event,'name')">Search</button>
+          <button class="btn btn-outline-success" type="button" onclick="getSaleTransactionData(event,'name')">Search</button>
         </fieldset>  
       </form>
       <form class="searchByDate d-none">
         <fieldset>
           Start:<input class="form-control inputSearchByDateStart" type="date" placeholder="Start Date" aria-label="Search"><br>
           End:<input class="form-control inputSearchByDateEnd" type="date" placeholder="End Date" aria-label="Search"><br>
-          <button class="btn btn-outline-success mx-2" type="button" onclick="getPurchaseTransactionData(event,'date')">Search</button>
+          <button class="btn btn-outline-success mx-2" type="button" onclick="getSaleTransactionData(event,'date')">Search</button>
         </fieldset>
       </form>
       <div class="container p-2 my-2">
         <span class="text-success fw-bold m-2 border-bottom border-2 border-secondary">Search By </span><br>
-        <button type="button" class="btn btn-sm btn-success mx-3 my-2 searchByNameBtn" onclick="searchTransaction(event)">Name
+        <button type="button" class="btn btn-sm btn-success mx-3 my-2 searchByNameBtn" onclick="searchSaleTransaction(event)">Name
           <span class="mx-2"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-file-person-fill" viewBox="0 0 16 16">
             <path d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm-1 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0zm-3 4c2.623 0 4.146.826 5 1.755V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-1.245C3.854 11.825 5.377 11 8 11z"/>
           </svg></span>
         </button>
-        <button type="button" class="btn btn-sm btn-light mx-3 my-3 searchByDateBtn" onclick="searchTransaction(event)">Date
+        <button type="button" class="btn btn-sm btn-light mx-3 my-3 searchByDateBtn" onclick="searchSaleTransaction(event)">Date
           <span class="mx-2">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-calendar-date" viewBox="0 0 16 16">
               <path d="M6.445 11.688V6.354h-.633A12.6 12.6 0 0 0 4.5 7.16v.695c.375-.257.969-.62 1.258-.777h.012v4.61h.675zm1.188-1.305c.047.64.594 1.406 1.703 1.406 1.258 0 2-1.066 2-2.871 0-1.934-.781-2.668-1.953-2.668-.926 0-1.797.672-1.797 1.809 0 1.16.824 1.77 1.676 1.77.746 0 1.23-.376 1.383-.79h.027c-.004 1.316-.461 2.164-1.305 2.164-.664 0-1.008-.45-1.05-.82h-.684zm2.953-2.317c0 .696-.559 1.18-1.184 1.18-.601 0-1.144-.383-1.144-1.2 0-.823.582-1.21 1.168-1.21.633 0 1.16.398 1.16 1.23z"/>
@@ -44,13 +44,13 @@
     </div>
   
     <div class="container my-2 p-2  border border-1 border-secondary rounded">
-      <div class="searchPurchaseTransactionDiv text-success my-2">
+      <div class="searchSaleTransactionDiv text-success my-2">
       <!--Client Name : <span class="clientName mx-2 fw-bold"></span><br>
       <span class="fw-bold mx-5">Purchase Details</span>-->
   
       </div>
-    <div class="recentPurchaseTransactionDiv my-2">
-      <% purchase.forEach(purchaseData=>{%>
+    <div class="recentSaleTransactionDiv my-2">
+      <% sales.forEach(purchaseData=>{%>
         <% if(parseInt((new Date().getTime()-new Date(purchaseData.date).getTime())/(1000*3600*24))<2){%>
         <li class="list-group-item list-group-item-action clientDetails list-group-item-success">
             <span class="fw-bold"><%= purchaseData.client.clientName%></span>
@@ -59,11 +59,11 @@
             </span>
         </li>
         <li class="list-group-item list-group-item-success purchaseDetails ">
-            Fine Silver:<span class="mx-2"><%= purchaseData.purchaseSilver%></span>
-            Cash :<span class="mx-2"><%= purchaseData.purchaseCash%></span><br>
+            Fine Silver:<span class="mx-2"><%= purchaseData.saleSilver%></span>
+            Cash :<span class="mx-2"><%= purchaseData.saleCash%></span><br>
         </li>
         <li class="list-group-item list-group-item-success mb-3">
-            <button type="button" class="btn btn-sm btn-success" data-id="<%=purchaseData._id%>" data-bs-toggle="modal" data-bs-target="#transactionDetailModal" onclick="getPurchaseData(event)" >
+            <button type="button" class="btn btn-sm btn-success" data-id="<%=purchaseData._id%>" data-bs-toggle="modal" data-bs-target="#transactionDetailModal" onclick="getSaleData(event)" >
                 View Details
             </button>
         </li>
@@ -80,4 +80,11 @@
       </div>
     </div>
   </div>
+
+
+  
+
+
+
+  <script type="text/javascript" src="/viewSaleTransaction.js"></script>
   
