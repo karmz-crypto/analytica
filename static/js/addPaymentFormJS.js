@@ -133,3 +133,74 @@ function formCalculation(){
 function formControl(event){
     
 }
+
+//start processing of user event 
+function paymentType(event){
+    // 1.display the header
+    disaplyHeader(event);
+    //2. display select Payment method
+    document.querySelector('.paymentMethods').classList.remove('d-none');
+
+   
+
+}
+
+function disaplyHeader(event){
+    if(event.target.classList.contains('credit')){
+        
+        document.querySelector('.paymentTypeHeader').classList.remove('d-none');
+        document.querySelector('.headerText').innerHTML = "Receive Payment (Credit)";
+        changeButtonState('debit');
+    }else{
+        document.querySelector('.paymentTypeHeader').classList.remove('d-none');
+        document.querySelector('.headerText').innerHTML = "Make Payment (Debit)";
+        changeButtonState('credit');
+    }
+}
+
+function changeButtonState(className){ //after onclick the btn will display its state active/inactive.
+    
+        if(className==='credit'){
+            document.querySelector('.credit').classList.remove('list-group-item-secondary','text-white');
+            document.querySelector('.debit').classList.add('list-group-item-secondary','text-white');
+        }else{
+            document.querySelector('.credit').classList.add('list-group-item-secondary','text-white');
+            document.querySelector('.debit').classList.remove('list-group-item-secondary','text-white');
+        }
+    
+}
+function selectPaymentMethod(event){
+    //hide div selectPaymentType class
+    document.querySelector('.selectPaymentType').classList.add('collapse');
+    document.querySelector('.selectPaymentType').setAttribute('id','selectPaymentType');
+    document.querySelector('.collapseBtnPaymentType').classList.remove('d-none');
+
+    let paymentMethod = ['cash','bullion','dual','product'];
+    paymentMethod.forEach(e=>{
+        if(!event.target.classList.contains(e)){ // console.log( `${e} is nt present`);
+            document.querySelector(`.${e}`).classList.remove('bg-secondary','text-white','shadow','rounded','mb-3','p-3','bg-black');
+            document.querySelector(`.${e}`).setAttribute('disabled',true);
+        }
+        if(event.target.classList.contains(e)){
+            event.target.classList.add('bg-secondary','text-white','shadow','rounded','mb-3','p-3','bg-black');
+            document.querySelector(`.${e}`).removeAttribute('disabled');
+            displayForm(event); //this function will allow for display the form of specific type.
+        }
+    });
+    
+}
+
+function displayForm(event){
+    let cashClassListName = ['.commonFormData','.cashPaymentForm','.bullionRate','.miscInfo'];
+    if(event.target.classList.contains('cash')){
+        cashClassListName.forEach(e=>{
+            document.querySelector(e).classList.remove('d-none');
+        });
+    }else{
+        cashClassListName.forEach(e=>{
+            document.querySelector(e).classList.add('d-none');
+        });
+    }
+}
+
+// start processing of user dismissing the selected event

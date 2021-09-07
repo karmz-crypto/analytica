@@ -314,7 +314,7 @@
                     <button class="btn btn-success btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                       <%let monthSale = new Date().getMonth()%>
                         <% let monthSaleArray = ['January','Feburay','March','April','May','June','July','August','September','October','November','December']%>
-                        <%=monthSaleArray[month]%>
+                        <%=monthSaleArray[monthSale]%>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                         <% monthSaleArray.forEach(array=>{%>

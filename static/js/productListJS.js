@@ -95,14 +95,14 @@ function createProductTable(eventElement,position){
     setAttributes(th,{"class":"tBodyIndex","scope":"row"});
     setAttributes(inputHidden,{"type":"hidden","value":" ","name":"purchaseProductId","value":eventElement.dataset.productId});
     setAttributes(button,{"type":"button", "class":" text-wrap list-group-item list-group-item-action ","data-product-id":eventElement.dataset.productId,"data-action":"purchase", "style":"font-size: small;","onclick":"copyPasteData(event,'purchase')","data-bs-toggle":"modal","data-bs-target":"#productDetailsModal"});
-    setAttributes(inputWastage,{"type":"number", "step":"any", "name":"purchaseTunch", "min":"1", "max":"100", "style":"width: 110%;"});
+    setAttributes(inputWastage,{"type":"number", "step":"any", "name":"purchaseTunch", "min":"1", "style":"width: 110%;"});
     setAttributes(inputWeight,{"type":"number", "step":"any", "name":"purchaseWeight", "min":"1", "style":"width: 125%;"});
     setAttributes(inputLabour,{"class":"purchaseTable","type":"number", "step":"any", "name":"purchaseLabourPerKg", "min":"1", "style":    "width: 100%;","onfocusout":"formCalculation(event)"});
     }else{
         setAttributes(th,{"class":"tBodyIndex","scope":"row"});
         setAttributes(inputHidden,{"type":"hidden","value":" ","name":"saleProductId","value":eventElement.dataset.productId});
         setAttributes(button,{"type":"button", "class":" text-wrap list-group-item list-group-item-action","data-product-id":eventElement.dataset.productId,"data-action":"sale", "style":"font-size: small;","onclick":"copyPasteData(event,'sale')","data-bs-toggle":"modal","data-bs-target":"#productDetailsModal"});
-        setAttributes(inputWastage,{"type":"number", "step":"any", "name":"saleTunch", "min":"1", "max":"100", "style":"width: 110%;"});
+        setAttributes(inputWastage,{"type":"number", "step":"any", "name":"saleTunch", "min":"1", "style":"width: 110%;"});
         setAttributes(inputWeight,{"type":"number", "step":"any", "name":"saleWeight", "min":"1", "style":"width: 125%;"});
         setAttributes(inputLabour,{"class":"salesTable","type":"number", "step":"any", "name":"saleLabourPerKg", "min":"1", "style":    "width: 100%;","onfocusout":"formCalculation(event)"});
     }

@@ -1,631 +1,140 @@
+<div class="container my-2">
+    <li class="list-group-item-light list-group-item text-success fw-bold">Add Payment Form
+        <span class="mx-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="green" class="bi bi-cash-coin" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M11 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm5-4a5 5 0 1 1-10 0 5 5 0 0 1 10 0z"/>
+                <path d="M9.438 11.944c.047.596.518 1.06 1.363 1.116v.44h.375v-.443c.875-.061 1.386-.529 1.386-1.207 0-.618-.39-.936-1.09-1.1l-.296-.07v-1.2c.376.043.614.248.671.532h.658c-.047-.575-.54-1.024-1.329-1.073V8.5h-.375v.45c-.747.073-1.255.522-1.255 1.158 0 .562.378.92 1.007 1.066l.248.061v1.272c-.384-.058-.639-.27-.696-.563h-.668zm1.36-1.354c-.369-.085-.569-.26-.569-.522 0-.294.216-.514.572-.578v1.1h-.003zm.432.746c.449.104.655.272.655.569 0 .339-.257.571-.709.614v-1.195l.054.012z"/>
+                <path d="M1 0a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h4.083c.058-.344.145-.678.258-1H3a2 2 0 0 0-2-2V3a2 2 0 0 0 2-2h10a2 2 0 0 0 2 2v3.528c.38.34.717.728 1 1.154V1a1 1 0 0 0-1-1H1z"/>
+                <path d="M9.998 5.083 10 5a2 2 0 1 0-3.132 1.65 5.982 5.982 0 0 1 3.13-1.567z"/>
+              </svg>
+        </span>
+    </li>
+</div>
 
-<div class="container my-2">
-    <li class="list-group-item list-group-item-primary">Payment Form</li>
+<div class="container d-none my-2 collapseBtnPaymentType">
+    <button class="list-group-item-action list-group-item list-group-item-success text-capitalize fw-bold"  data-bs-toggle="collapse" data-bs-target="#selectPaymentType" aria-expanded="false" aria-controls="selectPaymentType">
+        Recive payment/ Make payment
+    </button>
 </div>
-<div class="container my-2" style="font-size: smaller; line-height: 1.5rem; letter-spacing: 0.08rem;">
-    <li class="list-group-item list-group-item-light">Select The Type Of Payment</li>
-</div>
-<div class="container my-2">
-    <div class="form-check my-2">
-        <input class="form-check-input" type="radio" name="paymentType" id="debitPaymentId" value="debitPayment" oninput="selectFormType()">
-        <label class="form-check-label" for="debitPaymentId">
-        Debit- Payment 
-            <span class="text-info" style="font-size: smaller; line-height: 1.5rem; letter-spacing: 0.08rem;">
-                (select this option when payment is paid to client)
-            </span>
-        </label>
+
+<div class="container my-2 selectPaymentType">
+    <div class="text-center mb-2">
+        <span class="text-center text-success">Select An Option</span>
     </div>
-    <div class="form-check my-2">
-        <input class="form-check-input" type="radio" name="paymentType" id="creditPaymentId" value="creditPayment" oninput="selectFormType()">
-        <label class="form-check-label" for="creditPaymentId">
-        Credit- Payment
-             <span class="text-info" style="font-size: smaller; line-height: 1.5rem; letter-spacing: 0.08rem;">
-                 (select this option when payment is received from client)
-                </span>
-        </label>
+    <div class="list-group border rounded">
+        <a role="button" onclick="paymentType(event)" class="credit list-group-item list-group-item-action list-group-item-success text-capitalize text-secondary mb-2 text-center fw-bold">
+            <span class="mx-1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="green" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                    <path d="M8 0a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2H9v6a1 1 0 1 1-2 0V9H1a1 1 0 0 1 0-2h6V1a1 1 0 0 1 1-1z"/>
+                  </svg>
+            </span>
+            Receive a payment (Credit) 
+        </a>
+        <a role="button" onclick="paymentType(event)" class="debit list-group-item list-group-item-action list-group-item-success text-capitalize text-secondary mb-2 text-center fw-bold">
+            <span class="mx-1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="green" class="bi bi-dash-lg" viewBox="0 0 16 16">
+                    <path d="M0 8a1 1 0 0 1 1-1h14a1 1 0 1 1 0 2H1a1 1 0 0 1-1-1z"/>
+                </svg>
+            </span>
+            Make a payment (Debit) 
+        </a>
+        
+    </div>
+</div>
+
+<div class="container my-2 paymentTypeHeader d-none"> <!--d-none-->
+    <li class="list-group-item list-group-item-secondary headerText">Make Payment</li>
+</div>
+
+<div class="container my-3 d-none paymentMethods" style="font-size: small;">
+    
+    <span class="mx-2">Payment Methods</span>
+    <div class="row m-1 p-3 border border-success border rounded">
+    <div class="my-2 col-3 border-end border-secondary border-1 rounded cash"  style="cursor: pointer;" onclick="selectPaymentMethod(event)">
+        Cash Payment
+    </div>
+    <div class="my-2 col-3 border-end border-secondary border-1 rounded bullion" style="cursor: pointer;" onclick="selectPaymentMethod(event)">
+        Bullion Payment
+    </div>
+    <div class="my-2 col-3 border-end border-secondary border-1 rounded dual" style="cursor: pointer;" onclick="selectPaymentMethod(event)">
+        Cash & Bullion Payment
+    </div>
+    <div class="my-2 col-3 product" style="cursor: pointer;" onclick="selectPaymentMethod(event)">
+        Product Payment
+    </div>
+    </div>
+</div>
+
+<div class="container my-2 d-none commonFormData">
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="paymentDate">Date</span>
+        <input required type="date" class="form-control" aria-label="paymentDate" name="date" aria-describedby="paymentDate">
+    </div>
+    <div class="input-group mb-3">
+        <label class="input-group-text" for="clientId">Client</label>
+        <select required class="form-select" id="ClientId">
+          <option value="">Choose...</option>
+          <option value="1">One</option>
+          <option value="2">Two</option>
+          <option value="3">Three</option>
+        </select>
+    </div>
+
+</div>
+<div class="container my-2 d-none cashPaymentForm">
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="cashAmount">Cash Amount</span>
+        <input required type="number" name="cashAmount" step="any" class="form-control" placeholder="Cash Amt.." aria-label="CashAmount" aria-describedby="CashAmount">
+    </div>
+    <div>
+        <span class="amtInFigure text-capitalize text-success"></span>
+    </div>
+</div>
+<div class="container my-2 d-none bullionRate">
+    <li class="list-group-item-action list-group-item list-group-item-success" style="cursor: pointer;"  data-bs-toggle="collapse" data-bs-target="#bullionRate" aria-expanded="false" aria-controls="bullionRate">
+        <span class="mx-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-hand-index-thumb" viewBox="0 0 16 16">
+                <path d="M6.75 1a.75.75 0 0 1 .75.75V8a.5.5 0 0 0 1 0V5.467l.086-.004c.317-.012.637-.008.816.027.134.027.294.096.448.182.077.042.15.147.15.314V8a.5.5 0 0 0 1 0V6.435l.106-.01c.316-.024.584-.01.708.04.118.046.3.207.486.43.081.096.15.19.2.259V8.5a.5.5 0 1 0 1 0v-1h.342a1 1 0 0 1 .995 1.1l-.271 2.715a2.5 2.5 0 0 1-.317.991l-1.395 2.442a.5.5 0 0 1-.434.252H6.118a.5.5 0 0 1-.447-.276l-1.232-2.465-2.512-4.185a.517.517 0 0 1 .809-.631l2.41 2.41A.5.5 0 0 0 6 9.5V1.75A.75.75 0 0 1 6.75 1zM8.5 4.466V1.75a1.75 1.75 0 1 0-3.5 0v6.543L3.443 6.736A1.517 1.517 0 0 0 1.07 8.588l2.491 4.153 1.215 2.43A1.5 1.5 0 0 0 6.118 16h6.302a1.5 1.5 0 0 0 1.302-.756l1.395-2.441a3.5 3.5 0 0 0 .444-1.389l.271-2.715a2 2 0 0 0-1.99-2.199h-.581a5.114 5.114 0 0 0-.195-.248c-.191-.229-.51-.568-.88-.716-.364-.146-.846-.132-1.158-.108l-.132.012a1.26 1.26 0 0 0-.56-.642 2.632 2.632 0 0 0-.738-.288c-.31-.062-.739-.058-1.05-.046l-.048.002zm2.094 2.025z"/>
+            </svg>
+        </span>
+        Click If Bullion Rate For The Cash Amount Is Decided.
+    </li>
+    <div class="collapse my-1" id="bullionRate" >
+        <div class="input-group mb-3 bullionRateAmt">
+            <span class="input-group-text" id="bullionRate">Bullion Rate/Kg</span>
+            <input type="number" step="any" class="form-control" placeholder="Bullion Rate/Kg" aria-label="bullionRate" aria-describedby="bullionRate">
+        </div>
+        <div class="input-group mb-3  bullion">
+            <span class="input-group-text" id="bullion">Bullion (Kg)</span>
+            <input readonly type="number" name="bullion" step="any" class="form-control" placeholder="Bullion..(Kg)" aria-label="bullion" aria-describedby="bullion">
+        </div>
+
     </div>
     
 </div>
-<div class="container my-2">
-    <li class="list-group-item list-group-item-light" style="font-size: smaller; line-height: 1.5rem; letter-spacing: 0.08rem;">Select Payment Category</li>
-</div>
-
-<div class="container my-2">
-    <div class="form-check my-2">
-        <input class="form-check-input" type="radio" name="paymentCategory" id="bullionPaymentId" value="bullionPayment" oninput="selectFormType()">
-        <label class="form-check-label" for="bullionPaymentId">
-        Bullion Payment 
-            <span class="text-info" style="font-size: smaller; line-height: 1.5rem; letter-spacing: 0.08rem;">
-                (Select this when bullion is used as payment)
-            </span>
-        </label>
-    </div>
-    <div class="form-check my-2">
-        <input class="form-check-input" type="radio" name="paymentCategory" id="productPaymentId" value="productPayment" oninput="selectFormType()">
-        <label class="form-check-label" for="productPaymentId">
-        Product Payment
-            <span class="text-info" style="font-size: smaller; line-height: 1.5rem; letter-spacing: 0.08rem;">
-                (select this option when product is being used for payment)
-            </span>
-        </label>
-    </div>
-    <div class="form-check my-2">
-        <input class="form-check-input" type="radio" name="paymentCategory" id="cashPaymentId" value="cashPayment" oninput="selectFormType()">
-        <label class="form-check-label" for="cashPaymentId">
-        Cash Payment
-            <span class="text-info" style="font-size: smaller; line-height: 1.5rem; letter-spacing: 0.08rem;">
-                (select this option when cash is being used for payment)
-            </span>
-        </label>
-    </div>
-    <!--<div class="form-check my-2">
-        <input class="form-check-input" type="radio" name="paymentCategory" id="dualPaymentId" value="cashBullionPayment" oninput="selectFormType()">
-        <label class="form-check-label" for="dualPaymentId">
-        Cash/Bullion Payment 
-            <span class="text-info" style="font-size: smaller; line-height: 1.5rem; letter-spacing: 0.08rem;">
-                (select this option when bullion & cash is being used for payment)
-            </span>
-        </label>
-    </div>--><hr>
+<div class="container my-2 d-none miscInfo">
+    <div class="input-group mb-3">
+        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</button>
+        <ul class="dropdown-menu">
+          <li><a role="button" class="dropdown-item">Cash In Person</a></li>
+          <li><a role="button" class="dropdown-item">Rtgs/Neft</a></li>
+          <li><a role="button" class="dropdown-item">Cheque</a></li>
+          
+        </ul>
+        <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="cash/rtgs/cheque details">
+      </div>
 </div>
 
 
-<!--form for debit bullion-->
-<div class="container my-2 d-none" id="debitBullion">
-<form method="POST" action="/payment/addPayment" >
-<div class="container my-2" >
-    <div class="row">
-        <div class="col-md-6 col-sm-12">
-            <div class="input-group mb-3">
-                <span class="input-group-text" id="paymentTypeDebitBullion">Payment Type</span>
-                <input readonly type="text" name="paymentType" class="form-control text-danger" value="Debit (paying to client)" aria-label="paymentTypeDebitBullion" aria-describedby="paymentTypeDebitBullion">
-            </div>
-        </div>
-        <div class="col-md-6 col-sm-12">
-            <div class="input-group mb-3">
-                <span class="input-group-text" id="paymentCategoryDebitBullion">Payment Category</span>
-                <input readonly type="text" name="paymentCategory" class="form-control text-info" value="Bullion" aria-label="paymentCategoryDebitBullion" aria-describedby="paymentCategoryDebitBullion">
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6 col-sm-12">
-            <div class="input-group mb-3">
-                <span class="input-group-text" id="date">Date</span>
-                <input required type="date" class="form-control" name="date" placeholder="date" aria-label="date" aria-describedby="date">
-            </div>
-        </div>
-        <div class="col-md-6 col-sm-12">
-            <div class="input-group mb-3">
-                <label class="input-group-text" for="selectClient">Select Client</label>
-                <select required class="form-select" name="clientId" id="selectClient">
-                  <option selected >Select Client..</option>
-                  <%clientElement.forEach(element=>{ %>
-                  <option value="<%=element._id%>"><%=element.clientName%></option>
-                  <%})%>
-                </select>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6 col-sm-12">
-            <div class="input-group flex-nowrap my-2">
-                <span class="input-group-text" id="debitBullionWeightSpan"> Weight(Grms)</span>
-                <input required id="debitBullionWeight" type="Number" step="any" name="weight" class="form-control" placeholder="*weight in grms" aria-label="bullion-debit-weight" aria-describedby="debitBullionWeightSpan">
-            </div>
-        </div>
-        <div class="col-md-6 col-sm-12">
-            <div class="input-group flex-nowrap my-2">
-                <span class="input-group-text" id="debitBullionTunchSpan"> Tunch(%)</span>
-                <input required id="debitBullionTunch" type="Number" step="any" name="tunch" class="form-control" placeholder="tunch/purity" aria-label="debit-bullion-tunch" aria-describedby="debitBullionTunchSpan" oninput="formCalculation()">
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6 col-sm-12">
-            <div class="input-group flex-nowrap my-2">
-                <span class="input-group-text" id="fineSilverDebit">Fine Silver Debited(Grms)</span>
-                <input readonly name="fineSilver" id="fineSilverDebitBullion" type="Number" step="any" class="form-control text-success" placeholder=" silver debited" aria-label="fine silver debited" aria-describedby="fineSilverDebit">
-            </div>
-        </div>
-    </div>
-</div>
-<div class="container my-2 p-2">
-    <button class="btn btn-primary" type="submit">Add Payment</button>
-</div>
-</form>
-</div>
-<!--form for debit bullion ends-->
-<!--form for credit bullion-->
-<div class="container my-2 d-none" id="creditBullion">
-    <form method="POST" action="/payment/addPayment" >
-    <div class="container my-2" >
-        <div class="row">
-            <div class="col-md-6 col-sm-12">
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="paymentTypeCreditBullion">Payment Type</span>
-                    <input readonly type="text" name="paymentType" class="form-control text-danger" value="Credit (received from Client)" aria-label="paymentTypeDebitBullion" aria-describedby="paymentTypeDebitBullion">
-                </div>
-            </div>
-            <div class="col-md-6 col-sm-12">
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="paymentCategoryCreditBullion">Payment Category</span>
-                    <input readonly type="text" name="paymentCategory" class="form-control text-info" value="Bullion" aria-label="paymentCategoryDebitBullion" aria-describedby="paymentCategoryDebitBullion">
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6 col-sm-12">
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="date">Date</span>
-                    <input required type="date" class="form-control" name="date" placeholder="date" aria-label="date" aria-describedby="date">
-                </div>
-            </div>
-            <div class="col-md-6 col-sm-12">
-                <div class="input-group mb-3">
-                    <label class="input-group-text" for="selectClient">Select Client</label>
-                    <select required class="form-select" name="clientId" id="selectClient">
-                        <option selected >Select Client..</option>
-                        <%clientElement.forEach(element=>{ %>
-                        <option value="<%=element._id%>"><%=element.clientName%></option>
-                        <%})%>
-                    </select>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6 col-sm-12">
-                <div class="input-group flex-nowrap my-2">
-                    <span class="input-group-text" id="creditBullionWeightSpan"> Weight(Grms)</span>
-                    <input required id="creditBullionWeight" type="Number" step="any" name="weight" class="form-control" placeholder="*weight in grms" aria-label="bullion-credit-weight" aria-describedby="creditBullionWeightSpan">
-                </div>
-            </div>
-            <div class="col-md-6 col-sm-12">
-                <div class="input-group flex-nowrap my-2">
-                    <span class="input-group-text" id="creditBullionTunchSpan"> Tunch(%)</span>
-                    <input required id="creditBullionTunch" type="Number" step="any" name="tunch" class="form-control" placeholder="tunch/purity" aria-label="credit-bullion-tunch" aria-describedby="creditBullionTunchSpan" oninput="formCalculation()">
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6 col-sm-12">
-                <div class="input-group flex-nowrap my-2">
-                    <span class="input-group-text" id="fineSilverCreditSpan">Fine Silver credited(Grms)</span>
-                    <input readonly id="fineSilverCreditBullion" name="fineSilver" type="Number" step="any" class="form-control text-success" placeholder=" silver credited" aria-label="fine silver cedited" aria-describedby="fineSilverCreditSpan">
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container my-2 p-2">
-        <button class="btn btn-primary" type="submit">Add Payment</button>
-    </div>
-    </form>
-</div>
 
-<!--form for credit bullion ends -->
-<!--form for debit product-->
-<div class="container my-2 d-none" id="debitProduct">
-    <form method="POST" action="/payment/addPayment" >
-    <div class="container my-2" >
-        <div class="row">
-            <div class="col-md-6 col-sm-12">
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="paymentTypeCreditBullion">Payment Type</span>
-                    <input readonly type="text" name="paymentType" class="form-control text-danger" value="Debit (paying to client)" aria-label="paymentTypeDebitBullion" aria-describedby="paymentTypeDebitBullion">
-                </div>
-            </div>
-            <div class="col-md-6 col-sm-12">
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="paymentCategoryCreditBullion">Payment Category</span>
-                    <input readonly type="text" name="paymentCategory" class="form-control text-info" value="Product" aria-label="paymentCategoryDebitBullion" aria-describedby="paymentCategoryDebitBullion">
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6 col-sm-12">
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="date">Date</span>
-                    <input required type="date" class="form-control" name="date" placeholder="date" aria-label="date" aria-describedby="date">
-                </div>
-            </div>
-            <div class="col-md-6 col-sm-12">
-                <div class="input-group mb-3">
-                    <label class="input-group-text" for="selectClient">Select Client</label>
-                    <select required class="form-select" name="clientId" id="selectClient">
-                        <option selected >Select Client..</option>
-                        <%clientElement.forEach(element=>{ %>
-                        <option value="<%=element._id%>"><%=element.clientName%></option>
-                        <%})%>
-                    </select>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6 col-sm-12">
-                <div class="input-group mb-3">
-                    <label class="input-group-text" for="productSelector">Select Product</label>
-                    <select required class="form-select" name="productId" id="productSelector" onchange="getTunch(event)">
-                        <option selected >Select Product..</option>
-                        <% productElement.forEach(element=>{ %>
-                        <option value="<%=element._id%>"><%=element.productDesc%></option>
-                        <%})%>
-                    </select>
-                </div>
-            </div>  
-            <div class="col-md-6 col-sm-12">
-                <div class="input-group flex-nowrap my-2">
-                    <span class="input-group-text" id="productTunch">Product Tunch(%)</span>
-                    <input readonly type="Number" id="productTunchDebit" name="tunch" value="" step="any" class="form-control" aria-label="product-tunch" aria-describedby="productTunch">
-                </div>
-            </div> 
-        </div>
-        <div class="row">
-            <div class="col-md-6 col-sm-12">
-                <div class="input-group flex-nowrap my-2">
-                    <span class="input-group-text" id="productWeightSpan"> Weight(Grms)</span>
-                    <input required id="productWeightDebit" type="Number" step="any" name="weight" class="form-control" placeholder="*weight in grms" aria-label="product weight" aria-describedby="productWeightSpan" onfocus="formCalculation()">
-                </div>
-                <span class="text-danger text-capitalize" id="debitProductSpanErrorMsg" style="font-size:smaller;"></span>
-            </div>
-            <div class="col-md-6 col-sm-12">
-                <div class="input-group flex-nowrap my-2">
-                    <span class="input-group-text" id="fineSilverDebit">Fine Silver Debited(Grms)</span>
-                    <input readonly id="fineSilverDebitProduct" type="Number" name="fineSilver" step="any" class="form-control text-success" placeholder="fine silver credited" aria-label="fine silver debited" aria-describedby="fineSilverDebit">
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container my-2 p-2">
-        <button class="btn btn-primary" type="submit">Add Payment</button>
-    </div>
-    </form>
+
+<div class="container my-2 d-none entryCheck">
+
 </div>
-
-<!--form for debit product ends -->
-<!--form for credit product--><!--credit product needs a review as we need to add a further info abt if the
-credit product is inteneded to store in stock purchase or should be melted away ....review required-->
-<div class="container my-2 d-none" id="creditProduct">
-    <form method="POST" action="/payment/addPayment" >
-    <div class="container my-2" >
-        <div class="row">
-            <div class="col-md-6 col-sm-12">
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="paymentTypeCreditBullion">Payment Type</span>
-                    <input readonly type="text" name="paymentType" class="form-control text-danger" value="Credit (receiving frm client)" aria-label="paymentTypeDebitBullion" aria-describedby="paymentTypeDebitBullion">
-                </div>
-            </div>
-            <div class="col-md-6 col-sm-12">
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="paymentCategoryCreditBullion">Payment Category</span>
-                    <input readonly type="text" name="paymentCategory" class="form-control text-info" value="Product" aria-label="paymentCategoryDebitBullion" aria-describedby="paymentCategoryDebitBullion">
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6 col-sm-12">
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="date">Date</span>
-                    <input required type="date" class="form-control" name="date" placeholder="date" aria-label="date" aria-describedby="date">
-                </div>
-            </div>
-            <div class="col-md-6 col-sm-12">
-                <div class="input-group mb-3">
-                    <label class="input-group-text" for="selectClient">Select Client</label>
-                    <select required class="form-select" name="clientId" id="selectClient">
-                        <option selected >Select Client..</option>
-                        <%clientElement.forEach(element=>{ %>
-                        <option value="<%=element._id%>"><%=element.clientName%></option>
-                        <%})%>
-                    </select>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6 col-sm-12"><!--action div for product credit -->
-                <div class="form-check" id="checkProductCreditAddToStock"><!--radio condition check for stock management-->
-                    <input class="form-check-input" type="radio" name="checkProductCreditAddToStock" id="checkRadioProductCredit" oninput="selectFormType()">
-                    <label class="form-check-label" for="checkRadioProductCredit">
-                      Add The Product To Stock
-                        <span class="text-info text-capitalize" style="font-size: smaller;">
-                            (select if you wish to add the product to your extra stock list.
-                            else you can leave it as product-bullion stock.)
-                        </span>
-                    </label>
-                </div>
-                <div class="input-group mb-3 d-none" id="productCreditAddToStock">
-                    <span class="input-group-text" id="productDesc">Item Name</span>
-                    <input type="text" name="productDesc" class="form-control" placeholder="Product Desc" aria-label="productDEsc" aria-describedby="productDesc">
-                </div>
-            </div>  
-            <div class="col-md-6 col-sm-12">
-                <div class="input-group flex-nowrap my-2">
-                    <span class="input-group-text" id="productTunch">Product Tunch(%)</span>
-                    <input type="Number" id="productTunchCredit" name="tunch" step="any" class="form-control" aria-label="product-tunch" aria-describedby="productTunch" oninput="formCalculation()">
-                </div>
-            </div> 
-        </div>
-        <div class="row">
-            <div class="col-md-6 col-sm-12">
-                <div class="input-group flex-nowrap my-2">
-                    <span class="input-group-text" id="productWeight"> Weight(Grms)</span>
-                    <input required type="Number" id="productWeightCredit" step="any" name="weight" class="form-control" placeholder="*weight in grms" aria-label="product weight" aria-describedby="productWeight" oninput="formCalculation()">
-                </div>
-            </div>
-            <div class="col-md-6 col-sm-12">
-                <div class="input-group flex-nowrap my-2">
-                    <span class="input-group-text" id="fineSilverCreditSpan">Fine Silver Credited(Grms)</span>
-                    <input readonly type="Number" id="fineSilverCredit" name="fineSilver" step="any" class="form-control text-success" placeholder="fine silver credited" aria-label="fine silver debited" aria-describedby="fineSilverCreditSpan">
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container my-2 p-2">
-        <button class="btn btn-primary" type="submit">Add Payment</button>
-    </div>
-    </form>
-</div>
-
-<!--form for credit product ends here-->
-
-<!--form for debit cash payment-->
-<div class="container my-2 d-none " id="debitCash">
-    <form method="POST" action="/payment/addPayment" >
-    <div class="container my-2" >
-        <div class="row">
-            <div class="col-md-6 col-sm-12">
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="paymentTypeDebitCash">Payment Type</span>
-                    <input readonly type="text" name="paymentType" class="form-control text-danger" value="Debit (paying to client)" aria-label="paymentTypeDebitCash" aria-describedby="paymentTypeDebitCash">
-                </div>
-            </div>
-            <div class="col-md-6 col-sm-12">
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="paymentCategoryDebitCash">Payment Category</span>
-                    <input readonly type="text" name="paymentCategory" class="form-control text-info" value="Cash" aria-label="paymentCategoryDebitCash" aria-describedby="paymentCategoryDebitCash">
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6 col-sm-12">
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="date">Date</span>
-                    <input required type="date" class="form-control" name="date" placeholder="date" aria-label="date" aria-describedby="date">
-                </div>
-            </div>
-            <div class="col-md-6 col-sm-12">
-                <div class="input-group mb-3">
-                    <label class="input-group-text" for="selectClient">Select Client</label>
-                    <select required class="form-select" name="clientId" id="selectClient">
-                        <option value="" >Select Client..</option>
-                        <%clientElement.forEach(element=>{ %>
-                        <option value="<%=element._id%>"><%=element.clientName%></option>
-                        <%})%>
-                    </select>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6 col-sm-12">
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="debitCashAmountSpan">Debit cash amt</span>
-                    <input required type="Number" name="cashAmount" value=" " step="any" class="form-control" aria-label="debit cash" aria-describedby="debitCashAmountSpan">
-                    <span class="input-group-text" id="debitCashAmountSpan1">Rupee</span>
-                </div>
-            </div>  
-            <div class="col-md-6 col-sm-12">
-                <div class="form-check" id="checkBhawCashAmountDebit"><!--radio check-->
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="checkBhawCashAmountSpanDebit" oninput="selectFormType()">
-                    <label class="form-check-label" for="checkBhawCashAmountDebit">
-                        <span style="font-size: smaller;letter-spacing: 0.06rem;" class="text-info lh-lg text-capitalize">
-                            select if you have agreed for a bhaw purchase(silver rate) for the debited amount with 
-                            the client you are paying.
-                        </span>
-                    </label>
-                </div>
-                <div class="input-group flex-nowrap my-2 d-none bhawCashAmountDebit" >
-                    <span class="input-group-text" id="bhawCashAmountSpan">Silver Rate</span>
-                    <input type="Number" step="any" name="silverRate" value="0" step="any" class="form-control" aria-label="product-tunch" aria-describedby="bhawCashAmountSpan">
-                    <span class="input-group-text" id="bhawCashAmountSpan">/Kg</span>
-                </div>
-            </div> 
-        </div>
-        <div class="row bhawCashAmountDebit d-none">
-            <div class="col-md-6 col-sm-12"> 
-                <div class="input-group flex-nowrap my-2">
-                    <span class="input-group-text" id="bhawfineSilver">Fine Silver</span>
-                    <input readonly type="Number" name="silverRateFineSilver" step="any" class="form-control text-success" placeholder="fine silver" aria-label="fine silver" aria-describedby="fineSilver">
-                    <span class="input-group-text" id="productWeight1">Grms</span>
-                </div>
-            </div>
-            <div class="col-md-6 col-sm-12">
-                <div class="input-group flex-nowrap my-2">
-                    
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6 col-sm-12">
-                <div class="form-check my-2">
-                    <input class="form-check-input" type="radio" value="cash" name="paymentMode" id="paymentModeCash"  oninput="selectFormType()">
-                    <label class="form-check-label" for="paymentModeCash">
-                      <span class="text-info lh-lg text-capitalize" style="font-size: smaller;letter-spacing: 0.08rem;">Select when cash is paid in person.</span>
-                    </label>
-                </div>
-                <div class="form-check my-2">
-                    <input required class="form-check-input" type="radio" value="rtgs" name="paymentMode" id="paymentModeRTGS" oninput="selectFormType()">
-                    <label class="form-check-label" for="paymentModeRTGS">
-                      <span class="text-capitalize text-info lh-lg" style="font-size: smaller;letter-spacing: 0.06rem;">Select when payment is paid through RTGS/NEFT/UPI</span>
-                    </label>
-                </div>
-                <div class="form-check my-2">
-                    <input class="form-check-input" type="radio" value="cash" name="paymentMode" id="paymentModeCheque" oninput="selectFormType()">
-                    <label class="form-check-label" for="paymentModeCheque">
-                      <span class="text-capitalize text-info lh-lg" style="font-size: smaller;letter-spacing: 0.06rem;">Select when payment is paid through cheque</span>
-                    </label>
-                </div>
-                <div class="form-check my-2">
-                    <input class="form-check-input" type="radio" value="Dual(Cash/Bank)" name="paymentMode" id="paymentModeDualCashBankDebit" oninput="selectFormType()">
-                    <label class="form-check-label" for="paymentModeDualCashBankDebit">
-                      <span class="text-capitalize text-info lh-lg" style="font-size: smaller;letter-spacing: 0.06rem;">Select when payment is paid through cash & bank-RTGS/cheque</span>
-                    </label>
-                </div>
-            </div>
-            <div class="col-md-6 col-sm-12 d-none"  id="paymentModeInfoDebit">
-                <span class="text-capitalize text-success" style="font-size: smaller;letter-spacing: 0.03rem;">
-                    *this section of entry is purely optional and can be left blank, but filling it will help you manage 
-                    your business more efficiently
-                </span>
-                <div class="input-group flex-nowrap my-2">
-                    <span class="input-group-text" id="bankInfo">Name Of Bank</span>
-                    <input type="text" value="" name="bankInfo" class="form-control" placeholder="name of bank" aria-label="bank info" aria-describedby="bankInfo">
-                </div>
-                <div class="input-group flex-nowrap my-2">  
-                    <span class="input-group-text" id="bankTransactionId">Transaction Id</span>
-                    <input type="text" value="" name="fineSilver" class="form-control text-success" placeholder="trsactn id/chq No." aria-label="bank Transaction Id" aria-describedby="bankTransactionId">
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container my-2 p-2">
-        <button class="btn btn-primary" type="submit">Add Payment</button>
-    </div>
-    </form>
-</div>
-
-<!--form for debit cash ends -->
-<!--form for credit cash-->
-<div class="container my-2 d-none " id="creditCash">
-    <form method="POST" action="/payment/addPayment" >
-    <div class="container my-2" >
-        <div class="row">
-            <div class="col-md-6 col-sm-12">
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="paymentTypeCreditCash">Payment Type</span>
-                    <input readonly type="text" name="paymentType" class="form-control text-danger" value="Credit (receiving from client)" aria-label="paymentTypeCreditCash" aria-describedby="paymentTypeCreditCash">
-                </div>
-            </div>
-            <div class="col-md-6 col-sm-12">
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="paymentCategoryCreditCash">Payment Category</span>
-                    <input readonly type="text" name="paymentCategory" class="form-control text-info" value="Cash" aria-label="paymentCategoryCreditCash" aria-describedby="paymentCategoryCreditCash">
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6 col-sm-12">
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="date">Date</span>
-                    <input required type="date" class="form-control" name="date" placeholder="date" aria-label="date" aria-describedby="date">
-                </div>
-            </div>
-            <div class="col-md-6 col-sm-12">
-                <div class="input-group mb-3">
-                    <label class="input-group-text" for="selectClient">Select Client</label>
-                    <select required class="form-select" name="clientId" id="selectClient">
-                        <option value="">Select Client..</option>
-                        <%clientElement.forEach(element=>{ %>
-                        <option value="<%=element._id%>"><%=element.clientName%></option>
-                        <%})%>
-                    </select>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6 col-sm-12">
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="creditCashAmountSpan">Credit cash amt</span>
-                    <input required type="Number" name="cashAmount" value=" " step="any" class="form-control" aria-label="credit cash" aria-describedby="creditCashAmountSpan">
-                    <span class="input-group-text" id="creditCashAmountSpan1">Rupee</span>
-                </div>
-            </div>  
-            <div class="col-md-6 col-sm-12">
-                <div class="form-check" id="checkBhawCashAmountCredit"><!--radio check-->
-                    <input class="form-check-input" type="radio" name="checkBhawCashAmountRadio" id="checkBhawCashAmountSpanCredit" oninput="selectFormType()">
-                    <label class="form-check-label" for="checkBhawCashAmountSpanCredit">
-                        <span style="font-size: smaller;letter-spacing: 0.06rem;" class="text-info lh-lg text-capitalize">
-                            select if you have agreed for a bhaw purchase(silver rate) for the credited amount with 
-                            the client.and you intend to purchase silver with it with your bullion dealer.this will
-                            be set as a reminder for your purchase. 
-                        </span>
-                    </label>
-                </div>
-                <div class="input-group flex-nowrap my-2 d-none bhawCashAmountCredit" >
-                    <span class="input-group-text" id="bhawCashAmountSpan">Silver Rate</span>
-                    <input type="Number" step="any" name="silverRate" value="0" step="any" class="form-control" aria-label="product-tunch" aria-describedby="bhawCashAmountSpan">
-                    <span class="input-group-text" id="bhawCashAmountSpan">/Kg</span>
-                </div>
-            </div> 
-        </div>
-        <div class="row bhawCashAmountCredit d-none">
-            <div class="col-md-6 col-sm-12"> 
-                <div class="input-group flex-nowrap my-2">
-                    <span class="input-group-text" id="bhawfineSilver">Fine Silver</span>
-                    <input readonly type="Number" name="silverRateFineSilver" step="any" class="form-control text-success" placeholder="fine silver" aria-label="fine silver" aria-describedby="fineSilver">
-                    <span class="input-group-text" id="productWeight1">Grms</span>
-                </div>
-            </div>
-            <div class="col-md-6 col-sm-12">
-                <div class="input-group flex-nowrap my-2">
-                    
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6 col-sm-12">
-                <div class="form-check my-2">
-                    <input required class="form-check-input" type="radio" value="cash" name="paymentMode" id="paymentModeCashCredit"  oninput="selectFormType()">
-                    <label class="form-check-label" for="paymentModeCashCredit">
-                      <span class="text-info lh-lg text-capitalize" style="font-size: smaller;letter-spacing: 0.08rem;">Select when cash is paid in person.</span>
-                    </label>
-                </div>
-                <div class="form-check my-2">
-                    <input required class="form-check-input" type="radio" value="rtgs" name="paymentMode" id="paymentModeRTGSCredit" oninput="selectFormType()">
-                    <label class="form-check-label" for="paymentModeRTGSCredit">
-                      <span class="text-capitalize text-info lh-lg" style="font-size: smaller;letter-spacing: 0.06rem;">Select when payment is paid through RTGS/NEFT/UPI</span>
-                    </label>
-                </div>
-                <div class="form-check my-2">
-                    <input  class="form-check-input" type="radio" value="cheque" name="paymentMode" id="paymentModeChequeCredit" oninput="selectFormType()">
-                    <label class="form-check-label" for="paymentModeChequeCredit">
-                      <span class="text-capitalize text-info lh-lg" style="font-size: smaller;letter-spacing: 0.06rem;">Select when payment is paid through cheque</span>
-                    </label>
-                </div>
-                <div class="form-check my-2">
-                    <input class="form-check-input" type="radio" value="Dual(Cash/Bank)" name="paymentMode" id="paymentModeDualCashBankCredit" oninput="selectFormType()">
-                    <label class="form-check-label" for="paymentModeDualCashBankCredit">
-                      <span class="text-capitalize text-info lh-lg" style="font-size: smaller;letter-spacing: 0.06rem;">Select when payment is paid through cash & bank-RTGS/cheque</span>
-                    </label>
-                </div>
-            </div>
-            <div class="col-md-6 col-sm-12 d-none"  id="paymentModeInfoCredit">
-                <span class="text-capitalize text-success" style="font-size: smaller;letter-spacing: 0.03rem;">
-                    *this section of entry is purely optional and can be left blank, but filling it will help you manage 
-                    your business more efficiently
-                </span>
-                <div class="input-group flex-nowrap my-2">
-                    <span class="input-group-text" id="bankInfoCredit">Name Of Bank</span>
-                    <input type="text" name="bankInfo" class="form-control" placeholder="name of bank" aria-label="bank info" aria-describedby="bankInfoCredit">
-                </div>
-                <div class="input-group flex-nowrap my-2">  
-                    <span class="input-group-text" id="bankTransactionIdCredit">Transaction Id</span>
-                    <input type="text" name="bankTransactionId" class="form-control text-success" placeholder="trsactn id/chq No." aria-label="bank Transaction Id" aria-describedby="bankTransactionIdCredit">
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container my-2 p-2">
-        <button class="btn btn-primary" type="submit">Add Payment</button>
-    </div>
-    </form>
+<div class="container my-2 submitBtn">
+    <button class="btn btn-sm btn-success">Submit</button>
 </div>
 
 
-<!--form for credit cash ends -->
 
-
-
-
-
-
-<!--js script-->
 <script type="text/javascript" src="/addPaymentFormJS.js"></script>
