@@ -200,17 +200,17 @@ function changeButtonState(className){ //after onclick the btn will display its 
 
 function addClass(addClass,removeClass){ //add or remove class to identify if the entry is for credit or debit .
     let paymentMethods = ['.cash','.bullion','.dual','.product']; 
-    let bullionType =['.pure','.choursa','.kachi'];
-    let bullionPayment = ['.kachiBullionForm','.choursaBullionForm','.pureBullionForm'];
+    //let bullionType =['.pure','.choursa','.kachi'];
+    //let bullionPayment = ['.kachiBullionForm','.choursaBullionForm','.pureBullionForm'];
     paymentMethods.forEach(e=>{
         toggleClass(e,addClass,removeClass);
-    });
+    }); /*
     bullionType.forEach(e=>{ 
         toggleClass(e,addClass,removeClass);
     });
     bullionPayment.forEach(e=>{
         toggleClass(e,addClass,removeClass);
-    });
+    }); */
 }
 
 function toggleClass(e,addClass,removeClass){
@@ -223,10 +223,10 @@ function toggleClass(e,addClass,removeClass){
 function defineVariables(event){
     if(event.target.parentElement.parentElement.classList.contains('paymentMethods')){ //console.log('hi');
         return  ['cash','bullion','dual','product'];
-    }
+    }/*
     else if(event.target.parentElement.parentElement.classList.contains('bullionType')){
         return  ['pure','choursa','kachi'];
-    }
+    } */
 }
 function selectPaymentMethod(event){ //console.log(event.target.parentElement.parentElement);
     //hide div selectPaymentType class
@@ -299,6 +299,8 @@ function selectBullionType(event){
     document.querySelector('.paymentMethods').classList.add('collapse'); 
     document.querySelector('.paymentMethods').setAttribute('id','selectPaymentMethods');
 
+    /*
+
     if(event.target.classList.contains('pure')){ //console.log('pure');
         //hideForm([['.kachiBullionForm'],['.choursaBullionForm']]);
 
@@ -311,7 +313,7 @@ function selectBullionType(event){
         'span2':{'class':'input-group-text spanTwo mx-1 bg-danger text-white','onclick':'removeFormFields(event)'}
     };
     let element = ['div','span','input','span'];
-    for(var i=0;i<4;i++){ 
+    for(var i=0;i<element.length;i++){ 
         let el = document.createElement(element[i]);//console.log(el);
         if(i===0){
             setAttributes(el,attr.div);
@@ -373,7 +375,7 @@ function selectBullionType(event){
         //hideForm([['.choursaBullionForm'],['.pureBullionForm']]);
 
         //document.querySelector('.kachiBullionForm').classList.remove('d-none');
-    }
+    } */
 }
 
 
